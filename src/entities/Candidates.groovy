@@ -1,23 +1,29 @@
 package entities
 
+import enums.Skills
+
 class Candidates extends Users implements Serializable{
 
-    Long cpf
+    String cpf
     Integer age
     String personalDescription
+    List<Candidates> candidatesList = []
+    List<Skills> skillsList = []
 
-    Candidates(String name, String email, String state, Long cep, Long cpf, Integer age, String personalDescription) {
+    Candidates() {}
+
+    Candidates(String name, String email, String state, String cep, String cpf, Integer age, String personalDescription) {
         super(name, email, state, cep)
         this.cpf = cpf
         this.age = age
         this.personalDescription = personalDescription
     }
 
-    Long getCpf() {
+    String getCpf() {
         return cpf
     }
 
-    void setCpf(Long cpf) {
+    void setCpf(String cpf) {
         this.cpf = cpf
     }
 
@@ -39,10 +45,15 @@ class Candidates extends Users implements Serializable{
 
     @Override
     public String toString() {
-        return "Candidates{" +
-                "cpf=" + cpf +
-                ", age=" + age +
-                ", personalDescription='" + personalDescription + '\'' +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder()
+        stringBuilder.append("Nome: ").append(name).append("\n")
+        stringBuilder.append("E-mail: ").append(email).append("\n")
+        stringBuilder.append("Estado: ").append(state).append("\n")
+        stringBuilder.append("CEP: ").append(cep).append("\n")
+        stringBuilder.append("CPF: ").append(cpf).append("\n")
+        stringBuilder.append("Idade: ").append(age).append("\n")
+        stringBuilder.append("Descrição Pessoal: ").append(personalDescription).append("\n")
+        stringBuilder.append("Habilidades: ").append(skillsList).append("\n")
+        return stringBuilder.toString()
     }
 }

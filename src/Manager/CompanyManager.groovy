@@ -1,0 +1,4 @@
+package Manager
+
+class CompanyManager {
+}

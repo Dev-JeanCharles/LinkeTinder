@@ -1,5 +1,7 @@
 package Manager
 
+import entities.Company
+
 static void menuManager() {
     Scanner scanner = new Scanner(System.in)
 
@@ -36,13 +38,12 @@ static void linkerTinderManager() {
 
         switch (option) {
             case 1:
-                getAllCompany()
+                CompanyManager.getAllCompany()
                 break
             case 2:
-                getAllCandidates()
+                CandidatesManager.getAllCandidates()
                 break
             case 3:
-                menuManager()
                 return
             default:
                 println("Opção invalida, escolha uma opção válida.")

@@ -4,13 +4,12 @@ import repository.UserMethods
 
 class Users implements UserMethods {
 
-    String name,email, state
-    Long cep
+    String name,email, state,cep
 
     Users() {
     }
 
-    Users(String name, String email, String state, Long cep) {
+    Users(String name, String email, String state, String cep) {
         this.name = name
         this.email = email
         this.state = state
@@ -41,11 +40,11 @@ class Users implements UserMethods {
         this.state = state
     }
 
-    Long getCep() {
+    String getCep() {
         return cep
     }
 
-    void setCep(Long cep) {
+    void setCep(String cep) {
         this.cep = cep
     }
 

@@ -4,5 +4,4 @@ interface UserMethods {
 
     void Nope()
     void Like()
-
 }
