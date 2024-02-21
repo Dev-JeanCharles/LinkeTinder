@@ -1,22 +1,24 @@
 package entities
 
-class Company extends Users implements Serializable{
+import enums.Skills
 
-    Long cnpj
-    String country, companyDescription
+class Company extends Users implements Serializable{
+    String cnpj, country, companyDescription
+    List<Company> companyList = []
+    List<Skills> skillsList = []
 
     Company() {
 
     }
 
-    Company(String name, String email, String state, String cep, Long cnpj, String country, String companyDescription) {
+    Company(String name, String email, String state, String cep, String cnpj, String country, String companyDescription) {
         super(name, email, state, cep)
         this.cnpj = cnpj
         this.country = country
         this.companyDescription = companyDescription
     }
 
-    Long getCnpj() {
+    String getCnpj() {
         return cnpj
     }
 
@@ -49,8 +51,8 @@ class Company extends Users implements Serializable{
         stringBuilder.append("CEP: ").append(cep).append("\n")
         stringBuilder.append("CNPJ: ").append(cnpj).append("\n")
         stringBuilder.append("Country: ").append(country).append("\n")
-        stringBuilder.append("Country: ").append(country).append("\n")
         stringBuilder.append("Company Description: ").append(companyDescription).append("\n")
+        stringBuilder.append("O que esperamos que os candidatos tenham como habilidade: ").append(skillsList).append("\n")
         return stringBuilder.toString()
     }
 }
