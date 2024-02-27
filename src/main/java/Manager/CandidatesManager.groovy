@@ -5,10 +5,7 @@ import enums.Skills
 import java.util.Scanner
 
 static void getAllCandidates(Candidates candidates) {
-    candidates.getCandidatesList().each { candidate ->
-        println(candidate.toString())
-    }
-
+    candidates.getCandidatesList().forEach { println(it)}
     Scanner scanner = new Scanner(System.in)
 
     while (true) {
