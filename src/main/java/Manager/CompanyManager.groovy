@@ -1,11 +1,12 @@
 package Manager
 
-
 import entities.Company
 import enums.Skills
 
-static void getAllCompany() {
-    insertCompany()
+static void getAllCompany(Company company) {
+    company.getCompanyList().each { companies ->
+        println(companies.toString())
+    }
 
     Scanner scanner = new Scanner(System.in)
 
@@ -22,30 +23,54 @@ static void getAllCompany() {
     }
 }
 
-static void insertCompany() {
-    def company = new Company()
+static insertNewCompany(Company company) {
+    Scanner sc = new Scanner(System.in)
 
-    company.companyList << new Company("TechSolutions", "techsolutions@gmail.com", "RJ", "24890-000", "06.924.730/0001-65", "Brasil", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...")
-    company.companyList << new Company("InnovateTech", "innovatetech@gmail.com", "SP", "07932-000", "80.559.285/0001-34", "Brasil", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...")
-    company.companyList << new Company("TechGenius", "techgenius@gmail.com", "RS", "92425-280", "42.460.971/0001-64", "Brasil", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...")
-    company.companyList << new Company("DigitalPulse", "digitalpulse@gmail.com", "MG", "35660-301", "61.474.636/0001-60", "Brasil", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...")
-    company.companyList << new Company("NexTech", "nextech@gmail.com", "SC", "89052-340", "95.621.897/0001-87", "Brasil", "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...")
+    println("Insira um nome de sua empresa:")
+    String name = sc.nextLine()
 
-    company.companyList[0].skillsList << Skills.Java
-    company.companyList[0].skillsList << Skills.Groovy
-    company.companyList[1].skillsList << Skills.Python
-    company.companyList[2].skillsList << Skills.Java
-    company.companyList[2].skillsList << Skills.Ruby
-    company.companyList[2].skillsList << Skills.Spring
-    company.companyList[3].skillsList << Skills.Python
-    company.companyList[3].skillsList << Skills.Groovy
-    company.companyList[3].skillsList << Skills.TDD
-    company.companyList[4].skillsList << Skills.Java
-    company.companyList[4].skillsList << Skills.Angular
+    println("Insira o email de sua empresa:")
+    String email = sc.nextLine()
 
-    company.companyList.each { companies ->
-        println(companies.toString())
+    println("Insira o seu estado de sua empresa:")
+    String state = sc.nextLine()
+
+    println("Insira o seu cep de sua empresa:")
+    String cep = sc.nextLine()
+
+    println("Insira o CNPJ de sua empresa:")
+    String cnpj = sc.nextLine()
+
+    println("Insira o país de sua empresa:")
+    String country = sc.nextLine()
+
+    println("Insira a descrição da sua empresa:")
+    String companyDescription = sc.nextLine()
+
+    Company newCompany = new Company(name, email, state, cep, cnpj, country, companyDescription)
+
+    println("Insira as habilidades obrigatórias para o candidato (Insira o número correspondente, separe as múltiplas habilidades com vírgulas)")
+    Skills[] skills = Skills.values()
+    for (int i = 0; i < skills.length; i++) {
+        println("$i: ${skills[i]}")
     }
+    String skillsInput = sc.nextLine()
+    String[] SkillsIndex = skillsInput.split(",")
+    for (String skillIndexString : SkillsIndex) {
+        Integer skillIndex = Integer.parseInt(skillIndexString.trim())
+        if (skillIndex >= 0 && skillIndex < skills.length) {
+            newCompany.getSkillsList().add(skills[skillIndex])
+        } else {
+            println("Inseriu uma habilidade incorreta: $skillIndex")
+        }
+    }
+
+    company.getCompanyList().add(newCompany)
+
+    println("Seu perfil de candidato foi criado com sucesso!")
+    println(newCompany.toString())
+
+    return newCompany
 
 }
 

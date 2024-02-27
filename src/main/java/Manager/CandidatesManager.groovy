@@ -59,7 +59,7 @@ static insertNewCandidate(Candidates candidates) {
     String skillsInput = sc.nextLine()
     String[] SkillsIndex = skillsInput.split(",")
     for (String skillIndexString : SkillsIndex) {
-        int skillIndex = Integer.parseInt(skillIndexString.trim())
+        Integer skillIndex = Integer.parseInt(skillIndexString.trim())
         if (skillIndex >= 0 && skillIndex < skills.length) {
             newCandidates.getSkillsList().add(skills[skillIndex])
         } else {
