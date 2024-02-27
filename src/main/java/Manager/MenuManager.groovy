@@ -1,9 +1,11 @@
 package Manager
 
-import entities.Company
+import entities.Candidates
 
 static void menuManager() {
     Scanner scanner = new Scanner(System.in)
+
+    Candidates candidates = new Candidates()
 
     while (true) {
         println("Escolha uma opção:")
@@ -15,7 +17,7 @@ static void menuManager() {
 
         switch (option) {
             case 1:
-                linkerTinderManager()
+                linkerTinderManager(candidates)
                 break
             case 2:
                 println("Até mais!")
@@ -25,13 +27,14 @@ static void menuManager() {
         }
     }
 }
-static void linkerTinderManager() {
+static void linkerTinderManager(Candidates candidates) {
     Scanner scanner = new Scanner(System.in)
     while (true) {
         println("Escolha uma opção:")
         println("[1] Listar todas as empresas")
         println("[2] Listar todos os candidatos")
-        println("[3] Voltar para o menu principal")
+        println("[3] Criar um novo candidato")
+        println("[4] Voltar para o menu principal")
 
         println("Digite o número da opção desejada:")
         int option = scanner.nextInt()
@@ -41,9 +44,12 @@ static void linkerTinderManager() {
                 CompanyManager.getAllCompany()
                 break
             case 2:
-                CandidatesManager.getAllCandidates()
+                CandidatesManager.getAllCandidates(candidates)
                 break
             case 3:
+                CandidatesManager.insertNewCandidate(candidates)
+                break
+            case 4:
                 return
             default:
                 println("Opção invalida, escolha uma opção válida.")
