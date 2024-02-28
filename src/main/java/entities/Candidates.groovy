@@ -19,30 +19,6 @@ class Candidates extends Users implements Serializable{
         this.personalDescription = personalDescription
     }
 
-    String getCpf() {
-        return cpf
-    }
-
-    void setCpf(String cpf) {
-        this.cpf = cpf
-    }
-
-    Integer getAge() {
-        return age
-    }
-
-    void setAge(Integer age) {
-        this.age = age
-    }
-
-    String getPersonalDescription() {
-        return personalDescription
-    }
-
-    void setPersonalDescription(String personalDescription) {
-        this.personalDescription = personalDescription
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder()

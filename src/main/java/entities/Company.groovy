@@ -18,30 +18,6 @@ class Company extends Users implements Serializable{
         this.companyDescription = companyDescription
     }
 
-    String getCnpj() {
-        return cnpj
-    }
-
-    void setCnpj(Long cnpj) {
-        this.cnpj = cnpj
-    }
-
-    String getCountry() {
-        return country
-    }
-
-    void setCountry(String country) {
-        this.country = country
-    }
-
-    String getCompanyDescription() {
-        return companyDescription
-    }
-
-    void setCompanyDescription(String companyDescription) {
-        this.companyDescription = companyDescription
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder()

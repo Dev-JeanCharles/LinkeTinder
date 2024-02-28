@@ -7,7 +7,7 @@ static void menuManager() {
     Scanner scanner = new Scanner(System.in)
 
     Candidates candidates = new Candidates()
-    Company company = new Company()
+    Company companies = new Company()
 
     while (true) {
         println("Escolha uma opção:")
@@ -19,7 +19,7 @@ static void menuManager() {
 
         switch (option) {
             case 1:
-                linkerTinderManager(candidates, company)
+                linkerTinderManager(candidates, companies)
                 break
             case 2:
                 println("Até mais!")
@@ -29,7 +29,7 @@ static void menuManager() {
         }
     }
 }
-static void linkerTinderManager(Candidates candidates, Company company) {
+static void linkerTinderManager(Candidates candidates, Company companies) {
     Scanner scanner = new Scanner(System.in)
     while (true) {
         println("Escolha uma opção:")
@@ -44,7 +44,7 @@ static void linkerTinderManager(Candidates candidates, Company company) {
 
         switch (option) {
             case 1:
-                CompanyManager.getAllCompany(company)
+                CompanyManager.getAllCompany(companies)
                 break
             case 2:
                 CandidatesManager.getAllCandidates(candidates)
@@ -53,7 +53,7 @@ static void linkerTinderManager(Candidates candidates, Company company) {
                 CandidatesManager.insertNewCandidate(candidates)
                 break
             case 4:
-                CompanyManager.insertNewCompany(company)
+                CompanyManager.insertNewCompany(companies)
                 break
             case 5:
                 return

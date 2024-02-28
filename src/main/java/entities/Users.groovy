@@ -19,33 +19,16 @@ class Users implements UserMethods {
     String getName() {
         return name
     }
-
-    void setName(String name) {
-        this.name = name
-    }
-
     String getEmail() {
         return email
-    }
-
-    void setEmail(String email) {
-        this.email = email
     }
 
     String getState() {
         return state
     }
 
-    void setState(String state) {
-        this.state = state
-    }
-
     String getCep() {
         return cep
-    }
-
-    void setCep(String cep) {
-        this.cep = cep
     }
 
     @Override
