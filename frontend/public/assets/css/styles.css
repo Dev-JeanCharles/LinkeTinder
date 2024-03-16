@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --color-one: #fe3c72;
+    --color-two: #0a66c2;
+    --color-three: #56687a;
+    --color-four: #004182;
+    --color-botton: #fd5564;
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --font-text: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.cabecalho {
+    padding: 3% 0% 3% 5%;
+    background-color: var(--color-three);
+}
+
+.apresentacao {
+    min-height: 100vh; /* Define a altura mínima como 100% da altura da viewport */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cabecalho_nav {
+    display: flex;
+    gap: 80px;
+    justify-content: flex-start;
+}
+
+.cabecalho_nav_links {
+    font-family: var(--font-text);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-white);
+    transition: color 0.5s; 
+    text-decoration: none;
+}
+
+.cabecalho_nav_links:hover {
+    color: var(--color-botton);
+    transition: 1s;
+}
+
+.title_carousel {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.description_carousel {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.title_carousel_final {
+    font-size: 50px;
+    font-weight: 600;
+    color: var(--color-four);
+}
+
+.description_carousel_final {
+    font-size: 25px;
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.botton1 {
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--color-white);
+    font-weight: 600;
+    padding: 20px 40px;
+    border-radius: 20px;
+    transition: background-color 0.5s; 
+    background-color: var(--color-three);
+}
+
+.botton1:hover {
+    background-color: var(--color-four);
+    transition: 1s;
+}
+
+.botton2 {
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--color-white);
+    font-weight: 600;
+    padding: 20px 40px;
+    border-radius: 20px;
+    transition: background-color 0.5s; 
+    background-color: var(--color-three);
+}
+
+.botton2:hover {
+    background-color: var(--color-botton);
+    transition: 1s;
+}
+
+.rodape {
+    font-family: var(--fonte-secundaria);
+    font-size: 1.25rem;
+    padding: 30px;
+    text-align: center;
+    color: var(--color-white);
+    background-color: var(--color-three);
+}

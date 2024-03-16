@@ -2,10 +2,9 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --progress --watch",
-    "server": "live-server --port=5000 --host=localhost --browser=firefox public"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
