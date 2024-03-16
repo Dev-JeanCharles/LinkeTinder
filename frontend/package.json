@@ -2,9 +2,10 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
+  "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "dev": "NODE_ENV=development webpack --progress --watch",
+    "server": "live-server --port=5000 --host=localhost --browser=firefox public"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,8 @@
     "typescript": "^5.4.2",
     "webpack": "^5.90.3",
     "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.1"
   }
 }
