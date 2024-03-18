@@ -25,9 +25,5 @@ e também na relação estabelecida entre empresa recrutadora e candidato, foi r
 npm start 
 ```
 
-## Pode também acessar ao servidor que está hospedado na plataforma Vercel:
-
-
-
 > Esteja ciente de que será necessário instalar o npm para funcionar a aplicação.
 
