@@ -9,7 +9,7 @@ interface CadastroCandidato {
     descricao: string;
 }
 
-function validarCampos(
+function validarCamposObrigatoriosCandidato(
     nomeCandidato: string,
     idadeCandidato: number,
     cpfCandidato: string,
@@ -31,11 +31,11 @@ function validarCampos(
     );
 }
 
-function armazenar(candidato: CadastroCandidato): void {
+function armazenarDadosCandidato(candidato: CadastroCandidato): void {
     localStorage.setItem(candidato.cpf, JSON.stringify(candidato));
 }
 
-function iniciarListeners(): void {
+function iniciarListenersCandidato(): void {
     const camposObrigatorios: string[] = ["nome", "idade", "cpf", "estado", "cep", "email", "descricao"];
     camposObrigatorios.forEach((campo) => {
         const input: HTMLInputElement | null = document.getElementById(campo) as HTMLInputElement;
@@ -93,7 +93,7 @@ const formCandidato: HTMLFormElement | null = document.forms.namedItem("form1");
 formCandidato?.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (validarCampos(nomeCandidato, idadeCandidato, cpfCandidato, estadoCandidato, cepCandidato, emailCandidato, descricaoCandidato, competenciasCandidato)) {
+    if (validarCamposObrigatoriosCandidato(nomeCandidato, idadeCandidato, cpfCandidato, estadoCandidato, cepCandidato, emailCandidato, descricaoCandidato, competenciasCandidato)) {
         const candidato: CadastroCandidato = {
             nome: nomeCandidato,
             idade: idadeCandidato,
@@ -105,7 +105,7 @@ formCandidato?.addEventListener("submit", (event) => {
             descricao: descricaoCandidato
         };
 
-        armazenar(candidato);
+        armazenarDadosCandidato(candidato);
 
         alert("Cadastro realizado com sucesso!");
 
@@ -115,4 +115,4 @@ formCandidato?.addEventListener("submit", (event) => {
     }
 });
 
-iniciarListeners();
+iniciarListenersCandidato();

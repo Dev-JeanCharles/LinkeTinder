@@ -1,32 +1,15 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: {
+        index: ['./src/index.ts'],
         cadastroCandidato: './src/Controller/cadastroCandidato.ts',
         cadastroEmpresa: './src/Controller/cadastroEmpresa.ts',
-        perfilCandidato: './src/Controller/perfilCandidato.ts',
-        perfilEmpresa: './src/Controller/perfilEmpresa.ts',
+        perfilCandidato: './src/Controller/perfilCandidatos.ts',
+        perfilEmpresa: './src/Controller/perfilEmpresas.ts',
+        localStorage: './src/Controller/LocalStorage.ts',
     },
-    devServer: {
-        static: path.join(__dirname, 'dist'),
-        port: 8080,
-        hot: true,
-    },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'public', 'dist'),
-    },
-    plugins: [
-        new CopyPlugin({
-            patterns: [
-            { from: 'public' },
-            ]
-        })
-        ],
-        resolve: {
-            extensions: ['.tsx', '.ts', '.js'],
-        },
     module: {
         rules: [
             {
@@ -35,5 +18,12 @@ module.exports = {
                 exclude: /node_modules/,
             },
         ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, 'public', 'dist'),
     },
 };
