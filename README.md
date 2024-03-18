@@ -13,6 +13,21 @@ e também na relação estabelecida entre empresa recrutadora e candidato, foi r
 
 > Clique aqui para acessar ao site oficial: https://groovy-lang.org/
 
-# Como executar o projeto:
+# Como executar o backend do projeto:
 
 [Gravação de tela de 2024-02-21 17-05-46.webm](https://github.com/Dev-JeanCharles/LinkeTinder-AceleraZG/assets/85767415/b907318d-bedb-4cbe-bed6-f3c0ab7fce3c)
+
+# Como executar o frontend do projeto:
+
+## Inicie a aplicação com o seguinte comando no terminal
+
+```sh
+npm start 
+```
+
+## Pode também acessar ao servidor que está hospedado na plataforma Vercel:
+
+
+
+> Esteja ciente de que será necessário instalar o npm para funcionar a aplicação.
+
