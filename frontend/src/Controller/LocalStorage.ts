@@ -24,19 +24,25 @@ interface CadastroEmpresa {
 function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
     const dadosLocalStorage: (CadastroCandidato | CadastroEmpresa)[] = [];
 
-    // Iterar sobre as chaves do LocalStorage e adicionar os dados ao array
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
         if (chave) {
             const valor = localStorage.getItem(chave);
             if (valor) {
-                const cadastro: CadastroCandidato | CadastroEmpresa = JSON.parse(valor);
+                let cadastro: CadastroCandidato | CadastroEmpresa;
+                try {
+                    cadastro = JSON.parse(valor);
+                } catch (error) {
+                    console.error(`Erro ao analisar o valor para a chave ${chave}:`, error);
+                    continue;
+                }
                 dadosLocalStorage.push(cadastro);
             }
         }
     }
     return dadosLocalStorage;
 }
+
 
 function exibirDadosLocalStorage(): void {
     const lista = document.getElementById("lista-candidatos");
@@ -46,7 +52,6 @@ function exibirDadosLocalStorage(): void {
         const dados = listarLocalStorage();
         dados.forEach(cadastro => {
             if ('cpf' in cadastro) {
-                // É um candidato
                 const candidato = cadastro as CadastroCandidato;
                 const card = `
                     <div class="col">

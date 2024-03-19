@@ -36,7 +36,6 @@ function preencherPerfilEmpresa(empresa: Empresa): void {
     const descricaoElement = document.querySelector('.descricao');
     if (descricaoElement) descricaoElement.textContent = empresa.descricao;
 
-    // Adicionando os campos CNPJ, Competências e Sobre mesmo que não estejam presentes nos dados da empresa
     const cnpjLabelElement = document.querySelector('.cnpj-label');
     if (cnpjLabelElement) cnpjLabelElement.textContent = 'CNPJ:';
 

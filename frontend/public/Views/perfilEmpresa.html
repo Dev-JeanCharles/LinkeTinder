@@ -26,9 +26,9 @@
         <div class="row">
             <div class="col-md-2">
                 <ul class="list-unstyled mt-3 text-end">
-                    <li><span class="fw-bold me-2">CNPJ:</span></li>
+                    <li><span class="fw-bold me-2">CNPJ:</span><span class="cnpj"></span></li>
                     <li><span class="fw-bold me-2">Competências:</span></li>
-                    <li><span class="fw-bold me-2">Sobre:</span> </li>
+                    <li><span class="fw-bold me-2">Sobre:</span> <span class="descricao"></span></li>
                 </ul>
             </div>
             <div class="col-md-10">
@@ -43,13 +43,9 @@
                     </div>
                     <div class="col-md-6">
                         <ul class="list-unstyled mt-3">
-                            <li class="cnpj"></li>
                             <li>
                                 <ul class="d-flex list-unstyled competencias">
                                 </ul>
-                            </li>
-                            <li>
-                                <div class="w-100 descricao"></div>
                             </li>
                         </ul>
                     </div>
@@ -62,11 +58,19 @@
         <button type="button" class="btn98">Excluir</button>
     </div>
     <hr>
-    <h1 class="mb-4 text-center">Lista de Candidatos</h1>
-    <div id="lista-candidatos" class="row row-cols-auto g-3"></div>
+    <div class="container">
+        <h1 class="mb-4 text-center">Lista de Candidatos</h1>
+        <div id="lista-candidatos" class="row row-cols-auto g-3"></div>
+    </div>
     <hr>
-    <h1 class="mb-4 text-center">Candidatos por Competências</h1>
-    <canvas id="grafico-barras"></canvas>
+    <div class="container">
+        <h1 class="mb-4 text-center">Candidatos por Competências</h1>
+        <div class="row">
+            <div class="col">
+                <canvas id="grafico-barras"></canvas>
+            </div>
+        </div>
+    </div>
     <script src="../dist/perfilEmpresa.js" defer></script>
     <script src="../dist/localStorage.js" defer></script>
 </body>

@@ -1,5 +1,3 @@
-import { mascararCPF, mascararEmail } from '../Utils/mascarar';
-
 interface CadastroCandidato {
     nome: string;
     idade: number;
@@ -24,14 +22,18 @@ interface CadastroEmpresa {
 function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
     const dadosLocalStorage: (CadastroCandidato | CadastroEmpresa)[] = [];
 
-    // Iterar sobre as chaves do LocalStorage e adicionar os dados ao array
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
         if (chave) {
             const valor = localStorage.getItem(chave);
             if (valor) {
-                const cadastro: CadastroCandidato | CadastroEmpresa = JSON.parse(valor);
-                dadosLocalStorage.push(cadastro);
+                try {
+                    const cadastro: CadastroCandidato | CadastroEmpresa = JSON.parse(valor);
+                    dadosLocalStorage.push(cadastro);
+                } catch (error) {
+                    console.error(`Erro ao analisar o valor para a chave ${chave}:`, error);
+                    continue;
+                }
             }
         }
     }
