@@ -18,6 +18,7 @@ function validarCamposObrigatoriosCandidato(
     emailCandidato: string,
     descricaoCandidato: string,
     competenciasCandidato: string[]
+
 ): boolean {
     return (
         nomeCandidato !== "" &&

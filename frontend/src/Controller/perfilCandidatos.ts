@@ -89,10 +89,8 @@ function exibirVagasEmpresas(): void {
     if (listaEmpresasElement) {
         listaEmpresasElement.innerHTML = '';
 
-        // Aqui você busca as empresas do localStorage
         const dadosLocalStorage = listarLocalStorage();
 
-        // Filtra apenas as empresas
         const empresas = dadosLocalStorage.filter((cadastro) => 'cnpj' in cadastro) as CadastroEmpresa[];
 
         empresas.forEach(empresa => {
@@ -120,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const candidato = obterDadosCandidato();
     if (candidato) {
         preencherPerfilCandidato(candidato);
-        exibirVagasEmpresas(); // Chama a função para exibir as vagas de empresas
+        exibirVagasEmpresas();
     } else {
         console.error('Candidato não encontrado.');
     }
