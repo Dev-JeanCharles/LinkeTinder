@@ -1,39 +1,56 @@
-interface CadastroCandidato {
-    nome: string;
-    idade: number;
-    cpf: string;
-    estado: string;
-    cep: string;
-    email: string;
-    competencias: string[];
-    descricao: string;
-}
+import { Candidato } from "../Models/Candidato";
 
-function validarCamposObrigatoriosCandidato(
-    nomeCandidato: string,
-    idadeCandidato: number,
-    cpfCandidato: string,
-    estadoCandidato: string,
-    cepCandidato: string,
-    emailCandidato: string,
-    descricaoCandidato: string,
-    competenciasCandidato: string[]
+let nomeCandidato: string
+let idadeCandidato: number
+let cpfCandidato: string
+let estadoCandidato: string
+let cepCandidato: string
+let emailCandidato: string
+let competenciasCandidato: string[] = []
+let descricaoCandidato: string
 
-): boolean {
-    return (
-        nomeCandidato !== "" &&
-        idadeCandidato > 0 &&
-        cpfCandidato !== "" &&
-        estadoCandidato !== "" &&
-        cepCandidato !== "" &&
-        emailCandidato !== "" &&
-        competenciasCandidato.length > 0 &&
-        descricaoCandidato !== ""
-    );
-}
+const formCandidato: HTMLFormElement | null = document.forms.namedItem("form1");
+formCandidato?.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-function armazenarDadosCandidato(candidato: CadastroCandidato): void {
-    localStorage.setItem(candidato.cpf, JSON.stringify(candidato));
+    if (validarCamposCandidato()) {
+        const novoCandidato = new Candidato(
+            nomeCandidato,
+            idadeCandidato,
+            cpfCandidato,
+            estadoCandidato,
+            cepCandidato,
+            emailCandidato,
+            competenciasCandidato,
+            descricaoCandidato
+        );
+
+        alert("Cadastro realizado com sucesso!");
+
+        window.location.href = `perfilCandidato.html?cpf=${encodeURIComponent(cpfCandidato)}`;
+    } else {
+        alert("Por favor, preencha todos os campos obrigatórios.");
+    }
+});
+
+function validarCamposCandidato(): boolean {
+    const camposObrigatorios: string[] = ["nome", "idade", "cpf", "estado", "cep", "email", "descricao"];
+    let todosCamposPreenchidos = true;
+    const emailRegex = /^[^\s@]+@(?!.*\d)[^\s@]+\.[^\s@]+$/;
+
+    camposObrigatorios.forEach((campo) => {
+        const input: HTMLInputElement | null = document.getElementById(campo) as HTMLInputElement;
+        if (!input || input.value.trim() === "") {
+            todosCamposPreenchidos = false;
+        } else if (campo === "email") {
+            if (!emailRegex.test(input.value)) {
+                todosCamposPreenchidos = false;
+                alert('O e-mail inserido não é válido. Por favor, verifique e tente novamente.');
+            }
+        }
+    });
+
+    return todosCamposPreenchidos;
 }
 
 function iniciarListenersCandidato(): void {
@@ -68,7 +85,6 @@ function iniciarListenersCandidato(): void {
             }
         });
     });
-
     const checkboxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="competencias[]"]');
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
@@ -80,40 +96,4 @@ function iniciarListenersCandidato(): void {
         });
     });
 }
-
-let nomeCandidato: string = "";
-let idadeCandidato: number = 0;
-let cpfCandidato: string = "";
-let estadoCandidato: string = "";
-let cepCandidato: string = "";
-let emailCandidato: string = "";
-let competenciasCandidato: string[] = [];
-let descricaoCandidato: string = "";
-
-const formCandidato: HTMLFormElement | null = document.forms.namedItem("form1");
-formCandidato?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    if (validarCamposObrigatoriosCandidato(nomeCandidato, idadeCandidato, cpfCandidato, estadoCandidato, cepCandidato, emailCandidato, descricaoCandidato, competenciasCandidato)) {
-        const candidato: CadastroCandidato = {
-            nome: nomeCandidato,
-            idade: idadeCandidato,
-            cpf: cpfCandidato,
-            estado: estadoCandidato,
-            cep: cepCandidato,
-            email: emailCandidato,
-            competencias: competenciasCandidato,
-            descricao: descricaoCandidato
-        };
-
-        armazenarDadosCandidato(candidato);
-
-        alert("Cadastro realizado com sucesso!");
-
-        window.location.href = `perfilCandidato.html?cpf=${encodeURIComponent(cpfCandidato)}`;
-    } else {
-        alert("Por favor, preencha todos os campos obrigatórios.");
-    }
-});
-
 iniciarListenersCandidato();

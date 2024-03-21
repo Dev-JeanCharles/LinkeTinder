@@ -9,6 +9,7 @@ module.exports = {
         perfilCandidato: './src/Controller/perfilCandidatos.ts',
         perfilEmpresa: './src/Controller/perfilEmpresas.ts',
         localStorage: './src/Controller/LocalStorage.ts',
+        validacoes: './src/Utils/validacoes.ts'
     },
     module: {
         rules: [

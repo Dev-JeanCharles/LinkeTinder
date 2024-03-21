@@ -11,21 +11,18 @@ export class Empresa extends Usuario {
         public descricao: string,
         public competencias: string[]
     ) {
-        super(nome, estado, cep, descricao, competencias);
-        this.email = email;
-        this.cnpj = cnpj;
-        this.pais = pais;
+        super(nome, estado, cep, email,descricao, competencias);
     }
 
     getAll() {
         return {
-            nome: this.nome,
-            email: this.email,
-            cnpj: this.cnpj,
-            pais: this.pais,
-            estado: this.estado,
-            cep: this.cep,
-            descricao: this.descricao,
+            nome: this.nome ,
+            email: this.email ,
+            cnpj: this.cnpj ,
+            pais: this.pais ,
+            estado: this.estado ,
+            cep: this.cep ,
+            descricao: this.descricao ,
             competencias: this.competencias
         };
     }
