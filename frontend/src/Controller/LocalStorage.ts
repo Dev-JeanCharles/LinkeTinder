@@ -1,35 +1,18 @@
 import Chart from 'chart.js/auto';
+import { mascararNome, mascararEmail, mascararCPF } from '../Utils/mascarar';
+import {Candidato} from '../Models/Candidato'
+import {Empresa} from '../Models/Empresa'
 
-interface CadastroCandidato {
-    nome: string;
-    idade: number;
-    cpf: string;
-    estado: string;
-    cep: string;
-    email: string;
-    competencias: string[];
-    descricao: string;
-}
 
-interface CadastroEmpresa {
-    nome: string;
-    cnpj: string;
-    estado: string;
-    cep: string;
-    email: string;
-    competencias: string[];
-    descricao: string;
-}
-
-function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
-    const dadosLocalStorage: (CadastroCandidato | CadastroEmpresa)[] = [];
+function listarLocalStorage(): (Candidato | Empresa)[] {
+    const dadosLocalStorage: (Candidato | Empresa)[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
         if (chave) {
             const valor = localStorage.getItem(chave);
             if (valor) {
-                let cadastro: CadastroCandidato | CadastroEmpresa;
+                let cadastro: Candidato | Empresa;
                 try {
                     cadastro = JSON.parse(valor);
                 } catch (error) {
@@ -52,17 +35,17 @@ function exibirDadosLocalStorage(): void {
         const dados = listarLocalStorage();
         dados.forEach(cadastro => {
             if ('cpf' in cadastro) {
-                const candidato = cadastro as CadastroCandidato;
+                const candidato = cadastro as Candidato;
                 const card = `
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">${candidato.nome}</h5>
+                                <h5 class="card-title">${mascararNome(candidato.nome)}</h5>
                                 <p class="card-text">Idade: ${candidato.idade}</p>
-                                <p class="card-text">CPF: ${candidato.cpf}</p>
+                                <p class="card-text">CPF: ${mascararCPF(candidato.cpf)}</p>
                                 <p class="card-text">Estado: ${candidato.estado}</p>
                                 <p class="card-text">CEP: ${candidato.cep}</p>
-                                <p class="card-text">Email: ${candidato.email}</p>
+                                <p class="card-text">Email: ${mascararEmail(candidato.email)}</p>
                                 <p class="card-text">Competências: ${candidato.competencias.join(", ")}</p>
                                 <p class="card-text">Descrição: ${candidato.descricao}</p>
                             </div>

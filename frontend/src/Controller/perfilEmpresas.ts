@@ -2,25 +2,38 @@ import { Empresa } from "../Models/Empresa";
 
 function obterDadosEmpresa(): Empresa | null {
     const cnpjParam = new URLSearchParams(window.location.search).get('cnpj');
+
     if (!cnpjParam) return null;
 
-    const empresaJSON = localStorage.getItem(cnpjParam);
-    if (!empresaJSON) return null;
-
-    return JSON.parse(empresaJSON);
+    for (let i = 0; i < localStorage.length; i++) {
+        const chave = localStorage.key(i);
+        if (chave) {
+            const valor = localStorage.getItem(chave);
+            if (valor) {
+                const cadastro: Empresa = JSON.parse(valor);
+                if (cadastro.cnpj === cnpjParam) {
+                    return cadastro;
+                }
+            }
+        }
+    }
+    return null;
 }
 
 function preencherPerfilEmpresa(empresa: Empresa): void {
+
     const nomeElement = document.querySelector('.nome');
     if (nomeElement) nomeElement.textContent = empresa.nome;
-
+    
     const emailElement = document.querySelector('.email');
     if (emailElement) emailElement.textContent = empresa.email;
 
-    const residenciaElement = document.querySelector('ul.dadosGeograficos');
+    const residenciaElement = document.querySelector('.dadosGeograficos');
     if (residenciaElement) {
-        residenciaElement.children[0].textContent = `${empresa.estado},`;
-        residenciaElement.children[1].textContent = empresa.cep;
+        const estadoElement = residenciaElement.querySelector('.estado');
+        const cepElement = residenciaElement.querySelector('.cep');
+        if (estadoElement) estadoElement.textContent = empresa.estado;
+        if (cepElement) cepElement.textContent = empresa.cep;
     }
 
     const cnpjElement = document.querySelector('.cnpj');

@@ -1,26 +1,9 @@
-interface CadastroCandidato {
-    nome: string;
-    idade: number;
-    cpf: string;
-    estado: string;
-    cep: string;
-    email: string;
-    competencias: string[];
-    descricao: string;
-}
+import { Candidato } from "../Models/Candidato";
+import { Empresa } from "../Models/Empresa";
+import {mascararNome, mascararEmail, mascararCNPJ} from "../Utils/mascarar";
 
-interface CadastroEmpresa {
-    nome: string;
-    cnpj: string;
-    estado: string;
-    cep: string;
-    email: string;
-    competencias: string[];
-    descricao: string;
-}
-
-function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
-    const dadosLocalStorage: (CadastroCandidato | CadastroEmpresa)[] = [];
+function listarLocalStorage(): (Candidato | Empresa)[] {
+    const dadosLocalStorage: (Candidato | Empresa)[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {
         const chave = localStorage.key(i);
@@ -28,7 +11,7 @@ function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
             const valor = localStorage.getItem(chave);
             if (valor) {
                 try {
-                    const cadastro: CadastroCandidato | CadastroEmpresa = JSON.parse(valor);
+                    const cadastro: Candidato | Empresa = JSON.parse(valor);
                     dadosLocalStorage.push(cadastro);
                 } catch (error) {
                     console.error(`Erro ao analisar o valor para a chave ${chave}:`, error);
@@ -40,7 +23,7 @@ function listarLocalStorage(): (CadastroCandidato | CadastroEmpresa)[] {
     return dadosLocalStorage;
 }
 
-function obterDadosCandidato(): CadastroCandidato | null {
+function obterDadosCandidato(): Candidato | null {
     const cpfParam = new URLSearchParams(window.location.search).get('cpf');
     if (!cpfParam) return null;
 
@@ -50,7 +33,7 @@ function obterDadosCandidato(): CadastroCandidato | null {
     return JSON.parse(candidatoJSON);
 }
 
-function preencherPerfilCandidato(candidato: CadastroCandidato): void {
+function preencherPerfilCandidato(candidato: Candidato): void {
     const nomeElement = document.querySelector('.nome');
     if (nomeElement) nomeElement.textContent = candidato.nome;
 
@@ -91,19 +74,19 @@ function exibirVagasEmpresas(): void {
 
         const dadosLocalStorage = listarLocalStorage();
 
-        const empresas = dadosLocalStorage.filter((cadastro) => 'cnpj' in cadastro) as CadastroEmpresa[];
+        const empresas = dadosLocalStorage.filter((cadastro) => 'cnpj' in cadastro) as Empresa[];
 
         empresas.forEach(empresa => {
             const card = `
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">${empresa.nome}</h5>
-                            <p class="card-text">CNPJ: ${empresa.cnpj}</p>
+                            <h5 class="card-title">${mascararNome(empresa.nome)}</h5>
+                            <p class="card-text">CNPJ: ${mascararCNPJ(empresa.cnpj)}</p>
                             <p class="card-text">Estado: ${empresa.estado}</p>
                             <p class="card-text">CEP: ${empresa.cep}</p>
-                            <p class="card-text">Email: ${empresa.email}</p>
-                            <p class="card-text">Competências: ${empresa.competencias.join(", ")}</p>
+                            <p class="card-text">Email: ${mascararEmail(empresa.email)}</p>
+                            <p class="card-text">Competências: ${empresa.competencias.slice(0, -1).join(", ")}${empresa.competencias.length > 1 ? ',' : ''} ${empresa.competencias.slice(-1)}</p>   
                             <p class="card-text">Descrição: ${empresa.descricao}</p>
                         </div>
                     </div>
@@ -116,6 +99,7 @@ function exibirVagasEmpresas(): void {
 
 document.addEventListener('DOMContentLoaded', () => {
     const candidato = obterDadosCandidato();
+
     if (candidato) {
         preencherPerfilCandidato(candidato);
         exibirVagasEmpresas();
