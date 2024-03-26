@@ -1,13 +1,13 @@
 import { Candidato } from "../Models/Candidato";
 
-let nomeCandidato: string
-let idadeCandidato: number
-let cpfCandidato: string
-let estadoCandidato: string
-let cepCandidato: string
-let emailCandidato: string
-let competenciasCandidato: string[] = []
-let descricaoCandidato: string
+let nomeCandidato: string;
+let idadeCandidato: number;
+let cpfCandidato: string;
+let estadoCandidato: string;
+let cepCandidato: string;
+let emailCandidato: string;
+let competenciasCandidato: string[] = [];
+let descricaoCandidato: string;
 
 const formCandidato: HTMLFormElement | null = document.forms.namedItem("form1");
 formCandidato?.addEventListener("submit", (event) => {
@@ -24,6 +24,10 @@ formCandidato?.addEventListener("submit", (event) => {
             competenciasCandidato,
             descricaoCandidato
         );
+
+        const candidatoJSON = JSON.stringify(novoCandidato);
+
+        localStorage.setItem(cpfCandidato, candidatoJSON);
 
         alert("Cadastro realizado com sucesso!");
 
@@ -96,4 +100,6 @@ function iniciarListenersCandidato(): void {
         });
     });
 }
+
+
 iniciarListenersCandidato();

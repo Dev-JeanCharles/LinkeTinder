@@ -3,7 +3,6 @@ import { mascararNome, mascararEmail, mascararCPF } from '../Utils/mascarar';
 import {Candidato} from '../Models/Candidato'
 import {Empresa} from '../Models/Empresa'
 
-
 function listarLocalStorage(): (Candidato | Empresa)[] {
     const dadosLocalStorage: (Candidato | Empresa)[] = [];
 
@@ -26,42 +25,39 @@ function listarLocalStorage(): (Candidato | Empresa)[] {
     return dadosLocalStorage;
 }
 
-
 function exibirDadosLocalStorage(): void {
     const lista = document.getElementById("lista-candidatos");
     if (lista) {
         lista.innerHTML = '';
-
         const dados = listarLocalStorage();
         dados.forEach(cadastro => {
             if ('cpf' in cadastro) {
                 const candidato = cadastro as Candidato;
                 const card = `
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">${mascararNome(candidato.nome)}</h5>
-                                <p class="card-text">Idade: ${candidato.idade}</p>
-                                <p class="card-text">CPF: ${mascararCPF(candidato.cpf)}</p>
-                                <p class="card-text">Estado: ${candidato.estado}</p>
-                                <p class="card-text">CEP: ${candidato.cep}</p>
-                                <p class="card-text">Email: ${mascararEmail(candidato.email)}</p>
-                                <p class="card-text">Competências: ${candidato.competencias.join(", ")}</p>
-                                <p class="card-text">Descrição: ${candidato.descricao}</p>
-                            </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${mascararNome(candidato.nome)}</h5>
+                            <p class="card-text">Idade: ${candidato.idade}</p>
+                            <p class="card-text">CPF: ${mascararCPF(candidato.cpf)}</p>
+                            <p class="card-text">Estado: ${candidato.estado}</p>
+                            <p class="card-text">CEP: ${candidato.cep}</p>
+                            <p class="card-text">Email: ${mascararEmail(candidato.email)}</p>
+                            <p class="card-text">Competências: ${candidato.competencias.join(", ")}</p>
+                            <p class="card-text">Descrição: ${candidato.descricao}</p>
                         </div>
                     </div>
-                `;
-                lista.innerHTML += card;
-            }
-        });
-    }
+                </div>
+            `;
+            lista.innerHTML += card;
+        }
+    });
+}
 }
 
 function criarGraficoBarras(): void {
     const dados = listarLocalStorage();
     const competenciasContagem: { [key: string]: number } = {};
-
     dados.forEach(candidato => {
         candidato.competencias.forEach(competencia => {
             if (!competenciasContagem[competencia]) {
@@ -71,10 +67,8 @@ function criarGraficoBarras(): void {
             }
         });
     });
-
     const labels = Object.keys(competenciasContagem);
     const data = Object.values(competenciasContagem);
-
     const graficoBarras = new Chart('grafico-barras', {
         type: 'bar',
         data: {

@@ -26,6 +26,9 @@ formEmpresa?.addEventListener("submit", (event) => {
             competenciasEmpresa
         );
 
+        // Salva os dados da empresa no localStorage
+        salvarEmpresaLocalStorage(novaEmpresa);
+
         alert("Cadastro realizado com sucesso!");
 
         window.location.href = `perfilEmpresa.html?cnpj=${encodeURIComponent(cnpjEmpresa)}`;
@@ -54,48 +57,55 @@ function validarCamposEmpresa(): boolean {
     return todosCamposPreenchidos;
 }
 
+function iniciarListenersEmpresa(): void {
+    const camposObrigatorios: string[] = ["nome", "email", "cnpj", "pais", "estado", "cep", "descricao"];
+    camposObrigatorios.forEach((campo) => {
+        const input: HTMLInputElement | null = document.getElementById(campo) as HTMLInputElement;
+        input?.addEventListener("change", () => {
+            switch (campo) {
+                case "nome":
+                    nomeEmpresa = input.value;
+                    break;
+                case "email":
+                    emailEmpresa = input.value;
+                    break;
+                case "cnpj":
+                    cnpjEmpresa = input.value;
+                    break;
+                case "pais":
+                    paisEmpresa = input.value;
+                    break;
+                case "estado":
+                    estadoEmpresa = input.value;
+                    break;
+                case "cep":
+                    cepEmpresa = input.value;
+                    break;
+                case "descricao":
+                    descricaoEmpresa = input.value;
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
 
-    function iniciarListenersEmpresa(): void {
-        const camposObrigatorios: string[] = ["nome", "email", "cnpj", "pais", "estado", "cep", "descricao"];
-        camposObrigatorios.forEach((campo) => {
-            const input: HTMLInputElement | null = document.getElementById(campo) as HTMLInputElement;
-            input?.addEventListener("change", () => {
-                switch (campo) {
-                    case "nome":
-                        nomeEmpresa = input.value;
-                        break;
-                    case "email":
-                        emailEmpresa = input.value;
-                        break;
-                    case "cnpj":
-                        cnpjEmpresa = input.value;
-                        break;
-                    case "pais":
-                        paisEmpresa = input.value;
-                        break;
-                    case "estado":
-                        estadoEmpresa = input.value;
-                        break;
-                    case "cep":
-                        cepEmpresa = input.value;
-                        break;
-                    case "descricao":
-                        descricaoEmpresa = input.value;
-                        break;
-                    default:
-                        break;
-                }
-            });
+    // Adiciona listener para o campo de competências
+    const competenciasCheckbox: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="competencias[]"]');
+    competenciasCheckbox.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                competenciasEmpresa.push(checkbox.value);
+            } else {
+                competenciasEmpresa = competenciasEmpresa.filter((competencia) => competencia !== checkbox.value);
+            }
         });
-        const checkboxes: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="competencias[]"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener("change", () => {
-                if (checkbox.checked) {
-                    competenciasEmpresa.push(checkbox.value);
-                } else {
-                    competenciasEmpresa = competenciasEmpresa.filter((competencia) => competencia !== checkbox.value);
-                }
-            });
-        });
+    });
 }
-iniciarListenersEmpresa()
+
+iniciarListenersEmpresa();
+
+// Função para salvar os dados da empresa no localStorage
+function salvarEmpresaLocalStorage(empresa: Empresa): void {
+    localStorage.setItem(empresa.cnpj, JSON.stringify(empresa));
+}
