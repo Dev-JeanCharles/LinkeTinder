@@ -1,23 +1,9 @@
 import { Empresa } from "../Models/Empresa";
-
-function obterDadosEmpresa(): Empresa | null {
-    const cnpjParam = new URLSearchParams(window.location.search).get('cnpj');
-    if (!cnpjParam) return null;
-
-    for (let i = 0; i < localStorage.length; i++) {
-        const chave = localStorage.key(i);
-        if (chave) {
-            const valor = localStorage.getItem(chave);
-            if (valor) {
-                const cadastro: Empresa = JSON.parse(valor);
-                if (cadastro.cnpj === cnpjParam) {
-                    return cadastro;
-                }
-            }
-        }
-    }
-    return null;
-}
+import { Candidato } from "../Models/Candidato";
+import {DTOEmpresa} from "../Models/dto/EmpresaDTO"
+import {DTOCandidato} from "../Models/dto/CandidatoDTO"
+import {construirCandidato} from "../Controller/estruturaCandidato"
+import { criarGraficoBarras } from "../Controller/grafico"
 
 function preencherPerfilEmpresa(empresa: Empresa): void {
     const nomeElement = document.querySelector('.nome');
@@ -52,11 +38,40 @@ function preencherPerfilEmpresa(empresa: Empresa): void {
     const descricaoLabelElement = document.querySelector('.descricao-label');
     if (descricaoLabelElement) descricaoLabelElement.textContent = 'Sobre:';
 }
+
 document.addEventListener('DOMContentLoaded', () => {
-    const empresa = obterDadosEmpresa();
+    const dtoEmpresa = new DTOEmpresa();
+    const empresas = dtoEmpresa.get();
+
+    const cnpjParam = new URLSearchParams(window.location.search).get("cnpj");
+    if (!cnpjParam) {
+        console.error("CNPJ não encontrado na URL.");
+        return;
+    }
+
+    const empresa = empresas.find((c: Empresa) => c.cnpj === cnpjParam);
     if (empresa) {
         preencherPerfilEmpresa(empresa);
     } else {
         console.error('Empresa não encontrada.');
     }
+
+    const dtoCandidato = new DTOCandidato();
+    const candidatos = dtoCandidato.get();
+    exibirCandidatos(candidatos);
+
+    criarGraficoBarras(candidatos);
+
 });
+
+function exibirCandidatos(candidatos: Candidato[]): void {
+    const listaCandidatosElement = document.getElementById("lista-candidatos");
+
+    if (listaCandidatosElement) {
+        listaCandidatosElement.innerHTML = '';
+
+        candidatos.forEach((candidato: Candidato) => {
+            listaCandidatosElement.innerHTML += construirCandidato(candidato);
+        });
+    }
+}

@@ -1,76 +1,93 @@
 package Manager
 
+import DTO.CompanyDTO
 import entities.Company
 import enums.Skills
 
-static void getAllCompany(Company company) {
-    company.getCompanyList().each { companies ->
-        println(companies.toString())
+class CompanyManager {
+    CompanyDTO companyDTO = new CompanyDTO()
+
+    void create() {
+        Scanner scanner = new Scanner(System.in)
+
+        print "Digite o nome da empresa: "
+        String name = scanner.nextLine()
+
+        print "Digite o email da empresa: "
+        String email = scanner.nextLine()
+
+        print "Digite o CNPJ da empresa: "
+        String cnpj = scanner.nextLine()
+
+        print "Digite o país da empresa: "
+        String country = scanner.nextLine()
+
+        print "Digite o estado da empresa: "
+        String state = scanner.nextLine()
+
+        print "Digite o CEP da empresa: "
+        String cep = scanner.nextLine()
+
+        print "Digite a descrição da empresa: "
+        String description = scanner.nextLine()
+
+        print "Digite as competências da empresa (separadas por vírgula): "
+        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
+
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skills>)
+        companyDTO.Create(company)
     }
+    void get() {
+        List<Company> companies = companyDTO.Get()
 
-    Scanner scanner = new Scanner(System.in)
-
-    while (true) {
-        println("Digite 1 para sair:")
-        int option = scanner.nextInt()
-
-        switch (option) {
-            case 1:
-                return
-            default:
-                println("Opção invalida, escolha uma opção válida.")
-        }
-    }
-}
-
-static insertNewCompany(Company company) {
-    Scanner sc = new Scanner(System.in)
-
-    println("Insira um nome de sua empresa:")
-    String name = sc.nextLine()
-
-    println("Insira o email de sua empresa:")
-    String email = sc.nextLine()
-
-    println("Insira o seu estado de sua empresa:")
-    String state = sc.nextLine()
-
-    println("Insira o seu cep de sua empresa:")
-    String cep = sc.nextLine()
-
-    println("Insira o CNPJ de sua empresa:")
-    String cnpj = sc.nextLine()
-
-    println("Insira o país de sua empresa:")
-    String country = sc.nextLine()
-
-    println("Insira a descrição da sua empresa:")
-    String companyDescription = sc.nextLine()
-
-    Company newCompany = new Company(name, email, state, cep, cnpj, country, companyDescription)
-
-    println("Insira as habilidades obrigatórias para o candidato (Insira o número correspondente, separe as múltiplas habilidades com vírgulas)")
-    Skills[] skills = Skills.values()
-    for (int i = 0; i < skills.length; i++) {
-        println("$i: ${skills[i]}")
-    }
-    String skillsInput = sc.nextLine()
-    String[] SkillsIndex = skillsInput.split(",")
-    for (String skillIndexString : SkillsIndex) {
-        Integer skillIndex = Integer.parseInt(skillIndexString.trim())
-        if (skillIndex >= 0 && skillIndex < skills.length) {
-            newCompany.getSkillsList().add(skills[skillIndex])
+        if (companies.isEmpty()) {
+            println "Não há empresas cadastradas."
         } else {
-            println("Inseriu uma habilidade incorreta: $skillIndex")
+            println "Empresas cadastradas:"
+            companies.each { company ->
+                print "Empresa: ${company.name}\nEmail Corporativo: ${company.email}\nCNPJ: ${company.cnpj}\nPais: ${company.country}\nEstado: ${company.state}\nCEP: ${company.cep}\nDescrição da Empresa: ${company.description}\n\n"
+            }
         }
     }
 
-    company.getCompanyList().add(newCompany)
+    void update() {
+        Scanner scanner = new Scanner(System.in)
 
-    println("Seu perfil de candidato foi criado com sucesso!")
-    println(newCompany.toString())
+        print "Digite o CNPJ da empresa que deseja atualizar: "
+        String cnpj = scanner.nextLine()
 
-    return newCompany
+        print "Digite o novo nome da empresa: "
+        String name = scanner.nextLine()
 
+        print "Digite o novo email da empresa: "
+        String email = scanner.nextLine()
+
+        print "Digite o novo país da empresa: "
+        String country = scanner.nextLine()
+
+        print "Digite o novo estado da empresa: "
+        String state = scanner.nextLine()
+
+        print "Digite o novo CEP da empresa: "
+        String cep = scanner.nextLine()
+
+        print "Digite a nova descrição da empresa: "
+        String description = scanner.nextLine()
+
+        print "Digite as novas competências da empresa (separadas por vírgula): "
+        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
+
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skills>)
+        companyDTO.Update(cnpj, company)
+    }
+
+    void delete() {
+        Scanner scanner = new Scanner(System.in)
+
+        print "Digite o CNPJ da empresa que deseja deletar: "
+        String cnpj = scanner.nextLine()
+
+        companyDTO.Delete(cnpj)
+    }
 }
 

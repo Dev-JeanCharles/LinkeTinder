@@ -1,43 +1,20 @@
 package entities
 
-import repository.UserMethods
+import enums.Skills
 
-class Users implements UserMethods {
+class Users {
 
-    String name,email, state,cep
+    String name, email, state, cep, description
+    List<Skills> skillsList = []
 
-    Users() {
-    }
 
-    Users(String name, String email, String state, String cep) {
+    Users(String name, String email, String state, String cep, String description, List<Skills> skillsList) {
         this.name = name
         this.email = email
         this.state = state
         this.cep = cep
-    }
-
-    String getName() {
-        return name
-    }
-    String getEmail() {
-        return email
-    }
-
-    String getState() {
-        return state
-    }
-
-    String getCep() {
-        return cep
-    }
-
-    @Override
-    void Nope() {
-
-    }
-
-    @Override
-    void Like() {
+        this.description = description
+        this.skillsList = skillsList
 
     }
 }

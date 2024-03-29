@@ -1,4 +1,5 @@
 import { Empresa } from "../Models/Empresa";
+import {DTOEmpresa} from "../Models/dto/EmpresaDTO"
 
 let nomeEmpresa: string
 let emailEmpresa: string
@@ -26,8 +27,8 @@ formEmpresa?.addEventListener("submit", (event) => {
             competenciasEmpresa
         );
 
-        // Salva os dados da empresa no localStorage
-        salvarEmpresaLocalStorage(novaEmpresa);
+        const empresadto = new DTOEmpresa()
+        empresadto.add(novaEmpresa) 
 
         alert("Cadastro realizado com sucesso!");
 
@@ -90,7 +91,6 @@ function iniciarListenersEmpresa(): void {
         });
     });
 
-    // Adiciona listener para o campo de competências
     const competenciasCheckbox: NodeListOf<HTMLInputElement> = document.querySelectorAll('input[name="competencias[]"]');
     competenciasCheckbox.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
@@ -104,8 +104,3 @@ function iniciarListenersEmpresa(): void {
 }
 
 iniciarListenersEmpresa();
-
-// Função para salvar os dados da empresa no localStorage
-function salvarEmpresaLocalStorage(empresa: Empresa): void {
-    localStorage.setItem(empresa.cnpj, JSON.stringify(empresa));
-}

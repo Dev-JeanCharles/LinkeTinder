@@ -1,38 +1,8 @@
 import { Candidato } from "../Models/Candidato";
+import {DTOCandidato} from "../Models/dto/CandidatoDTO"
 import { Empresa } from "../Models/Empresa";
+import {DTOEmpresa} from "../Models/dto/EmpresaDTO"
 import {mascararNome, mascararEmail, mascararCNPJ} from "../Utils/mascarar";
-
-function listarLocalStorage(): (Candidato | Empresa)[] {
-    const dadosLocalStorage: (Candidato | Empresa)[] = [];
-
-    for (let i = 0; i < localStorage.length; i++) {
-        const chave = localStorage.key(i);
-        if (chave) {
-            const valor = localStorage.getItem(chave);
-            if (valor) {
-                try {
-                    const cadastro: Candidato | Empresa = JSON.parse(valor);
-                    dadosLocalStorage.push(cadastro);
-                } catch (error) {
-                    console.error(`Erro ao analisar o valor para a chave ${chave}:`, error);
-                    continue;
-                }
-            }
-        }
-    }
-    return dadosLocalStorage;
-}
-
-function obterDadosCandidato(): Candidato | null {
-    const cpfParam = new URLSearchParams(window.location.search).get('cpf');
-    if (!cpfParam) return null;
-
-    const candidatoJSON = localStorage.getItem(cpfParam);
-    if (!candidatoJSON) return null;
-    return JSON.parse(candidatoJSON);
-}
-
-
 
 function preencherPerfilCandidato(candidato: Candidato): void {
     const nomeElement = document.querySelector('.nome');
@@ -63,14 +33,33 @@ function preencherPerfilCandidato(candidato: Candidato): void {
     if (descricaoElement) descricaoElement.textContent = candidato.descricao;
 }
 
-function exibirVagasEmpresas(): void {
+document.addEventListener('DOMContentLoaded', () => {
+    const candidatodto = new DTOCandidato();
+    const candidatos = candidatodto.get();
+
+    const cpfParam = new URLSearchParams(window.location.search).get("cpf");
+    if (!cpfParam) {
+        console.error("CPF não encontrado na URL.");
+        return;
+    }
+
+    const candidato = candidatos.find((c: Candidato) => c.cpf === cpfParam);
+    if (candidato) {
+        preencherPerfilCandidato(candidato);
+    } else {
+        console.error('Candidato não encontrado.');
+    }
+    const empresadto = new DTOEmpresa();
+    const empresas = empresadto.get();
+    exibirEmpresas(empresas);
+});
+
+
+function exibirEmpresas(empresas: Empresa[]): void {
     const listaEmpresasElement = document.getElementById("lista-empresas");
+
     if (listaEmpresasElement) {
         listaEmpresasElement.innerHTML = '';
-
-        const dadosLocalStorage = listarLocalStorage();
-
-        const empresas = dadosLocalStorage.filter((cadastro) => 'cnpj' in cadastro) as Empresa[];
 
         empresas.forEach(empresa => {
             const card = `
@@ -92,14 +81,3 @@ function exibirVagasEmpresas(): void {
             });
         }
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const candidato = obterDadosCandidato();
-    
-        if (candidato) {
-            preencherPerfilCandidato(candidato);
-            exibirVagasEmpresas();
-        } else {
-            console.error('Candidato não encontrado.');
-        }
-    });

@@ -1,4 +1,5 @@
 import { Candidato } from "../Models/Candidato";
+import {DTOCandidato} from "../Models/dto/CandidatoDTO"
 
 let nomeCandidato: string;
 let idadeCandidato: number;
@@ -25,9 +26,8 @@ formCandidato?.addEventListener("submit", (event) => {
             descricaoCandidato
         );
 
-        const candidatoJSON = JSON.stringify(novoCandidato);
-
-        localStorage.setItem(cpfCandidato, candidatoJSON);
+        const candidatodto = new DTOCandidato()
+        candidatodto.add(novoCandidato)
 
         alert("Cadastro realizado com sucesso!");
 
@@ -100,6 +100,5 @@ function iniciarListenersCandidato(): void {
         });
     });
 }
-
 
 iniciarListenersCandidato();
