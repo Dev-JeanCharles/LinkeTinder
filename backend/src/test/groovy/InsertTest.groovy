@@ -1,10 +1,13 @@
-class InsertTest {
-
+//import entities.Candidate
+//import org.junit.jupiter.api.Test
+//
+//class InsertTest {
+//
 //    @Test
 //    void insertNewCandidatesTest () {
 //    // Arrange
-//        Candidates candidates = new Candidates()
-//        List<Candidates> candidatesList = candidates.getCandidatesList()
+//        Candidate candidates = new Candidate()
+//        List<Candidate> candidatesList = candidates.getCandidatesList()
 //
 //        String name = "Joe";
 //        String email = "joe@gmail.com";
@@ -12,10 +15,10 @@ class InsertTest {
 //        String cep = "24890-000";
 //        String cpf = "15851468-00";
 //        int age = 25;
-//        String personalDescription = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+//        String description = "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
 //
 //        // Act
-//        Candidates newCandidate = new Candidates(name, email, state, cep, cpf, age, personalDescription)
+//        Candidate newCandidate = new Candidate(name, email, state, cep, cpf, age, description)
 //        newCandidate.getSkillsList().add(Skills.JavaScript)
 //        candidates.getCandidatesList().add(newCandidate)
 //
@@ -45,5 +48,5 @@ class InsertTest {
 //        //Assert
 //        assertEquals(newCompany, companyList.get(companyList.size() -1))
 //    }
-
-}
+//
+//}

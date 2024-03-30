@@ -85,6 +85,5 @@ class Menu {
             }
         } while (options != '9')
     }
-
 }
 

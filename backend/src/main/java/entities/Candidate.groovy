@@ -12,6 +12,4 @@ class Candidate extends Users{
         this.cpf = cpf
         this.age = age
     }
-
-
 }
