@@ -27,3 +27,7 @@ npm start
 
 > Esteja ciente de que será necessário instalar o npm para funcionar a aplicação.
 
+# MER - Modelo Entidade Relacional
+![DER (1)](https://github.com/Dev-JeanCharles/LinkeTinder-AceleraZG/assets/85767415/7596222f-c9fd-43b7-8a37-6c93fb30371e)
+
+
