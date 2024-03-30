@@ -2,6 +2,7 @@ package Manager
 
 import DTO.CandidateDTO
 import entities.Candidate
+import enums.Skills
 
 class CandidateManager {
     private CandidateDTO candidateDTO;
@@ -38,7 +39,7 @@ class CandidateManager {
         print "Digite as competências do candidato (separadas por vírgula): "
         List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
 
-        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills)
+        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
         new CandidateDTO().Create(candidate)
     }
 
@@ -90,7 +91,7 @@ class CandidateManager {
         print "Digite as novas competências do candidato (separadas por vírgula): "
         List<String> skills = Arrays.asList(scanner.nextLine().split(',')).collect { it.trim() }
 
-        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills)
+        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
         candidateDTO.Update(cpf, candidate)
     }
 

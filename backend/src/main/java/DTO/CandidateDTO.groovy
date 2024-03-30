@@ -1,6 +1,7 @@
 package DTO
 
 import entities.Candidate
+import enums.Skills
 import groovy.sql.Sql
 
 class CandidateDTO {
@@ -29,7 +30,7 @@ class CandidateDTO {
         }
     }
     List<Candidate> Get() {
-        List<Candidate> candidates = sql.rows("SELECT * FROM candidates")
+        List<Candidate> candidates = sql.rows("SELECT * FROM candidates") as List<Candidate>
 
         candidates.each { candidate ->
 
@@ -37,7 +38,7 @@ class CandidateDTO {
 
             candidate.skillsList = sql.rows("SELECT name FROM skills " +
                     "INNER JOIN candidate_companies ON skills.skill_id = candidate_companies.skill_id " +
-                    "WHERE candidate_companies.candidate_id = ?", [id]).collect { it.name }
+                    "WHERE candidate_companies.candidate_id = ?", [id]).collect(({ it.name } as Closure<Skills>))
         }
 
         return candidates

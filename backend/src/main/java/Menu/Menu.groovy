@@ -2,7 +2,6 @@ package Menu
 
 import Controller.CandidateController
 import Controller.CompanyController
-import Manager.Register
 
 class Menu {
 

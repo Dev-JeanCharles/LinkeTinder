@@ -1,6 +1,5 @@
 package Controller
 
-import Manager.CandidateManager
 import Manager.CompanyManager
 
 class CompanyController {

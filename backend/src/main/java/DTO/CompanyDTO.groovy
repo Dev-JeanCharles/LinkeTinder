@@ -27,7 +27,7 @@ class CompanyDTO {
     }
 
     List<Company> Get() {
-        return sql.rows("SELECT * FROM companies")
+        return sql.rows("SELECT * FROM companies") as List<Company>
     }
 
     void Update(String cnpj, Company company) {

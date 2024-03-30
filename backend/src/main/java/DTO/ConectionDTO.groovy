@@ -3,7 +3,7 @@ package DTO
 import java.sql.Connection
 import java.sql.DriverManager
 
-public class ConectionDTO {
+class ConectionDTO {
 
     static Connection connection = null
 
