@@ -12,29 +12,23 @@ class CandidateDTO {
             sql.execute("INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     [candidate.name, candidate.email, candidate.cpf, candidate.age, candidate.state, candidate.cep, candidate.description])
 
-            def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [candidate.cpf])?.id
+            candidate.skillsList.each { skill ->
+                sql.execute("INSERT INTO skills (name) VALUES (?)", [skill])
+            }
+
+            def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [candidate.cpf]).id
 
             candidate.skillsList.each { skill ->
-                def skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ? LIMIT 1", [skill])?.skill_id
-
-                if (skillId == null) {
-                    sql.execute("INSERT INTO skills (name) VALUES (?)", [skill])
-                    skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ? LIMIT 1", [skill])?.skill_id
-                }
-                if (id != null && skillId != null) {
-                    sql.execute("INSERT INTO candidate_companies (candidate_id, skill_id) VALUES (?, ?)", [id, skillId])
-                } else {
-                    println("Erro ao adicionar candidato: O ID do candidato ou skill_id é nulo.")
-                }
+                sql.execute("INSERT INTO candidate_companies (candidate_id, skill_id) VALUES (?, (SELECT skill_id FROM skills WHERE name = ?))",
+                        [id, skill])
             }
 
             println("Candidato adicionado com sucesso!")
 
-        } catch (Exception e) {
-            println("Erro ao adicionar candidato: ${e.message}")
+        }catch (Exception e) {
+            println(Erro ao adicionar candidate: ${e.message})
         }
     }
-
     List<Candidate> Get() {
         List<Candidate> candidates = sql.rows("SELECT * FROM candidates") as List<Candidate>
 
