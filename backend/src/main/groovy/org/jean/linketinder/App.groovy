@@ -1,9 +1,10 @@
 package org.jean.linketinder
 
 import groovy.sql.Sql
-import org.jean.linketinder.Controller.MenuController
+
 import org.jean.linketinder.DAO.ConectionDAO
 import org.jean.linketinder.DAO.OperationsDAO
+import org.jean.linketinder.Menu.Menu
 
 conectDTO = new ConectionDAO()
 Instance = new Sql(conectDTO.conect())
@@ -60,5 +61,5 @@ operationsDTO.createTable("companies", fieldCompanies)
 operationsDTO.createTable("vacancies", fieldVacancies)
 operationsDTO.createTable("vacancy_companies", companyVacancies)
 
-new MenuController().start()
+new Menu().menuHome()
 

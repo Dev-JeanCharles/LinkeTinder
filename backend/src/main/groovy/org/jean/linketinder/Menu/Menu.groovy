@@ -3,7 +3,7 @@ import org.jean.linketinder.Controller.CandidateController
 import org.jean.linketinder.Controller.CompanyController
 
 class Menu {
-    static void menuPrincipal() {
+    static void menuHome() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
 
         def options;
@@ -18,7 +18,7 @@ class Menu {
 
             switch (options) {
                 case '1':
-                    startMenu()
+                    startMenuOperations()
                     break
                 case '2':
                     println("Até logo!")
@@ -30,7 +30,7 @@ class Menu {
         }while (options != '2')
     }
 
-    static void startMenu(){
+    static void startMenuOperations(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
 
         def options;

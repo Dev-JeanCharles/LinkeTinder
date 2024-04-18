@@ -42,6 +42,5 @@ class CandidateController {
             throw new CandidateControllerException("Erro ao deletar um candidato", e)
         }
     }
-
 }
 
