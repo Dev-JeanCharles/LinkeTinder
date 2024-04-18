@@ -1,24 +1,46 @@
 package org.jean.linketinder.Controller
 
+import org.jean.linketinder.Exceptions.CompanyControllerException
 import org.jean.linketinder.Manager.CompanyManager
-
 
 class CompanyController {
 
-    static void insertCompany() {
-        new CompanyManager().create()
+    private final CompanyManager companyManager
+
+    CompanyController() {
+        this.companyManager = new CompanyManager()
     }
 
-    static void getCompany() {
-        new CompanyManager().get()
+    void insertCompany() throws CompanyControllerException{
+        try {
+            companyManager.create()
+        }catch (Exception e) {
+            throw new CompanyControllerException("Erro ao inserir uma nova empresa", e)
+        }
     }
 
-    static void updateCompany() {
-        new CompanyManager().update()
+    void getCompany() throws CompanyControllerException{
+        try {
+            companyManager.get()
+        }catch (Exception e) {
+            throw new CompanyControllerException("Erro ao buscar uma empresa", e)
+        }
     }
 
-    static void deleteCompany() {
-        new CompanyManager().delete()
+    void updateCompany() throws CompanyControllerException{
+        try {
+            companyManager.update()
+        }catch (Exception e) {
+            throw new CompanyControllerException("Erro ao atualizar uma empresa", e)
+        }
+    }
+
+    void deleteCompany() throws CompanyControllerException{
+        try {
+            companyManager.delete()
+        }catch (Exception e) {
+            throw new CompanyControllerException("Erro ao deletar uma empresa", e)
+        }
     }
 }
 
