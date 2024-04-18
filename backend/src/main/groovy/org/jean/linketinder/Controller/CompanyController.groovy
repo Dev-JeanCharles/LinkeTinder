@@ -11,7 +11,7 @@ class CompanyController {
         this.companyManager = new CompanyManager()
     }
 
-    void insertCompany() throws CompanyControllerException{
+    void createCompany() throws CompanyControllerException{
         try {
             companyManager.create()
         }catch (Exception e) {

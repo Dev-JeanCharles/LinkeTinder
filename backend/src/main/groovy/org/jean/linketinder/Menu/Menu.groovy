@@ -57,10 +57,10 @@ class Menu {
                     new CompanyController().getCompany()
                     break
                 case '3' :
-                    new CandidateController().insertCandidate()
+                    new CandidateController().createCandidate()
                     break
                 case '4':
-                    new CompanyController().insertCompany()
+                    new CompanyController().createCompany()
                     break
                 case '5' :
                     new CandidateController().updateCandidate()

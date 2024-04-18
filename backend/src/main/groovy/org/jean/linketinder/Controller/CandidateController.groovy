@@ -11,7 +11,7 @@ class CandidateController {
         this.candidateManager = new CandidateManager()
     }
 
-    void insertCandidate() throws CandidateControllerException{
+    void createCandidate() throws CandidateControllerException{
         try {
             candidateManager.create()
         }catch (Exception e) {
