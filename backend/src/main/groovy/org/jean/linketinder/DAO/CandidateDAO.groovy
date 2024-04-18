@@ -1,11 +1,11 @@
-package org.jean.linketinder.DTO
+package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Enum.Skills
 
-class CandidateDTO {
-    Sql sql = Sql.newInstance(ConectionDTO.conect()) as Sql
+class CandidateDAO {
+    Sql sql = Sql.newInstance(ConectionDAO.conect()) as Sql
 
     void Create(Candidate candidate) {
         try {

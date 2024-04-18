@@ -2,12 +2,12 @@ package org.jean.linketinder
 
 import groovy.sql.Sql
 import org.jean.linketinder.Controller.MenuController
-import org.jean.linketinder.DTO.ConectionDTO
-import org.jean.linketinder.DTO.OperationsDTO
+import org.jean.linketinder.DAO.ConectionDAO
+import org.jean.linketinder.DAO.OperationsDAO
 
-conectDTO = new ConectionDTO()
+conectDTO = new ConectionDAO()
 Instance = new Sql(conectDTO.conect())
-operationsDTO = new OperationsDTO(Instance)
+operationsDTO = new OperationsDAO(Instance)
 
 List<String> fieldCandidates = [
         "id SERIAL PRIMARY KEY",

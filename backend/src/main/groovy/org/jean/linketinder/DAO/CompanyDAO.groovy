@@ -1,12 +1,12 @@
-package org.jean.linketinder.DTO
+package org.jean.linketinder.DAO
 
 
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Company
 
-class CompanyDTO {
+class CompanyDAO {
 
-    Sql sql = Sql.newInstance(ConectionDTO.conect())
+    Sql sql = Sql.newInstance(ConectionDAO.conect())
 
     void Create(Company company) {
         try {

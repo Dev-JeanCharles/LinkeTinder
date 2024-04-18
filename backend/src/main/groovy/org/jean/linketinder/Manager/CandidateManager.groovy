@@ -1,15 +1,15 @@
 package org.jean.linketinder.Manager
 
-import org.jean.linketinder.DTO.CandidateDTO
+import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Enum.Skills
 
 
 class CandidateManager {
-    private CandidateDTO candidateDTO;
+    private CandidateDAO candidateDTO;
 
     CandidateManager() {
-        this.candidateDTO = new CandidateDTO();
+        this.candidateDTO = new CandidateDAO();
     }
 
     static void create() {
@@ -41,7 +41,7 @@ class CandidateManager {
         List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
 
         Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
-        new CandidateDTO().Create(candidate)
+        new CandidateDAO().Create(candidate)
     }
 
     void get() {

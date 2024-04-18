@@ -1,12 +1,12 @@
-package org.jean.linketinder.DTO
+package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 
-class OperationsDTO {
+class OperationsDAO {
 
     private Sql sql
 
-    OperationsDTO(Sql instance) {
+    OperationsDAO(Sql instance) {
         this.sql = instance
     }
 

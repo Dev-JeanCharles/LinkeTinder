@@ -1,9 +1,9 @@
-package org.jean.linketinder.DTO
+package org.jean.linketinder.DAO
 
 import java.sql.Connection
 import java.sql.DriverManager
 
-class ConectionDTO {
+class ConectionDAO {
 
     static Connection connection = null
 

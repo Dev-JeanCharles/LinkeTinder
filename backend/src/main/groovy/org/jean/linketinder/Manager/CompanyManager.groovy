@@ -1,11 +1,11 @@
 package org.jean.linketinder.Manager
 
-import org.jean.linketinder.DTO.CompanyDTO
+import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Enum.Skills
 
 class CompanyManager {
-    CompanyDTO companyDTO = new CompanyDTO()
+    CompanyDAO companyDTO = new CompanyDAO()
 
     void create() {
         Scanner scanner = new Scanner(System.in)
