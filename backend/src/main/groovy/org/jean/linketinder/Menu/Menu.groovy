@@ -2,23 +2,23 @@ package org.jean.linketinder.Menu
 import org.jean.linketinder.Controller.CandidateController
 import org.jean.linketinder.Controller.CompanyController
 
-class Menu {
-    static void menuHome() {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
+import javax.swing.ButtonGroup
 
-        def options;
+class Menu {
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+
+    static void menuHome(String options) throws IOException{
 
         do {
-            println("Seja bem-vindo ao LinkeTinder!")
             println("Escolha uma das opções a seguir:")
             println("[1] Iniciar a aplicação")
             println("[2] Sair da aplicação")
 
-            options = br.readLine()
+            options = reader.readLine()
 
             switch (options) {
                 case '1':
-                    startMenuOperations()
+                    startMenuOperations(options)
                     break
                 case '2':
                     println("Até logo!")
@@ -30,12 +30,10 @@ class Menu {
         }while (options != '2')
     }
 
-    static void startMenuOperations(){
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in))
-
-        def options;
+    static void startMenuOperations(String options) throws IOException{
 
         do {
+            println("Seja bem-vindo ao LinkeTinder!")
             println("Escolha uma das opções a seguir:")
             println("[1] Listar Todos os Candidatos")
             println("[2] Listar Todas as Empresas")
@@ -47,7 +45,7 @@ class Menu {
             println("[8] Excluir Empresa")
             println("[9] Sair")
 
-            options = br.readLine()
+            options = reader.readLine()
 
             switch (options){
                 case '1' :
@@ -75,7 +73,7 @@ class Menu {
                     new CompanyController().deleteCompany()
                     break
                 case '9' :
-                    println("Você saiu do LinkeTinder :(")
+                    println("Você saiu do LinkeTinder!")
                     break
                 default:
                     println("Opção Inválida. Tente novamente!")
