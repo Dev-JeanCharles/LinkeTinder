@@ -83,6 +83,7 @@ INSERT INTO vagas (empresa_id, nome, localidade, descricao) VALUES
     (3, 'Engenheiro de Software C#/Groovy', 'Brasil, Brasilia', 'Estamos buscando um engenheiro de software C#/Groovy.'),
     (4, 'Desenvolvedor Back-end Python', 'Brasil, Rio Grande do Norte', 'Estamos à procura de um desenvolvedor back-end Python.'),
     (5, 'Desenvolvedor Full-stack', 'Brasil, Espirito Santo', 'Procuramos um desenvolvedor Full-stack com foco em Java e experiências com Typescript, React e Javascript.');
+
 INSERT INTO curtidas (candidato_id, empresa_id) VALUES
     (1, 4),
     (1, 2),
