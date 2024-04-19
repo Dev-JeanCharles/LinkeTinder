@@ -5,13 +5,9 @@ import org.jean.linketinder.Manager.CandidateManager
 
 class CandidateController {
 
-    private final CandidateManager candidateManager
+    private static final CandidateManager candidateManager
 
-    CandidateController() {
-        this.candidateManager = new CandidateManager()
-    }
-
-    void createCandidate() throws CandidateControllerException{
+    static void createCandidate() throws CandidateControllerException{
         try {
             candidateManager.create()
         }catch (Exception e) {
@@ -19,7 +15,7 @@ class CandidateController {
         }
     }
 
-    void getCandidate() throws CandidateControllerException{
+    static void getCandidate() throws CandidateControllerException{
         try {
             candidateManager.get()
         }catch (Exception e) {
@@ -27,7 +23,7 @@ class CandidateController {
         }
     }
 
-    void updateCandidate() throws CandidateControllerException{
+    static void updateCandidate() throws CandidateControllerException{
         try {
             candidateManager.update()
         }catch (Exception e ) {
@@ -35,7 +31,7 @@ class CandidateController {
         }
     }
 
-    void deleteCandidate() throws CandidateControllerException{
+    static void deleteCandidate() throws CandidateControllerException{
         try {
             candidateManager.delete()
         }catch (Exception e) {

@@ -26,6 +26,7 @@ class DBConection {
         }
         return connection
     }
+
     static void Close() {
         try {
             if (connection != null && !connection.isClosed()) {

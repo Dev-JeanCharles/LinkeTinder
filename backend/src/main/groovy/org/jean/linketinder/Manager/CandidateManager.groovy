@@ -3,49 +3,23 @@ package org.jean.linketinder.Manager
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Enum.Skills
-
+import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateManager {
-    private CandidateDAO candidateDTO;
+    private static Candidate candidate
+    private static PrintOperationsView print
+    private static final Scanner scanner = new Scanner(System.in)
+    private static final CandidateDAO candidateDAO = new CandidateDAO();
+    private static final List<Candidate> candidates = candidateDAO.Get()
 
-    CandidateManager() {
-        this.candidateDTO = new CandidateDAO();
-    }
+
 
     static void create() {
-        Scanner scanner = new Scanner(System.in)
-
-        print "Digite o nome do candidato: "
-        String name = scanner.nextLine()
-
-        print "Digite o email do candidato: "
-        String email = scanner.nextLine()
-
-        print "Digite o CPF do candidato: "
-        String cpf = scanner.nextLine()
-
-        print "Digite a idade do candidato: "
-        int age = scanner.nextInt()
-        scanner.nextLine()
-
-        print "Digite o estado do candidato: "
-        String state = scanner.nextLine()
-
-        print "Digite o CEP do candidato: "
-        String cep = scanner.nextLine()
-
-        print "Digite a descrição do candidato: "
-        String description = scanner.nextLine()
-
-        print "Digite as competências do candidato (separadas por vírgula): "
-        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
-
-        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
-        new CandidateDAO().Create(candidate)
+        candidate = print.CreateCandidate(scanner)
+        candidateDAO.Create(candidate)
     }
 
-    void get() {
-        List<Candidate> candidates = candidateDTO.Get()
+    static void get() {
 
         if (candidates.isEmpty()) {
             println "Não há candidatos cadastrados."
@@ -65,7 +39,6 @@ class CandidateManager {
     }
 
     void update(){
-        Scanner scanner = new Scanner(System.in)
 
         print "Digite o CPF do candidato que deseja atualizar: "
         String cpf = scanner.nextLine()
