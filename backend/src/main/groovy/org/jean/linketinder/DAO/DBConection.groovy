@@ -3,7 +3,7 @@ package org.jean.linketinder.DAO
 import java.sql.Connection
 import java.sql.DriverManager
 
-class ConectionDAO {
+class DBConection {
 
     static Connection connection = null
 

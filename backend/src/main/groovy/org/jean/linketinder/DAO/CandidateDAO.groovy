@@ -5,7 +5,7 @@ import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Enum.Skills
 
 class CandidateDAO {
-    Sql sql = Sql.newInstance(ConectionDAO.conect()) as Sql
+    Sql sql = Sql.newInstance(DBConection.conect()) as Sql
 
     void Create(Candidate candidate) {
         try {
@@ -26,7 +26,7 @@ class CandidateDAO {
             println("Candidato adicionado com sucesso!")
 
         }catch (Exception e) {
-            println(Erro ao adicionar candidate: ${e.message})
+            println("Erro ao adicionar candidate: ${e.message}")
         }
     }
     List<Candidate> Get() {

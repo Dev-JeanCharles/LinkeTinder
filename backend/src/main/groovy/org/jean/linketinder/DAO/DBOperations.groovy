@@ -2,11 +2,11 @@ package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 
-class OperationsDAO {
+class DBOperations {
 
     private Sql sql
 
-    OperationsDAO(Sql instance) {
+    DBOperations(Sql instance) {
         this.sql = instance
     }
 

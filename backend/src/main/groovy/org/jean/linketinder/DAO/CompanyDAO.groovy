@@ -6,7 +6,7 @@ import org.jean.linketinder.Entities.Company
 
 class CompanyDAO {
 
-    Sql sql = Sql.newInstance(ConectionDAO.conect())
+    Sql sql = Sql.newInstance(DBConection.conect())
 
     void Create(Company company) {
         try {
