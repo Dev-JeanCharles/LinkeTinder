@@ -19,7 +19,7 @@ class CandidateDAO {
             def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [candidate.cpf]).id
 
             candidate.skillsList.each { skill ->
-                sql.execute("INSERT INTO candidate_companies (candidate_id, skill_id) VALUES (?, (SELECT skill_id FROM skills WHERE name = ?))",
+                sql.execute("INSERT INTO candidate_companies (candidate_id, skill_id) VALUES (?, (SELECT skill_id FROM skills WHERE name = ? LIMIT 1))",
                         [id, skill])
             }
 

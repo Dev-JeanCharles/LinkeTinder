@@ -2,38 +2,43 @@ package org.jean.linketinder.Controller
 
 import org.jean.linketinder.Exceptions.CandidateControllerException
 import org.jean.linketinder.Manager.CandidateManager
+import org.jean.linketinder.Manager.CompanyManager
 
 class CandidateController {
 
-    private static final CandidateManager candidateManager
+    private final CandidateManager candidateManager
 
-    static void createCandidate() throws CandidateControllerException{
+    CandidateController() {
+        this.candidateManager = new CandidateManager()
+    }
+
+    void createCandidate() throws CandidateControllerException{
         try {
-            candidateManager.create()
+            candidateManager.createCandidate()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao inserir um novo candidato", e)
         }
     }
 
-    static void getCandidate() throws CandidateControllerException{
+    void getCandidate() throws CandidateControllerException{
         try {
-            candidateManager.get()
+            candidateManager.getCandidate()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao buscar um candidato", e)
         }
     }
 
-    static void updateCandidate() throws CandidateControllerException{
+    void updateCandidate() throws CandidateControllerException{
         try {
-            candidateManager.update()
+            candidateManager.updateCandidate()
         }catch (Exception e ) {
             throw new CandidateControllerException("Erro ao atualizar um candidato", e)
         }
     }
 
-    static void deleteCandidate() throws CandidateControllerException{
+    void deleteCandidate() throws CandidateControllerException{
         try {
-            candidateManager.delete()
+            candidateManager.deleteCandidate()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao deletar um candidato", e)
         }
