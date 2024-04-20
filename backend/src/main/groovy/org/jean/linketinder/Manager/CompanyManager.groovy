@@ -40,11 +40,7 @@ class CompanyManager {
     }
 
     void delete() {
-        Scanner scanner = new Scanner(System.in)
-
-        print "Digite o CNPJ da empresa que deseja deletar: "
-        String cnpj = scanner.nextLine()
-
+        String cnpj = printView.deleteCompany(scanner)
         companyDAO.delete(cnpj)
     }
 }

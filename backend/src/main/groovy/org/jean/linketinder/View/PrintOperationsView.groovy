@@ -173,7 +173,10 @@ class PrintOperationsView {
         return company
     }
 
-
+    static String deleteCompany(Scanner scanner) {
+        print "Digite o CNPJ da empresa que deseja deletar: "
+        return scanner.nextLine()
+    }
 
     private static List<String> parseSkills(String skillsInput) {
         String[] skillsArray = skillsInput.split(",")
