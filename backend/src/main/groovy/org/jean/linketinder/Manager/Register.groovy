@@ -2,7 +2,6 @@ package org.jean.linketinder.Manager
 
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Company
-import org.jean.linketinder.Enum.Skills
 
 class Register {
 

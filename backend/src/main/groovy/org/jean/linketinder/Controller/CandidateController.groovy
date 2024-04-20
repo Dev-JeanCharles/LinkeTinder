@@ -22,7 +22,7 @@ class CandidateController {
 
     void getCandidate() throws CandidateControllerException{
         try {
-            candidateManager.getCandidate()
+            candidateManager.displayCandidates()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao buscar um candidato", e)
         }

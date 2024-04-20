@@ -5,54 +5,36 @@ import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateManager {
-    private static Candidate candidate
-    private static PrintOperationsView print = new PrintOperationsView()
-    private static Scanner scanner = new Scanner(System.in)
+    private static PrintOperationsView printView = new PrintOperationsView()
     private static CandidateDAO candidateDAO = new CandidateDAO()
-    private static List<Candidate> candidates = candidateDAO.Get()
+    private static Scanner scanner = new Scanner(System.in)
 
     static void createCandidate() {
-        candidate = print.CreateCandidate(scanner)
-        candidateDAO.Create(candidate)
+        Candidate newCandidate = printView.createCandidate(scanner)
+        candidateDAO.create(newCandidate)
     }
 
-    static void getCandidate() {
-        candidates = candidateDAO.Get()
+    static void displayCandidates() {
+        List<Candidate> candidates = candidateDAO.getAll()
 
-        checkIfNotCandidate()
-
-        println "Candidatos cadastrados:"
-            candidates.each { candidate ->
-                print "Nome: ${candidate.name}\nEmail: ${candidate.email}\nCPF: ${candidate.cpf}\nIdade: ${candidate.age}\nEstado: ${candidate.state}\nCEP: ${candidates.cep}\nDescrição Pessoal: ${candidate.description}\n"
-
-                if (!candidate.skillsList.empty) {
-                    println "Competências: ${candidate.skillsList.collect { it }.join(', ')}"
-                } else {
-                    println "Nenhuma competência cadastrada para este candidato."
-                }
-                println ""
-            }
-        }
-
-    static void checkIfNotCandidate() {
         if (candidates.isEmpty()) {
             println "Não há candidatos cadastrados."
+            return
+        }
+
+        println "Candidatos cadastrados:"
+        candidates.each { candidate ->
+            printView.displayCandidateInfo(candidate)
         }
     }
 
     static void updateCandidate(){
-        candidate = print.UpdateCandidate(scanner)
-
-        String cpf = candidate.cpf
-
-        candidateDAO.Update(cpf,candidate)
+        Candidate candidate = printView.updateCandidate(scanner)
+        candidateDAO.update(candidate.cpf, candidate)
     }
 
     static void deleteCandidate(){
-
-        print "Digite o CPF do candidato que deseja deletar: "
-        String cpf = scanner.nextLine()
-
-        candidateDAO.Delete(cpf)
+        String cpf = printView.deleteCandidate(scanner)
+        candidateDAO.delete(cpf)
     }
 }

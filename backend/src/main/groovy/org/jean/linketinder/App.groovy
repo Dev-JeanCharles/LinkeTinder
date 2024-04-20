@@ -56,7 +56,7 @@ List<String> fieldVacancies = [
 
 operationsDTO.createTable("candidates", fieldCandidates)
 operationsDTO.createTable("skills", fieldSkills)
-operationsDTO.createTable("candidate_companies", candidateSkills)
+operationsDTO.createTable("candidate_skills", candidateSkills)
 operationsDTO.createTable("companies", fieldCompanies)
 operationsDTO.createTable("vacancies", fieldVacancies)
 operationsDTO.createTable("vacancy_companies", companyVacancies)

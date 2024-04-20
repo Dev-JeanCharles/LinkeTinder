@@ -1,6 +1,6 @@
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Company
-import org.jean.linketinder.Enum.Skills
+
 import org.jean.linketinder.Manager.Register
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

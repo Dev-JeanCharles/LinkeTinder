@@ -1,11 +1,11 @@
-
 package org.jean.linketinder.View
 
 import org.jean.linketinder.Entities.Candidate
-import org.jean.linketinder.Enum.Skills
+
 
 class PrintOperationsView {
-    static Candidate CreateCandidate(Scanner scanner) {
+
+    static Candidate createCandidate(Scanner scanner) {
 
         println "Digite o nome do candidato: "
         String name = scanner.nextLine()
@@ -36,7 +36,7 @@ class PrintOperationsView {
         return candidate
     }
 
-    static Candidate UpdateCandidate(Scanner scanner) {
+    static Candidate updateCandidate(Scanner scanner) {
 
         print "Digite o CPF do candidato que deseja atualizar: "
         String cpf = scanner.nextLine()
@@ -67,7 +67,21 @@ class PrintOperationsView {
         return candidate
     }
 
-    static spaces
+    static String deleteCandidate(Scanner scanner) {
+        print "Digite o CPF do candidato que deseja deletar: "
+        return scanner.nextLine()
+    }
+
+    static void displayCandidateInfo(Candidate candidate) {
+        println "Nome: ${candidate.name}\nEmail: ${candidate.email}\nCPF: ${candidate.cpf}\nIdade: ${candidate.age}\nEstado: ${candidate.state}\nCEP: ${candidate.cep}\nDescrição Pessoal: ${candidate.description}\n"
+
+        if (!candidate.skillsList.empty) {
+            println "Competências: ${candidate.skillsList.join(', ')}"
+        } else {
+            println "Nenhuma competência cadastrada para este candidato."
+        }
+        println ""
+    }
 
     private static List<String> parseSkills(String skillsInput) {
         String[] skillsArray = skillsInput.split(",")
@@ -77,6 +91,4 @@ class PrintOperationsView {
         }
         return skillsList
     }
-
-
 }

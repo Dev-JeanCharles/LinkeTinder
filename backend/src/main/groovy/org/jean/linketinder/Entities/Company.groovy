@@ -1,7 +1,5 @@
 package org.jean.linketinder.Entities
 
-import org.jean.linketinder.Enum.Skills
-
 
 class Company extends Users{
     String cnpj, country
