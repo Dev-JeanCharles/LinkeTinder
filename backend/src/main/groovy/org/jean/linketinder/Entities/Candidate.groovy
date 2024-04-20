@@ -11,7 +11,7 @@ class Candidate extends Users {
         this.id = id
         this.cpf = cpf
         this.age = age
-        this.skillIds = skillIds
+        this.skillIds = skillIds.collect { it as Integer }
     }
 
     Candidate(String name, String email, String state, String cep, String description, List<String> skills) {

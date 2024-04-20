@@ -62,14 +62,15 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         print "Digite as novas competências do candidato (separadas por vírgula): "
-        List<String> skillsName = parseSkills(scanner.nextLine())
+        List<String> skillNames = parseSkills(scanner.nextLine())
 
-        List<Skill> skills = skillsName.collect { new Skill(it) }
-
+        List<Skill> skills = skillNames.collect { new Skill(it) }
 
         Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String>, null, cpf, age, null)
+
         return candidate
     }
+
 
     static String deleteCandidate(Scanner scanner) {
         print "Digite o CPF do candidato que deseja deletar: "

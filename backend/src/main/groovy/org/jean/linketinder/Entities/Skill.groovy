@@ -2,10 +2,9 @@ package org.jean.linketinder.Entities
 
 class Skill {
     String name
-    Integer skillId
 
-    Skill(String name, Integer skillId) {
+    Skill(String name) {
         this.name = name
-        this.skillId = skillId
     }
 }
+

@@ -2,6 +2,7 @@ package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.Entities.Skill
 
 class CandidateDAO {
     Sql sql = Sql.newInstance(DBConection.conect()) as Sql
@@ -75,24 +76,43 @@ class CandidateDAO {
                     cpf
             ])
 
-            def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [cpf]).id
-            sql.execute("DELETE FROM candidate_skills WHERE candidate_id = ?", [id])
+            def idRow = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [cpf])
+            if (idRow) {
+                def id = idRow.id
 
-            candidate.skills.each { skill ->
-                def skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skill])?.skill_id
-                if (skillId == null) {
-                    sql.execute("INSERT INTO skills (name) VALUES (?)", [skill])
-                    skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skill]).skill_id
+                sql.execute("DELETE FROM candidate_skills WHERE candidate_id = ?", [id])
+
+                candidate.skills.each { skill ->
+                    def skillId = null
+                    if (skill instanceof String) {
+                        def skillName = skill
+                        skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id
+                        if (skillId == null) {
+                            sql.execute("INSERT INTO skills (name) VALUES (?)", [skillName])
+                            skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id
+                        }
+                    } else if (skill instanceof Skill) {
+                        def skillName = skill.name
+                        skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id
+                        if (skillId == null) {
+                            sql.execute("INSERT INTO skills (name) VALUES (?)", [skillName])
+                            skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id
+                        }
+                    }
+
+                    if (skillId != null) {
+                        sql.execute("INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)", [id, skillId])
+                    }
                 }
-                sql.execute("INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)", [id, skillId])
+                println("Candidato atualizado com sucesso!")
+            } else {
+                println "Candidato com CPF $cpf não encontrado."
             }
-
-            println("Candidato e suas competências atualizados com sucesso!")
-
         } catch (Exception e) {
             println("Erro ao atualizar candidato: ${e.message}")
         }
     }
+
     void delete(String cpf) {
         try {
             def idRow = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [cpf])
