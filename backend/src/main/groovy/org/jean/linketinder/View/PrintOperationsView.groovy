@@ -1,7 +1,7 @@
 package org.jean.linketinder.View
 
 import org.jean.linketinder.Entities.Candidate
-
+import org.jean.linketinder.Entities.Skill
 
 class PrintOperationsView {
 
@@ -32,7 +32,8 @@ class PrintOperationsView {
         println "Digite as competências do candidato (separadas por vírgula): "
         List<String> skills = parseSkills(scanner.nextLine())
 
-        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills, null, cpf, age, null)
+
         return candidate
     }
 
@@ -61,9 +62,12 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         print "Digite as novas competências do candidato (separadas por vírgula): "
-        List<String> skills = parseSkills(scanner.nextLine())
+        List<String> skillsName = parseSkills(scanner.nextLine())
 
-        Candidate candidate = new Candidate(name, email, cpf, age, state, cep, description, skills as List<Skills>)
+        List<Skill> skills = skillsName.collect { new Skill(it) }
+
+
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String>, null, cpf, age, null)
         return candidate
     }
 
@@ -72,15 +76,21 @@ class PrintOperationsView {
         return scanner.nextLine()
     }
 
-    static void displayCandidateInfo(Candidate candidate) {
-        println "Nome: ${candidate.name}\nEmail: ${candidate.email}\nCPF: ${candidate.cpf}\nIdade: ${candidate.age}\nEstado: ${candidate.state}\nCEP: ${candidate.cep}\nDescrição Pessoal: ${candidate.description}\n"
+    static displayCandidateInfo(Candidate candidate) {
+        println("Nome: ${candidate.getName()}" +
+                "\nEmail: ${candidate.getEmail()}" +
+                "\nCPF: ${candidate.getCpf()}" +
+                "\nIdade: ${candidate.getAge()}" +
+                "\nEstado: ${candidate.getState()}" +
+                "\nCEP: ${candidate.getCep()}" +
+                "\nDescrição Pessoal: ${candidate.getDescription()}")
 
-        if (!candidate.skillsList.empty) {
-            println "Competências: ${candidate.skillsList.join(', ')}"
+        if (!candidate.skills.empty) {
+            println "Competências: ${candidate.skills.join(', ')}"
+            println("")
         } else {
             println "Nenhuma competência cadastrada para este candidato."
         }
-        println ""
     }
 
     private static List<String> parseSkills(String skillsInput) {

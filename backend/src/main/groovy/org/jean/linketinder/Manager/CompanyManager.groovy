@@ -2,6 +2,7 @@ package org.jean.linketinder.Manager
 
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.Entities.Company
+import org.jean.linketinder.Entities.Skill
 
 class CompanyManager {
     CompanyDAO companyDTO = new CompanyDAO()
@@ -33,9 +34,10 @@ class CompanyManager {
         print "Digite as competências da empresa (separadas por vírgula): "
         List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
 
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skills>)
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
         companyDTO.Create(company)
     }
+
     void get() {
         List<Company> companies = companyDTO.Get()
 
@@ -76,7 +78,7 @@ class CompanyManager {
         print "Digite as novas competências da empresa (separadas por vírgula): "
         List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
 
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skills>)
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
         companyDTO.Update(cnpj, company)
     }
 

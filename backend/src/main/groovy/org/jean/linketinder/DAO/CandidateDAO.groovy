@@ -11,13 +11,13 @@ class CandidateDAO {
             sql.execute("INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     [candidate.name, candidate.email, candidate.cpf, candidate.age, candidate.state, candidate.cep, candidate.description])
 
-            candidate.skillsList.each { skill ->
+            candidate.skills.each { skill ->
                 sql.execute("INSERT INTO skills (name) VALUES (?)", [skill])
             }
 
             def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [candidate.cpf]).id
 
-            candidate.skillsList.each { skill ->
+            candidate.skills.each { skill ->
                 sql.execute("INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, (SELECT skill_id FROM skills WHERE name = ? LIMIT 1))",
                         [id, skill])
             }
@@ -28,36 +28,38 @@ class CandidateDAO {
             println("Erro ao adicionar candidate: ${e.message}")
         }
     }
+
     List<Candidate> getAll() {
-        List<Candidate> candidates = []
+        try {
+            List<Candidate> candidates = []
+            List<Map<String, Object>> rows = sql.rows("SELECT * FROM candidates")
 
-        sql.eachRow("SELECT id, name, email, cpf, age, state, cep, description FROM candidates") { row ->
-            def skillsForCandidate = getSkillsForCandidate(row.id.toLong()) ?: []
-            Candidate candidate = new Candidate(
-                    row.name,
-                    row.email,
-                    row.cpf,
-                    row.age as Integer,
-                    row.state,
-                    row.cep,
-                    row.description,
-                    skillsForCandidate as List<Skills>
-            )
-            candidates.add(candidate)
+            rows.each { row ->
+                List<String> skills = sql.rows("SELECT name FROM skills " +
+                        "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " +
+                        "WHERE candidate_skills.candidate_id = ?", [row.id]).collect(({ it.name } as Closure<String>))
+
+                Candidate candidate = new Candidate(
+                        row.name as String,
+                        row.email as String,
+                        row.state as String,
+                        row.cep as String,
+                        row.description as String,
+                        skills,
+                        row.id as String,
+                        row.cpf as String,
+                        row.age as Integer,
+                        []
+                )
+
+                candidates.add(candidate)
+            }
+
+            return candidates
+        } catch (Exception e) {
+            e.printStackTrace()
+            return []
         }
-        return candidates
-    }
-
-    private List<Skills> getSkillsForCandidate(Long candidateId) {
-        List<Skills> skillsForCandidate = []
-
-        sql.eachRow("SELECT name FROM skills " +
-                "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " +
-                "WHERE candidate_skills.candidate_id = ?", [candidateId]) { row ->
-            skillsForCandidate.add(Skills.valueOf(row.name))
-        }
-
-        return skillsForCandidate
     }
 
     void update(String cpf, Candidate candidate) {
@@ -76,7 +78,7 @@ class CandidateDAO {
             def id = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [cpf]).id
             sql.execute("DELETE FROM candidate_skills WHERE candidate_id = ?", [id])
 
-            candidate.skillsList.each { skill ->
+            candidate.skills.each { skill ->
                 def skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skill])?.skill_id
                 if (skillId == null) {
                     sql.execute("INSERT INTO skills (name) VALUES (?)", [skill])

@@ -1,15 +1,16 @@
 package org.jean.linketinder.Controller
 
+import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Exceptions.CandidateControllerException
 import org.jean.linketinder.Manager.CandidateManager
-import org.jean.linketinder.Manager.CompanyManager
+import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateController {
 
     private final CandidateManager candidateManager
 
-    CandidateController() {
-        this.candidateManager = new CandidateManager()
+    CandidateController(PrintOperationsView printView, CandidateDAO candidateDAO) {
+        this.candidateManager = new CandidateManager(printView, candidateDAO)
     }
 
     void createCandidate() throws CandidateControllerException{
@@ -20,10 +21,10 @@ class CandidateController {
         }
     }
 
-    void getCandidate() throws CandidateControllerException{
+    void getCandidate() throws CandidateControllerException {
         try {
             candidateManager.displayCandidates()
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new CandidateControllerException("Erro ao buscar um candidato", e)
         }
     }

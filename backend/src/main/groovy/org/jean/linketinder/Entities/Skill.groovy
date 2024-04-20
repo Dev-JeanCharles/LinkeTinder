@@ -1,8 +1,11 @@
 package org.jean.linketinder.Entities
 
-class Skill extends Users{
+class Skill {
+    String name
+    Integer skillId
 
-    Skill(String name, String email, String state, String cep, String description, List<Skill> skillsList) {
-        super(name, null, null, null, null, null)
+    Skill(String name, Integer skillId) {
+        this.name = name
+        this.skillId = skillId
     }
 }
