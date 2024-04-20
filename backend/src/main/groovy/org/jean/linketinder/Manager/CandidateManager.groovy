@@ -10,8 +10,8 @@ class CandidateManager {
     private Scanner scanner = new Scanner(System.in)
 
     CandidateManager(PrintOperationsView printView, CandidateDAO candidateDAO) {
-        this.printView = printView;
-        this.candidateDAO = candidateDAO;
+        this.printView = printView
+        this.candidateDAO = candidateDAO
     }
 
     void createCandidate() {
@@ -21,6 +21,7 @@ class CandidateManager {
 
      void displayCandidates() {
         List<Candidate> candidates = candidateDAO.getAll()
+
         if (candidates) {
             println("Lista de candidatos:")
             for (Candidate candidate : candidates) {

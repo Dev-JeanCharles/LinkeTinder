@@ -47,25 +47,25 @@ class Menu {
                     new CandidateController(printOperationsView, candidateDAO).getCandidate()
                     break
                 case '2' :
-                    new CompanyController().getCompany()
+                    new CompanyController(printOperationsView, companyDAO).getCompany()
                     break
                 case '3' :
                     new CandidateController(printOperationsView, candidateDAO).createCandidate()
                     break
                 case '4':
-                    new CompanyController().createCompany()
+                    new CompanyController(printOperationsView, companyDAO).createCompany()
                     break
                 case '5' :
                     new CandidateController(printOperationsView, candidateDAO).updateCandidate()
                     break
                 case '6':
-                    new CompanyController().updateCompany()
+                    new CompanyController(printOperationsView, companyDAO).updateCompany()
                     break
                 case '7' :
                     new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
                     break
                 case '8':
-                    new CompanyController().deleteCompany()
+                    new CompanyController(printOperationsView, companyDAO).deleteCompany()
                     break
                 case '9' :
                     print.exitOperationsMenu()

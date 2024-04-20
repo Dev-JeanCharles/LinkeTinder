@@ -8,7 +8,7 @@ class CompanyDAO {
 
     Sql sql = Sql.newInstance(DBConection.conect())
 
-    void Create(Company company) {
+    void create(Company company) {
         try {
             sql.execute("INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)", [
                     company.name,
@@ -27,7 +27,7 @@ class CompanyDAO {
         }
     }
 
-    List<Company> Get() {
+    List<Company> getAll() {
         return sql.rows("SELECT * FROM companies") as List<Company>
     }
 
@@ -50,7 +50,7 @@ class CompanyDAO {
             println("Erro ao atualizar empresa: ${e.message}")
         }
     }
-    void Delete(String cnpj) {
+    void delete(String cnpj) {
         try {
             sql.execute("DELETE FROM companies WHERE cnpj = ?", [cnpj])
 

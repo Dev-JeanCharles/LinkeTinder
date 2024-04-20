@@ -3,51 +3,34 @@ package org.jean.linketinder.Manager
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
+import org.jean.linketinder.View.PrintOperationsView
 
 class CompanyManager {
-    CompanyDAO companyDTO = new CompanyDAO()
 
-    void create() {
-        Scanner scanner = new Scanner(System.in)
+    private PrintOperationsView printView = new PrintOperationsView()
+    private CompanyDAO companyDAO = new CompanyDAO() as CompanyDAO
+    private Scanner scanner = new Scanner(System.in)
 
-        print "Digite o nome da empresa: "
-        String name = scanner.nextLine()
-
-        print "Digite o email da empresa: "
-        String email = scanner.nextLine()
-
-        print "Digite o CNPJ da empresa: "
-        String cnpj = scanner.nextLine()
-
-        print "Digite o país da empresa: "
-        String country = scanner.nextLine()
-
-        print "Digite o estado da empresa: "
-        String state = scanner.nextLine()
-
-        print "Digite o CEP da empresa: "
-        String cep = scanner.nextLine()
-
-        print "Digite a descrição da empresa: "
-        String description = scanner.nextLine()
-
-        print "Digite as competências da empresa (separadas por vírgula): "
-        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
-
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
-        companyDTO.Create(company)
+    CompanyManager(PrintOperationsView printView, CompanyDAO companyDAO) {
+        this.printView = printView
+        this.companyDAO = companyDAO
     }
 
-    void get() {
-        List<Company> companies = companyDTO.Get()
+    void createCompany() {
+        Company newCompany = printView.createCompany(scanner)
+        companyDAO.create(newCompany)
+    }
 
-        if (companies.isEmpty()) {
-            println "Não há empresas cadastradas."
-        } else {
-            println "Empresas cadastradas:"
-            companies.each { company ->
-                print "Empresa: ${company.name}\nEmail Corporativo: ${company.email}\nCNPJ: ${company.cnpj}\nPais: ${company.country}\nEstado: ${company.state}\nCEP: ${company.cep}\nDescrição da Empresa: ${company.description}\n\n"
+    void displayCompany() {
+        List<Company> companies = companyDAO.getAll()
+
+        if (companies) {
+            println("Lista de empresas:")
+            for (Company company : companies) {
+                printView.displayCompanyInfo(company)
             }
+        } else {
+            println("Nenhuma empresa encontrada.")
         }
     }
 
@@ -79,7 +62,7 @@ class CompanyManager {
         List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
 
         Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
-        companyDTO.Update(cnpj, company)
+        companyDAO.Update(cnpj, company)
     }
 
     void delete() {
@@ -88,6 +71,6 @@ class CompanyManager {
         print "Digite o CNPJ da empresa que deseja deletar: "
         String cnpj = scanner.nextLine()
 
-        companyDTO.Delete(cnpj)
+        companyDAO.Delete(cnpj)
     }
 }

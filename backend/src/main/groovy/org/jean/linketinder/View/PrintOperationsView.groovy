@@ -1,6 +1,7 @@
 package org.jean.linketinder.View
 
 import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
 
 class PrintOperationsView {
@@ -32,7 +33,7 @@ class PrintOperationsView {
         println "Digite as competências do candidato (separadas por vírgula): "
         List<String> skills = parseSkills(scanner.nextLine())
 
-        Candidate candidate = new Candidate(name, email, state, cep, description, skills, null, cpf, age, null)
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age, null)
 
         return candidate
     }
@@ -66,7 +67,7 @@ class PrintOperationsView {
 
         List<Skill> skills = skillNames.collect { new Skill(it) }
 
-        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String>, null, cpf, age, null)
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String> as List<Skill>, null, cpf, age, null)
 
         return candidate
     }
@@ -91,6 +92,54 @@ class PrintOperationsView {
             println("")
         } else {
             println "Nenhuma competência cadastrada para este candidato."
+        }
+    }
+
+    static Company createCompany(Scanner scanner) {
+
+        print "Digite o nome da empresa: "
+        String name = scanner.nextLine()
+
+        print "Digite o email da empresa: "
+        String email = scanner.nextLine()
+
+        print "Digite o CNPJ da empresa: "
+        String cnpj = scanner.nextLine()
+
+        print "Digite o país da empresa: "
+        String country = scanner.nextLine()
+
+        print "Digite o estado da empresa: "
+        String state = scanner.nextLine()
+
+        print "Digite o CEP da empresa: "
+        String cep = scanner.nextLine()
+
+        print "Digite a descrição da empresa: "
+        String description = scanner.nextLine()
+
+        print "Digite as competências da empresa (separadas por vírgula): "
+        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
+
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
+
+        return company
+    }
+
+    static displayCompanyInfo(Company company) {
+        println("Nome: ${company.getName()}" +
+                "\nEmail: ${company.getEmail()}" +
+                "\nCNPJ: ${company.getCnpj()}" +
+                "\nPaís: ${company.getCountry()}" +
+                "\nEstado: ${company.getState()}" +
+                "\nCEP: ${company.getCep()}" +
+                "\nDescrição Pessoal: ${company.getDescription()}")
+
+        if (!company.skills.empty) {
+            println "Competências: ${company.skills.join(', ')}"
+            println("")
+        } else {
+            println "Nenhuma competência cadastrada para esta empresa."
         }
     }
 
