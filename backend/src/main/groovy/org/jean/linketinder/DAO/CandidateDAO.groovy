@@ -3,9 +3,20 @@ package org.jean.linketinder.DAO
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
+import org.jean.linketinder.Exceptions.HandleException
 
 class CandidateDAO {
-    Sql sql = Sql.newInstance(DBConection.conect()) as Sql
+    private static final INSERT_CANDIDATE_QUERY = "INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    private static final INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
+    private static final INSERT_CANDIDATE_SKILL_QUERY = "INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)"
+    private static final SELECT_ALL_CANDIDATES_QUERY = "SELECT * FROM candidates"
+    private static final SELECT_SKILLS_FOR_CANDIDATE_QUERY = "SELECT name FROM skills " + "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " + "WHERE candidate_skills.candidate_id = ?"
+    private static final DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
+    private static final DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
+
+    private static HandleException exception
+
+    Sql sql = Sql.newInstance(DBConection.conect())
 
     void create(Candidate candidate) {
         try {
@@ -13,19 +24,26 @@ class CandidateDAO {
             insertCandidateSkills(candidate)
             println("Candidato adicionado com sucesso!")
         } catch (Exception e) {
-            println("Erro ao adicionar candidato: ${e.message}")
+            exception.handleException("Erro ao adicionar candidato", e)
         }
     }
 
     private void insertCandidate(Candidate candidate) {
-        sql.execute("INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [candidate.name, candidate.email, candidate.cpf, candidate.age, candidate.state, candidate.cep, candidate.description])
+        sql.execute(INSERT_CANDIDATE_QUERY, [
+                candidate.name,
+                candidate.email,
+                candidate.cpf,
+                candidate.age,
+                candidate.state,
+                candidate.cep,
+                candidate.description
+        ])
     }
 
     private void insertCandidateSkills(Candidate candidate) {
         candidate.skills.each { skill ->
             Integer skillId = getOrCreateSkillId(skill)
-            sql.execute("INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)", [getCandidateId(candidate.cpf), skillId])
+            sql.execute(INSERT_CANDIDATE_SKILL_QUERY, [getCandidateId(candidate.cpf), skillId])
         }
     }
 
@@ -38,7 +56,7 @@ class CandidateDAO {
         String skillName = (skill instanceof String) ? skill : skill.name
         Integer skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
         if (skillId == null) {
-            sql.execute("INSERT INTO skills (name) VALUES (?)", [skillName])
+            sql.execute(INSERT_SKILL_QUERY, [skillName])
             skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
         }
         return skillId
@@ -47,7 +65,7 @@ class CandidateDAO {
     List<Candidate> getAll() {
         try {
             List<Candidate> candidates = []
-            List<Map<String, Object>> rows = sql.rows("SELECT * FROM candidates")
+            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_CANDIDATES_QUERY)
 
             rows.each { row ->
                 List<String> skills = getSkillsForCandidate(row.id as Integer)
@@ -64,21 +82,18 @@ class CandidateDAO {
                         row.age as Integer,
                         []
                 )
-
                 candidates.add(candidate)
             }
-
             return candidates
+
         } catch (Exception e) {
-            e.printStackTrace()
+            exception.handleException("Erro ao recuperar candidatos", e)
             return []
         }
     }
 
     private List<String> getSkillsForCandidate(Integer candidateId) {
-        List<Map<String, Object>> skillRows = sql.rows("SELECT name FROM skills " +
-                "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " +
-                "WHERE candidate_skills.candidate_id = ?", [candidateId])
+        List<Map<String, Object>> skillRows = sql.rows(SELECT_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
         return skillRows.collect(({ it.name } as Closure<String>))
     }
 
@@ -87,7 +102,7 @@ class CandidateDAO {
             updateCandidate(cpf, candidate)
             println("Candidato atualizado com sucesso!")
         } catch (Exception e) {
-            println("Erro ao atualizar candidato: ${e.message}")
+            exception.handleException("Erro ao atualizar candidato", e)
         }
     }
 
@@ -104,7 +119,7 @@ class CandidateDAO {
         ])
         Integer id = getCandidateId(cpf)
         if (id != null) {
-            sql.execute("DELETE FROM candidate_skills WHERE candidate_id = ?", [id])
+            sql.execute(DELETE_CANDIDATE_SKILLS_QUERY, [id])
             insertCandidateSkills(candidate)
         } else {
             println "Candidato com CPF $cpf não encontrado."
@@ -115,14 +130,14 @@ class CandidateDAO {
         try {
             Integer id = getCandidateId(cpf)
             if (id != null) {
-                sql.execute("DELETE FROM candidate_skills WHERE candidate_id = ?", [id])
-                sql.execute("DELETE FROM candidates WHERE cpf = ?", [cpf])
+                sql.execute(DELETE_CANDIDATE_SKILLS_QUERY, [id])
+                sql.execute(DELETE_CANDIDATE_QUERY, [cpf])
                 println("Candidato removido com sucesso!")
             } else {
                 println "Candidato com CPF $cpf não encontrado."
             }
         } catch (Exception e) {
-            println("Erro ao remover candidato: ${e.message}")
+            exception.handleException("Erro ao remover candidato", e)
         }
     }
 }

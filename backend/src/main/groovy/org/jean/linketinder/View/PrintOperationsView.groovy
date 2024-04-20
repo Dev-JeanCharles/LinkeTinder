@@ -118,10 +118,7 @@ class PrintOperationsView {
         print "Digite a descrição da empresa: "
         String description = scanner.nextLine()
 
-        print "Digite as competências da empresa (separadas por vírgula): "
-        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
-
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
+        Company company = new Company(name, email, cnpj, country, state, cep, description)
 
         return company
     }
@@ -133,14 +130,8 @@ class PrintOperationsView {
                 "\nPaís: ${company.getCountry()}" +
                 "\nEstado: ${company.getState()}" +
                 "\nCEP: ${company.getCep()}" +
-                "\nDescrição Pessoal: ${company.getDescription()}")
-
-        if (!company.skills.empty) {
-            println "Competências: ${company.skills.join(', ')}"
-            println("")
-        } else {
-            println "Nenhuma competência cadastrada para esta empresa."
-        }
+                "\nDescrição Pessoal: ${company.getDescription()}"+
+                "\n")
     }
 
     static Company updateCompany(Scanner scanner) {
@@ -165,10 +156,7 @@ class PrintOperationsView {
         print "Digite a nova descrição da empresa: "
         String description = scanner.nextLine()
 
-        print "Digite as novas competências da empresa (separadas por vírgula): "
-        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
-
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
+        Company company = new Company(name, email, cnpj, country, state, cep, description)
 
         return company
     }
