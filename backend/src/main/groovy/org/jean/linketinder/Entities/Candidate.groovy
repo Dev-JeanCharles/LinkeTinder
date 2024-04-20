@@ -6,15 +6,15 @@ class Candidate extends Users {
     Integer age
     List<Integer> skillIds
 
-    Candidate(String name, String email, String state, String cep, String description, List<String> skills, String id, String cpf, Integer age, List<Integer> skillIds) {
-        super(name, email, state, cep, description, skills)
+    Candidate(String name, String email, String state, String cep, String description, List<Skill> skills, String id, String cpf, Integer age, List<Integer> skillIds) {
+        super(name, email, state, cep, description, skills as List<String>)
         this.id = id
         this.cpf = cpf
         this.age = age
-        this.skillIds = skillIds.collect { it as Integer }
+        this.skillIds = skillIds
     }
 
-    Candidate(String name, String email, String state, String cep, String description, List<String> skills) {
-        super(name, email, state, cep, description, skills)
+    Candidate(String name, String email, String state, String cep, String description, List<Skill> skills) {
+        super(name, email, state, cep, description, skills as List<String>)
     }
 }

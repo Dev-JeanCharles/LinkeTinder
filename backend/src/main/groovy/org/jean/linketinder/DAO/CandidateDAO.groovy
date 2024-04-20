@@ -2,6 +2,7 @@ package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.Entities.Skill
 
 class CandidateDAO {
     Sql sql = Sql.newInstance(DBConection.conect()) as Sql
@@ -57,7 +58,7 @@ class CandidateDAO {
                         row.state as String,
                         row.cep as String,
                         row.description as String,
-                        skills,
+                        skills as List<Skill>,
                         row.id as String,
                         row.cpf as String,
                         row.age as Integer,
