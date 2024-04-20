@@ -72,7 +72,6 @@ class PrintOperationsView {
         return candidate
     }
 
-
     static String deleteCandidate(Scanner scanner) {
         print "Digite o CPF do candidato que deseja deletar: "
         return scanner.nextLine()
