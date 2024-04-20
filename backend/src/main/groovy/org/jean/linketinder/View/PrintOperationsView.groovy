@@ -143,6 +143,38 @@ class PrintOperationsView {
         }
     }
 
+    static Company updateCompany(Scanner scanner) {
+        print "Digite o CNPJ da empresa que deseja atualizar: "
+        String cnpj = scanner.nextLine()
+
+        print "Digite o novo nome da empresa: "
+        String name = scanner.nextLine()
+
+        print "Digite o novo email da empresa: "
+        String email = scanner.nextLine()
+
+        print "Digite o novo país da empresa: "
+        String country = scanner.nextLine()
+
+        print "Digite o novo estado da empresa: "
+        String state = scanner.nextLine()
+
+        print "Digite o novo CEP da empresa: "
+        String cep = scanner.nextLine()
+
+        print "Digite a nova descrição da empresa: "
+        String description = scanner.nextLine()
+
+        print "Digite as novas competências da empresa (separadas por vírgula): "
+        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
+
+        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
+
+        return company
+    }
+
+
+
     private static List<String> parseSkills(String skillsInput) {
         String[] skillsArray = skillsInput.split(",")
         List<String> skillsList = new ArrayList<>()

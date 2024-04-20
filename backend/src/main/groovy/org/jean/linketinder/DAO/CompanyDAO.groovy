@@ -31,7 +31,7 @@ class CompanyDAO {
         return sql.rows("SELECT * FROM companies") as List<Company>
     }
 
-    void Update(String cnpj, Company company) {
+    void update(String cnpj, Company company) {
         try {
             sql.execute("UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?", [
                     company.name,

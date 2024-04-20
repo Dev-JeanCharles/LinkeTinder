@@ -35,34 +35,8 @@ class CompanyManager {
     }
 
     void update() {
-        Scanner scanner = new Scanner(System.in)
-
-        print "Digite o CNPJ da empresa que deseja atualizar: "
-        String cnpj = scanner.nextLine()
-
-        print "Digite o novo nome da empresa: "
-        String name = scanner.nextLine()
-
-        print "Digite o novo email da empresa: "
-        String email = scanner.nextLine()
-
-        print "Digite o novo país da empresa: "
-        String country = scanner.nextLine()
-
-        print "Digite o novo estado da empresa: "
-        String state = scanner.nextLine()
-
-        print "Digite o novo CEP da empresa: "
-        String cep = scanner.nextLine()
-
-        print "Digite a nova descrição da empresa: "
-        String description = scanner.nextLine()
-
-        print "Digite as novas competências da empresa (separadas por vírgula): "
-        List<String> skills = scanner.nextLine().split(',').collect { it.trim() }
-
-        Company company = new Company(name, email, cnpj, country, state, cep, description, skills as List<Skill>)
-        companyDAO.Update(cnpj, company)
+        Company company = printView.updateCompany(scanner)
+        companyDAO.update(company.cnpj, company)
     }
 
     void delete() {
@@ -71,6 +45,6 @@ class CompanyManager {
         print "Digite o CNPJ da empresa que deseja deletar: "
         String cnpj = scanner.nextLine()
 
-        companyDAO.Delete(cnpj)
+        companyDAO.delete(cnpj)
     }
 }
