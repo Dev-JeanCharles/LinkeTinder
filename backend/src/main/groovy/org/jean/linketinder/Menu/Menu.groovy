@@ -73,9 +73,7 @@ class Menu {
 //                    new VacancyController(printOperationsView, vacancyDAO).createVacancy()
 //                case '11':
 //                    new VacancyController(printOperationsView, vacancyDAO).updateVacancy()
-//                case '12':
-//                    new VacancyController(printOperationsView, vacancyDAO).deleteVacancy()
-                case '13' :
+                case '12' :
                     print.exitOperationsMenu()
                     break
                 default:

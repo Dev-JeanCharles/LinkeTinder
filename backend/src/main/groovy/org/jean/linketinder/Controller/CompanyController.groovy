@@ -7,15 +7,15 @@ import org.jean.linketinder.View.PrintOperationsView
 
 class CompanyController {
 
-    private final CompanyService companyManager
+    private final CompanyService companyService
 
     CompanyController(PrintOperationsView printView, CompanyDAO companyDAO) {
-        this.companyManager = new CompanyService(printView, companyDAO)
+        this.companyService = new CompanyService(printView, companyDAO)
     }
 
     void createCompany() throws CompanyControllerException{
         try {
-            companyManager.createCompany()
+            companyService.createCompany()
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao inserir uma nova empresa", e)
         }
@@ -23,7 +23,7 @@ class CompanyController {
 
     void getCompany() throws CompanyControllerException{
         try {
-            companyManager.displayCompany()
+            companyService.displayCompany()
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao buscar uma empresa", e)
         }
@@ -31,7 +31,7 @@ class CompanyController {
 
     void updateCompany() throws CompanyControllerException{
         try {
-            companyManager.update()
+            companyService.update()
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao atualizar uma empresa", e)
         }
@@ -39,7 +39,7 @@ class CompanyController {
 
     void deleteCompany() throws CompanyControllerException{
         try {
-            companyManager.delete()
+            companyService.delete()
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao deletar uma empresa", e)
         }

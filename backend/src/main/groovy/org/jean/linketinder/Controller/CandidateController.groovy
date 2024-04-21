@@ -7,15 +7,15 @@ import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateController {
 
-    private final CandidateService candidateManager
+    private final CandidateService candidateService
 
     CandidateController(PrintOperationsView printView, CandidateDAO candidateDAO) {
-        this.candidateManager = new CandidateService(printView, candidateDAO)
+        this.candidateService = new CandidateService(printView, candidateDAO)
     }
 
     void createCandidate() throws CandidateControllerException{
         try {
-            candidateManager.createCandidate()
+            candidateService.createCandidate()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao inserir um novo candidato", e)
         }
@@ -23,7 +23,7 @@ class CandidateController {
 
     void getCandidate() throws CandidateControllerException {
         try {
-            candidateManager.displayCandidates()
+            candidateService.displayCandidates()
         } catch (Exception e) {
             throw new CandidateControllerException("Erro ao buscar um candidato", e)
         }
@@ -31,7 +31,7 @@ class CandidateController {
 
     void updateCandidate() throws CandidateControllerException{
         try {
-            candidateManager.updateCandidate()
+            candidateService.updateCandidate()
         }catch (Exception e ) {
             throw new CandidateControllerException("Erro ao atualizar um candidato", e)
         }
@@ -39,7 +39,7 @@ class CandidateController {
 
     void deleteCandidate() throws CandidateControllerException{
         try {
-            candidateManager.deleteCandidate()
+            candidateService.deleteCandidate()
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao deletar um candidato", e)
         }

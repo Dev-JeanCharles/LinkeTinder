@@ -23,8 +23,7 @@ class PrintMenuView {
         println("[9] Excluir Empresa")
         println("[10] Cadastrar Vaga")
         println("[11] Atualizar Vaga")
-        println("[12] Excluir Vaga")
-        println("[13] Sair")
+        println("[12] Sair")
     }
 
     static void exitInitialMenu() {
