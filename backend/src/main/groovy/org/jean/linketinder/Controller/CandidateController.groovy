@@ -2,15 +2,15 @@ package org.jean.linketinder.Controller
 
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Exceptions.CandidateControllerException
-import org.jean.linketinder.Manager.CandidateManager
+import org.jean.linketinder.Service.CandidateService
 import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateController {
 
-    private final CandidateManager candidateManager
+    private final CandidateService candidateManager
 
     CandidateController(PrintOperationsView printView, CandidateDAO candidateDAO) {
-        this.candidateManager = new CandidateManager(printView, candidateDAO)
+        this.candidateManager = new CandidateService(printView, candidateDAO)
     }
 
     void createCandidate() throws CandidateControllerException{

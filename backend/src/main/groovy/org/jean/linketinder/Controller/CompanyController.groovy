@@ -2,15 +2,15 @@ package org.jean.linketinder.Controller
 
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.Exceptions.CompanyControllerException
-import org.jean.linketinder.Manager.CompanyManager
+import org.jean.linketinder.Service.CompanyService
 import org.jean.linketinder.View.PrintOperationsView
 
 class CompanyController {
 
-    private final CompanyManager companyManager
+    private final CompanyService companyManager
 
     CompanyController(PrintOperationsView printView, CompanyDAO companyDAO) {
-        this.companyManager = new CompanyManager(printView, companyDAO)
+        this.companyManager = new CompanyService(printView, companyDAO)
     }
 
     void createCompany() throws CompanyControllerException{

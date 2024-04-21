@@ -1,16 +1,16 @@
-package org.jean.linketinder.Manager
+package org.jean.linketinder.Service
 
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.View.PrintOperationsView
 
-class CompanyManager {
+class CompanyService {
 
     private PrintOperationsView printView = new PrintOperationsView()
     private CompanyDAO companyDAO = new CompanyDAO() as CompanyDAO
     private Scanner scanner = new Scanner(System.in)
 
-    CompanyManager(PrintOperationsView printView, CompanyDAO companyDAO) {
+    CompanyService(PrintOperationsView printView, CompanyDAO companyDAO) {
         this.printView = printView
         this.companyDAO = companyDAO
     }

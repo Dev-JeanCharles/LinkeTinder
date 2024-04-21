@@ -49,25 +49,33 @@ class Menu {
                 case '2' :
                     new CompanyController(printOperationsView, companyDAO).getCompany()
                     break
-                case '3' :
+//                case '3':
+//                    new VacancyController(printOperationsView, vacancyDAO).getVacancy()
+                case '4' :
                     new CandidateController(printOperationsView, candidateDAO).createCandidate()
-                    break
-                case '4':
-                    new CompanyController(printOperationsView, companyDAO).createCompany()
                     break
                 case '5' :
                     new CandidateController(printOperationsView, candidateDAO).updateCandidate()
                     break
-                case '6':
-                    new CompanyController(printOperationsView, companyDAO).updateCompany()
-                    break
-                case '7' :
+                case '6' :
                     new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
                     break
+                case '7':
+                    new CompanyController(printOperationsView, companyDAO).createCompany()
+                    break
                 case '8':
+                    new CompanyController(printOperationsView, companyDAO).updateCompany()
+                    break
+                case '9':
                     new CompanyController(printOperationsView, companyDAO).deleteCompany()
                     break
-                case '9' :
+//                case '10':
+//                    new VacancyController(printOperationsView, vacancyDAO).createVacancy()
+//                case '11':
+//                    new VacancyController(printOperationsView, vacancyDAO).updateVacancy()
+//                case '12':
+//                    new VacancyController(printOperationsView, vacancyDAO).deleteVacancy()
+                case '13' :
                     print.exitOperationsMenu()
                     break
                 default:
