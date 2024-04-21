@@ -1,7 +1,8 @@
 package org.jean.linketinder.Controller
 
-
 import org.jean.linketinder.Exceptions.CompanyControllerException
+import org.jean.linketinder.Exceptions.VacancyControllerException
+import org.jean.linketinder.Service.VacancyService
 import org.jean.linketinder.View.PrintOperationsView
 
 class VacancyController {
@@ -22,7 +23,7 @@ class VacancyController {
 
     void getVacancy() throws CompanyControllerException{
         try {
-            vacancyService.displayVacancy()
+            vacancyService.displayVacancies()
         }catch (Exception e) {
             throw new VacancyControllerException("Erro ao buscar uma vaga", e)
         }
@@ -30,7 +31,7 @@ class VacancyController {
 
     void updateVacancy() throws CompanyControllerException{
         try {
-            vacancyService.update()
+            vacancyService.updateVacancy()
         }catch (Exception e) {
             throw new VacancyControllerException("Erro ao atualizar uma vaga", e)
         }
