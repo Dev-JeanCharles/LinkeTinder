@@ -1,5 +1,6 @@
 package org.jean.linketinder.Controller
 
+import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Exceptions.CompanyControllerException
 import org.jean.linketinder.Exceptions.VacancyControllerException
 import org.jean.linketinder.Service.VacancyService

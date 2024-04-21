@@ -1,7 +1,7 @@
 package org.jean.linketinder.Service
 
 import org.jean.linketinder.DAO.CandidateDAO
-import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.View.PrintOperationsView
 
@@ -37,6 +37,6 @@ class VacancyService {
 
     void updateVacancy(){
         Vacancy vacancy = printView.updateVacancy(scanner)
-        vacancyDAO.update(vacancy.cnpj, vacancy)
+        vacancyDAO.update(vacancy.id, vacancy)
     }
 }

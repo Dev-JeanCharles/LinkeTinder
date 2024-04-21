@@ -5,10 +5,10 @@ import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
 
 class CompanyDAO {
-    private static final INSERT_QUERY = "INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    private static final SELECT_ALL_QUERY = "SELECT * FROM companies"
-    private static final UPDATE_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
-    private static final DELETE_QUERY = "DELETE FROM companies WHERE cnpj = ?"
+    private static final INSERT_COMPANY_QUERY = "INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    private static final SELECT_ALL_COMPANIES_QUERY = "SELECT * FROM companies"
+    private static final UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
+    private static final DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
     private static HandleException exception
 
@@ -16,7 +16,7 @@ class CompanyDAO {
 
     void create(Company company) {
         try {
-            sql.execute(INSERT_QUERY, [
+            sql.execute(INSERT_COMPANY_QUERY, [
                     company.name,
                     company.email,
                     company.cnpj,
@@ -34,7 +34,7 @@ class CompanyDAO {
     List<Company> getAll() {
         List<Company> companies = []
         try {
-            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_QUERY)
+            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_COMPANIES_QUERY)
             rows.each { row ->
                 companies.add(new Company(
                         row.name as String,
@@ -54,7 +54,7 @@ class CompanyDAO {
 
     void update(String cnpj, Company company) {
         try {
-            sql.execute(UPDATE_QUERY, [
+            sql.execute(UPDATE_COMPANY_QUERY, [
                     company.name,
                     company.email,
                     company.cnpj,
@@ -72,7 +72,7 @@ class CompanyDAO {
 
     void delete(String cnpj) {
         try {
-            sql.execute(DELETE_QUERY, [cnpj])
+            sql.execute(DELETE_COMPANY_QUERY, [cnpj])
             println("Empresa removida com sucesso!")
         } catch (Exception e) {
             exception.handleException("Erro ao remover empresa", e)
