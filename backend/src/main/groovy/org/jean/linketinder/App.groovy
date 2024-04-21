@@ -14,17 +14,18 @@ class App {
     static void createDatabaseTables() {
         DBConection conectDTO = new DBConection()
         Sql instance = new Sql(conectDTO.conect())
-        DBOperations operationsDTO = new DBOperations(instance)
+        DBOperations operationsDAO = new DBOperations(instance)
 
-        createTableCandidates(operationsDTO)
-        createTableSkills(operationsDTO)
-        createTableCandidateSkills(operationsDTO)
-        createTableCompanies(operationsDTO)
-        createTableVacancies(operationsDTO)
-        createTableVacancyCompanies(operationsDTO)
+        createTableCandidates(operationsDAO)
+        createTableSkills(operationsDAO)
+        createTableCandidateSkills(operationsDAO)
+        createTableCompanies(operationsDAO)
+        createTableVacancies(operationsDAO)
+        createTableVacancyCompanies(operationsDAO)
+        createTableVacancySkills(operationsDAO)
     }
 
-    static void createTableCandidates(DBOperations operationsDTO) {
+    static void createTableCandidates(DBOperations operationsDAO) {
         List<String> fieldCandidates = [
                 "id SERIAL PRIMARY KEY",
                 "name VARCHAR(100)",
@@ -35,26 +36,26 @@ class App {
                 "cep VARCHAR(15)",
                 "description TEXT"
         ]
-        operationsDTO.createTable("candidates", fieldCandidates)
+        operationsDAO.createTable("candidates", fieldCandidates)
     }
 
-    static void createTableSkills(DBOperations operationsDTO) {
+    static void createTableSkills(DBOperations operationsDAO) {
         List<String> fieldSkills = [
                 "skill_id SERIAL PRIMARY KEY",
                 "name VARCHAR(100)"
         ]
-        operationsDTO.createTable("skills", fieldSkills)
+        operationsDAO.createTable("skills", fieldSkills)
     }
 
-    static void createTableCandidateSkills(DBOperations operationsDTO) {
+    static void createTableCandidateSkills(DBOperations operationsDAO) {
         List<String> candidateSkills = [
                 "candidate_id INTEGER REFERENCES candidates(id)",
                 "skill_id INTEGER REFERENCES skills(skill_id)"
         ]
-        operationsDTO.createTable("candidate_skills", candidateSkills)
+        operationsDAO.createTable("candidate_skills", candidateSkills)
     }
 
-    static void createTableCompanies(DBOperations operationsDTO) {
+    static void createTableCompanies(DBOperations operationsDAO) {
         List<String> fieldCompanies = [
                 "id SERIAL PRIMARY KEY",
                 "name VARCHAR(100)",
@@ -65,25 +66,33 @@ class App {
                 "cep VARCHAR(15)",
                 "description TEXT"
         ]
-        operationsDTO.createTable("companies", fieldCompanies)
+        operationsDAO.createTable("companies", fieldCompanies)
     }
 
-    static void createTableVacancies(DBOperations operationsDTO) {
+    static void createTableVacancies(DBOperations operationsDAO) {
         List<String> fieldVacancies = [
                 "vacancy_id SERIAL PRIMARY KEY",
                 "name VARCHAR(100)",
                 "locality VARCHAR(100)",
                 "description TEXT"
         ]
-        operationsDTO.createTable("vacancies", fieldVacancies)
+        operationsDAO.createTable("vacancies", fieldVacancies)
     }
 
-    static void createTableVacancyCompanies(DBOperations operationsDTO) {
+    static void createTableVacancyCompanies(DBOperations operationsDAO) {
         List<String> companyVacancies = [
                 "company_id INTEGER REFERENCES companies(id)",
                 "vacancy_id INTEGER REFERENCES vacancies(vacancy_id)"
         ]
-        operationsDTO.createTable("vacancy_companies", companyVacancies)
+        operationsDAO.createTable("vacancy_companies", companyVacancies)
+    }
+
+    static void createTableVacancySkills(DBOperations operationsDAO) {
+        List<String> vacancySkills = [
+                "vacancy_id INTEGER REFERENCES companies(id)",
+                "skill_id INTEGER REFERENCES skills(skill_id)"
+        ]
+        operationsDAO.createTable("vacancy_skills", vacancySkills)
     }
 
     static void startMenu() {
