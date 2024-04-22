@@ -218,25 +218,22 @@ class PrintOperationsView {
     }
 
     static void displayVacancyInfo(Vacancy vacancy) {
-        println("Nome da vaga: ${vacancy.getName()}")
-        println("Localidade: ${vacancy.getLocality()}")
-        println("Descrição: ${vacancy.getDescription()}")
+        println("Nome da vaga: ${vacancy.name}")
+        println("Localidade: ${vacancy.locality}")
+        println("Descrição: ${vacancy.description}")
 
-        Company company = vacancy.getCompany()
-
+        Company company = vacancy.company
         if (company != null) {
-            println("")
             println("Empresa associada:")
-            println("Nome: ${company.getName()}")
+            println("Nome: ${company.name}")
         } else {
-            println("Empresa associada: Nenhuma empresa associada.")
+            println("\nEmpresa associada: Nenhuma empresa associada.")
         }
 
-        List<Skill> skills = vacancy.getSkills()
+        List<Skill> skills = vacancy.skills
         if (skills) {
-            println("")
             println("Habilidades da vaga:")
-            println(skills.collect { "- ${it.getName()}" }.join('\n'))
+            skills.each { println("- ${it.name}") }
         } else {
             println("Habilidades da vaga: Nenhuma habilidade cadastrada para esta vaga.")
         }

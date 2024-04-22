@@ -10,7 +10,6 @@ class Company extends Users {
         this.cnpj = cnpj
         this.country = country
     }
-    // Construtor para criar uma instância de Company apenas com o nome
     Company(String name) {
         super(name, null, null, null, null, null)
     }

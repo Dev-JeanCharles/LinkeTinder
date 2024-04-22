@@ -29,8 +29,8 @@ class VacancyDAO {
     List<Vacancy> getAll() {
         try {
             List<Vacancy> vacancies = []
-            def rows = sql.rows(SELECT_ALL_VACANCIES_QUERY)
-            rows.each { row ->
+            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_VACANCIES_QUERY)
+            rows.each { Map<String, Object> row ->
                 Vacancy vacancy = createVacancyFromRow(row, vacancies)
                 addSkillToVacancy(row, vacancy)
                 addCompanyToVacancy(row, vacancy)
@@ -42,15 +42,15 @@ class VacancyDAO {
         }
     }
 
-    private static Vacancy createVacancyFromRow(Map row, List<Vacancy> vacancies) {
-        Integer vacancyId = row.vacancy_id as Integer
+    private static Vacancy createVacancyFromRow(Map<String, Object> row, List<Vacancy> vacancies) {
+        Integer vacancyId = row['vacancy_id'] as Integer
         Vacancy vacancy = vacancies.find { it.id == vacancyId }
         if (!vacancy) {
             vacancy = new Vacancy(
                     vacancyId as Integer,
-                    row.name as String,
-                    row.locality as String,
-                    row.description as String,
+                    row['name'] as String,
+                    row['locality'] as String,
+                    row['description'] as String,
                     []
             )
             vacancies.add(vacancy)
@@ -58,24 +58,24 @@ class VacancyDAO {
         return vacancy
     }
 
-    private static void addSkillToVacancy(Map row, Vacancy vacancy) {
-        if (row.skill_name) {
-            Skill skill = new Skill(row.skill_name as String)
+    private static void addSkillToVacancy(Map<String, Object> row, Vacancy vacancy) {
+        if (row['skill_name']) {
+            Skill skill = new Skill(row['skill_name'] as String)
             vacancy.skills.add(skill)
         }
     }
 
-    private static void addCompanyToVacancy(Map row, Vacancy vacancy) {
-        if (row.company_id) {
+    private static void addCompanyToVacancy(Map<String, Object> row, Vacancy vacancy) {
+        if (row['company_id']) {
             Company company = createCompanyFromRow(row)
             vacancy.setCompany(company)
         }
     }
 
-    private static Company createCompanyFromRow(Map row) {
+    private static Company createCompanyFromRow(Map<String, Object> row) {
         return new Company(
                 null,
-                row.company_name as String,
+                row['company_name'] as String,
                 null,
                 null,
                 null,
