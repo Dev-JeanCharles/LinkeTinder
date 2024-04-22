@@ -216,6 +216,4 @@ class PrintOperationsView {
         }
         return skillNames
     }
-
-
 }

@@ -40,20 +40,20 @@ class VacancyService {
         }
     }
 
-//    void displayVacancies() {
-//        List<Vacancy> vacancies = vacancyDAO.getAll()
-//
-//        if (vacancies) {
-//            println("Lista de vagas:")
-//            for (Vacancy vacancy : vacancies) {
-//                printView.displayVacancyInfo(vacancy)
-//            }
-//
-//        } else {
-//            println("Nenhuma vaga encontrada.")
-//        }
-//    }
-//
+    void displayVacancies() {
+        List<Vacancy> vacancies = vacancyDAO.getAll()
+
+        if (vacancies) {
+            println("Lista de vagas:")
+            for (Vacancy vacancy : vacancies) {
+                printView.displayVacancyInfo(vacancy)
+            }
+
+        } else {
+            println("Nenhuma vaga encontrada.")
+        }
+    }
+
 //    void updateVacancy(){
 //        Vacancy vacancy = printView.updateVacancy(scanner)
 //        vacancyDAO.update(vacancy.id, vacancy)

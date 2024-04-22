@@ -23,13 +23,13 @@ class VacancyController {
         }
     }
 
-//    void getVacancy() throws CompanyControllerException{
-//        try {
-//            vacancyService.displayVacancies()
-//        }catch (Exception e) {
-//            throw new VacancyControllerException("Erro ao buscar uma vaga", e)
-//        }
-//    }
+    void getVacancy() throws CompanyControllerException{
+        try {
+            vacancyService.displayVacancies()
+        }catch (Exception e) {
+            throw new VacancyControllerException("Erro ao buscar uma vaga", e)
+        }
+    }
 //
 //    void updateVacancy() throws CompanyControllerException{
 //        try {

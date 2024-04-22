@@ -52,8 +52,9 @@ class Menu {
                 case '2' :
                     new CompanyController(printOperationsView, companyDAO).getCompany()
                     break
-//                case '3':
-//                    new VacancyController(printOperationsView, vacancyDAO).getVacancy()
+                case '3':
+                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).getVacancy()
+                    break
                 case '4' :
                     new CandidateController(printOperationsView, candidateDAO).createCandidate()
                     break
