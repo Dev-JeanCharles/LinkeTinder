@@ -117,7 +117,7 @@ class PrintOperationsView {
         print "Digite a descrição da empresa: "
         String description = scanner.nextLine()
 
-        Company company = new Company(name, email, cnpj, country, state, cep, description)
+        Company company = new Company(null, name, email, cnpj, country, state, cep, description)
 
         return company
     }
@@ -156,7 +156,7 @@ class PrintOperationsView {
         print "Digite a nova descrição da empresa: "
         String description = scanner.nextLine()
 
-        Company company = new Company(name, email, cnpj, country, state, cep, description)
+        Company company = new Company(null, name, email, cnpj, country, state, cep, description)
 
         return company
     }

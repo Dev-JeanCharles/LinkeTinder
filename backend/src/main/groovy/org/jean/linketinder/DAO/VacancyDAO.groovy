@@ -45,11 +45,15 @@ class VacancyDAO {
 
     private void insertVacancySkills(Integer vacancyId, List<Skill> skills) {
         try {
-            println "Iniciando inserção de habilidades..."
             skills.each { skill ->
-                Integer skillId = getOrCreateSkillId(skill.name)
+                Integer skillId = null
+                if (skill instanceof Skill) {
+                    skillId = getOrCreateSkillId(skill.name)
+                } else if (skill instanceof String) {
+                    skillId = getOrCreateSkillId(skill)
+                }
                 if (skillId != null) {
-                    sql.execute(INSERT_VACANCY_SKILL_QUERY, [vacancyId, skillId] as Object[])
+                    sql.execute(INSERT_VACANCY_SKILL_QUERY, [vacancyId, skillId])
                 }
             }
         } catch (Exception e) {
@@ -60,7 +64,6 @@ class VacancyDAO {
     private void associateVacancyWithCompany(Integer companyId, Integer vacancyId) {
         try {
             if (companyId != null && vacancyId != null) {
-                println "CompanyId: $companyId, VacancyId: $vacancyId"
                 def statement = sql.getConnection().prepareStatement(INSERT_VACANCY_COMPANY_QUERY)
                 statement.setInt(1, companyId)
                 statement.setInt(2, vacancyId)
