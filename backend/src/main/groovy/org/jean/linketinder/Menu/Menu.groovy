@@ -58,26 +58,26 @@ class Menu {
                 case '4' :
                     new CandidateController(printOperationsView, candidateDAO).createCandidate()
                     break
-                case '5' :
-                    new CandidateController(printOperationsView, candidateDAO).updateCandidate()
-                    break
-                case '6' :
-                    new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
-                    break
-                case '7':
+                case '5':
                     new CompanyController(printOperationsView, companyDAO).createCompany()
+                    break
+                case '6':
+                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).createVacancy()
+                    break
+                case '7' :
+                    new CandidateController(printOperationsView, candidateDAO).updateCandidate()
                     break
                 case '8':
                     new CompanyController(printOperationsView, companyDAO).updateCompany()
                     break
                 case '9':
-                    new CompanyController(printOperationsView, companyDAO).deleteCompany()
+                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).updateVacancy()
                     break
-                case '10':
-                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).createVacancy()
+                case '10' :
+                    new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
                     break
                 case '11':
-                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).updateVacancy()
+                    new CompanyController(printOperationsView, companyDAO).deleteCompany()
                     break
                 case '12' :
                     print.exitOperationsMenu()

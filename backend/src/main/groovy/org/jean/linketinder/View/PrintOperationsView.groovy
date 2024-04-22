@@ -43,7 +43,7 @@ class PrintOperationsView {
         Company company = vacancy.company
         if (company != null) {
             println("Empresa associada:")
-            println("Nome: ${company.name}")
+            println("Nome da empresa: ${company.name}")
         } else {
             println("\nEmpresa associada: Nenhuma empresa associada.")
         }
