@@ -13,31 +13,76 @@ class VacancyDAO {
     private static final String INSERT_VACANCY_SKILL_QUERY = "INSERT INTO vacancy_skills (vacancy_id, skill_id) VALUES (?, ?)"
     private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
     private static final String INSERT_VACANCY_COMPANY_QUERY = "INSERT INTO vacancy_companies (company_id, vacancy_id) VALUES (?, ?)"
-    private static final String SELECT_ALL_VACANCIES_QUERY = "SELECT * FROM vacancies INNER JOIN vacancy_companies ON vacancies.id = vacancy_companies.vacancy_id INNER JOIN companies ON vacancy_companies.company_id = companies.id"
+    private static final String SELECT_ALL_VACANCIES_QUERY = """
+    SELECT v.vacancy_id, v.name, v.locality, v.description, 
+           s.name as skill_name, vc.company_id, c.name as company_name
+    FROM vacancies v
+    LEFT JOIN vacancy_skills vs ON v.vacancy_id = vs.vacancy_id
+    LEFT JOIN skills s ON vs.skill_id = s.skill_id
+    LEFT JOIN vacancy_companies vc ON v.vacancy_id = vc.vacancy_id
+    LEFT JOIN companies c ON vc.company_id = c.id
+"""
 
     private HandleException exception = new HandleException()
     private Sql sql = Sql.newInstance(DBConection.conect())
-
 
     List<Vacancy> getAll() {
         try {
             List<Vacancy> vacancies = []
             def rows = sql.rows(SELECT_ALL_VACANCIES_QUERY)
             rows.each { row ->
-                Vacancy vacancy = new Vacancy(
-                        row.id as Integer,
-                        row.name as String,
-                        row.locality as String,
-                        row.description as String,
-                        []
-                )
-                vacancies.add(vacancy)
+                Vacancy vacancy = createVacancyFromRow(row, vacancies)
+                addSkillToVacancy(row, vacancy)
+                addCompanyToVacancy(row, vacancy)
             }
             return vacancies
         } catch (Exception e) {
             exception.handleException("Erro ao obter todas as vagas", e)
             return []
         }
+    }
+
+    private static Vacancy createVacancyFromRow(Map row, List<Vacancy> vacancies) {
+        Integer vacancyId = row.vacancy_id as Integer
+        Vacancy vacancy = vacancies.find { it.id == vacancyId }
+        if (!vacancy) {
+            vacancy = new Vacancy(
+                    vacancyId as Integer,
+                    row.name as String,
+                    row.locality as String,
+                    row.description as String,
+                    []
+            )
+            vacancies.add(vacancy)
+        }
+        return vacancy
+    }
+
+    private static void addSkillToVacancy(Map row, Vacancy vacancy) {
+        if (row.skill_name) {
+            Skill skill = new Skill(row.skill_name as String)
+            vacancy.skills.add(skill)
+        }
+    }
+
+    private static void addCompanyToVacancy(Map row, Vacancy vacancy) {
+        if (row.company_id) {
+            Company company = createCompanyFromRow(row)
+            vacancy.setCompany(company)
+        }
+    }
+
+    private static Company createCompanyFromRow(Map row) {
+        return new Company(
+                null,
+                row.company_name as String,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        )
     }
 
     void create(Vacancy vacancy, Company company) {

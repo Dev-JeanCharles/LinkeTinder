@@ -216,4 +216,30 @@ class PrintOperationsView {
         }
         return skillNames
     }
+
+    static void displayVacancyInfo(Vacancy vacancy) {
+        println("Nome da vaga: ${vacancy.getName()}")
+        println("Localidade: ${vacancy.getLocality()}")
+        println("Descrição: ${vacancy.getDescription()}")
+
+        Company company = vacancy.getCompany()
+
+        if (company != null) {
+            println("")
+            println("Empresa associada:")
+            println("Nome: ${company.getName()}")
+        } else {
+            println("Empresa associada: Nenhuma empresa associada.")
+        }
+
+        List<Skill> skills = vacancy.getSkills()
+        if (skills) {
+            println("")
+            println("Habilidades da vaga:")
+            println(skills.collect { "- ${it.getName()}" }.join('\n'))
+        } else {
+            println("Habilidades da vaga: Nenhuma habilidade cadastrada para esta vaga.")
+        }
+        println("")
+    }
 }
