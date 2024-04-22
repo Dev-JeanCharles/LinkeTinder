@@ -22,14 +22,7 @@ class VacancyDAO {
             Integer vacancyId = insertVacancy(vacancy)
             if (vacancyId != null) {
                 insertVacancySkills(vacancyId, vacancy.skills)
-
-                println "Associando vaga à empresa..."
-                if (company.id != null) {
-                    insertVacancyCompany(company.id, vacancyId)
-                    println "Vaga associada à empresa com sucesso."
-                } else {
-                    println "A empresa não possui um ID válido. A vaga não pode ser associada."
-                }
+                associateVacancyWithCompany(company.id, vacancyId)
             } else {
                 println "Erro ao criar a vaga. O ID retornado é nulo."
             }
@@ -38,21 +31,15 @@ class VacancyDAO {
         }
     }
 
-
     private Integer insertVacancy(Vacancy vacancy) {
         try {
             def parameters = [vacancy.name, vacancy.locality, vacancy.description]
             sql.executeInsert(INSERT_VACANCY_QUERY, parameters)
 
-            Integer vacancyId = sql.firstRow("SELECT lastval() as id")?.id as Integer
-
-            if (vacancyId != null) {
-                return vacancyId
-            } else {
-                throw new Exception("Erro ao inserir a vaga. O ID retornado é nulo.")
-            }
+            return sql.firstRow("SELECT lastval() as id")?.id as Integer
         } catch (Exception e) {
             exception.handleException("Erro ao inserir a vaga", e)
+            return null
         }
     }
 
@@ -60,12 +47,7 @@ class VacancyDAO {
         try {
             println "Iniciando inserção de habilidades..."
             skills.each { skill ->
-                Integer skillId = null
-                if (skill instanceof Skill && skill.name) {
-                    skillId = getOrCreateSkillId(skill.name)
-                } else if (skill instanceof String) {
-                    skillId = getOrCreateSkillId(skill)
-                }
+                Integer skillId = getOrCreateSkillId(skill.name)
                 if (skillId != null) {
                     sql.execute(INSERT_VACANCY_SKILL_QUERY, [vacancyId, skillId] as Object[])
                 }
@@ -75,7 +57,7 @@ class VacancyDAO {
         }
     }
 
-    private void insertVacancyCompany(Integer companyId, Integer vacancyId) {
+    private void associateVacancyWithCompany(Integer companyId, Integer vacancyId) {
         try {
             if (companyId != null && vacancyId != null) {
                 println "CompanyId: $companyId, VacancyId: $vacancyId"
@@ -93,11 +75,16 @@ class VacancyDAO {
     }
 
     private Integer getOrCreateSkillId(String skillName) {
-        Integer skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
-        if (skillId == null) {
-            sql.execute(INSERT_SKILL_QUERY, [skillName])
-            skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
+        try {
+            Integer skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
+            if (skillId == null) {
+                sql.execute(INSERT_SKILL_QUERY, [skillName])
+                skillId = sql.firstRow("SELECT lastval() as id")?.id as Integer
+            }
+            return skillId
+        } catch (Exception e) {
+            exception.handleException("Erro ao obter ou criar habilidade", e)
+            return null
         }
-        return skillId
     }
 }
