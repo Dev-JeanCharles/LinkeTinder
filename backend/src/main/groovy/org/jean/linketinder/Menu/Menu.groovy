@@ -84,6 +84,6 @@ class Menu {
                     print.invalidOptions()
                     break
             }
-        } while (options != '9')
+        } while (options != '12')
     }
 }

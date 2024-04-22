@@ -46,13 +46,9 @@ class VacancyDAO {
     private void insertVacancySkills(Integer vacancyId, List<Skill> skills) {
         try {
             skills.each { skill ->
-                Integer skillId = null
-                if (skill instanceof Skill) {
-                    skillId = getOrCreateSkillId(skill.name)
-                } else if (skill instanceof String) {
-                    skillId = getOrCreateSkillId(skill)
-                }
-                if (skillId != null) {
+                def skillName = skill instanceof Skill ? skill.name : skill
+                def skillId = getOrCreateSkillId(skillName as String)
+                if (skillId) {
                     sql.execute(INSERT_VACANCY_SKILL_QUERY, [vacancyId, skillId])
                 }
             }
