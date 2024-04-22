@@ -198,22 +198,24 @@ class PrintOperationsView {
 
     static Vacancy updateVacancy(Scanner scanner) {
         print "Digite o identificador da vaga que deseja atualizar: "
-        Integer id = scanner.nextLine()
+        Integer id = scanner.nextInt()
+        scanner.nextLine()
 
         print "Digite o novo nome da vaga: "
         String name = scanner.nextLine()
 
-        print "Digite a nova localidade da empresa: "
+        print "Digite a nova localidade da vaga: "
         String locality = scanner.nextLine()
 
         print "Digite a nova descrição da vaga: "
         String description = scanner.nextLine()
 
-        print "Digite as novas habilidades da vaga: "
-        String state = scanner.nextLine()
+        print "Digite as novas habilidades da vaga (separadas por vírgula): "
+        List<String> skillNames = parseSkills(scanner.nextLine())
 
-        Vacancy vacancy = new Company(null, ) as Vacancy
+        List<Skill> skills = skillNames.collect { new Skill(it) }
 
+        Vacancy vacancy = new Vacancy(id, name, locality, description, skills)
         return vacancy
     }
 

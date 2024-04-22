@@ -157,9 +157,8 @@ class VacancyDAO {
         }
     }
 
-    void update(Vacancy vacancy) {
+    void update(Integer vacancyId, Vacancy vacancy) {
         try {
-            Integer vacancyId = vacancy.id
             if (vacancyId) {
                 updateVacancyBasicInfo(vacancy)
 
@@ -171,6 +170,7 @@ class VacancyDAO {
             exception.handleException("Erro ao atualizar a vaga", e)
         }
     }
+
 
     private void updateVacancyBasicInfo(Vacancy vacancy) {
         try {

@@ -7,6 +7,8 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.View.PrintOperationsView
 
+import java.util.Scanner
+
 class VacancyService {
 
     private PrintOperationsView printView
@@ -29,8 +31,7 @@ class VacancyService {
             List<String> skillNames = scanner.nextLine().split(",").collect { it.trim() }
 
             List<Skill> skills = skillNames.collect {
-                Skill skill = new Skill(it)
-                skill
+                new Skill(it)
             }
 
             Vacancy newVacancy = printView.createVacancy(scanner, selectedCompany, skills)
@@ -54,7 +55,7 @@ class VacancyService {
         }
     }
 
-    void updateVacancy(){
+    void updateVacancy() {
         Vacancy vacancy = printView.updateVacancy(scanner)
         vacancyDAO.update(vacancy.id, vacancy)
     }
