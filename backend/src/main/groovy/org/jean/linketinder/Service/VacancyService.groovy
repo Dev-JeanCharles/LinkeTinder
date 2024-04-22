@@ -54,8 +54,8 @@ class VacancyService {
         }
     }
 
-//    void updateVacancy(){
-//        Vacancy vacancy = printView.updateVacancy(scanner)
-//        vacancyDAO.update(vacancy.id, vacancy)
-//    }
+    void updateVacancy(){
+        Vacancy vacancy = printView.updateVacancy(scanner)
+        vacancyDAO.update(vacancy.id, vacancy)
+    }
 }

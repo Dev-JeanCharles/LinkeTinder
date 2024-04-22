@@ -6,6 +6,58 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 
 class PrintOperationsView {
+
+    static void displayCandidateInfo(Candidate candidate) {
+        println("Nome: ${candidate.getName()}" +
+                "\nEmail: ${candidate.getEmail()}" +
+                "\nCPF: ${candidate.getCpf()}" +
+                "\nIdade: ${candidate.getAge()}" +
+                "\nEstado: ${candidate.getState()}" +
+                "\nCEP: ${candidate.getCep()}" +
+                "\nDescrição Pessoal: ${candidate.getDescription()}")
+
+        if (!candidate.skills.empty) {
+            println "Competências: ${candidate.skills.join(', ')}"
+            println("")
+        } else {
+            println "Nenhuma competência cadastrada para este candidato."
+        }
+    }
+
+    static void displayCompanyInfo(Company company) {
+        println("Nome: ${company.getName()}" +
+                "\nEmail: ${company.getEmail()}" +
+                "\nCNPJ: ${company.getCnpj()}" +
+                "\nPaís: ${company.getCountry()}" +
+                "\nEstado: ${company.getState()}" +
+                "\nCEP: ${company.getCep()}" +
+                "\nDescrição Pessoal: ${company.getDescription()}"+
+                "\n")
+    }
+
+    static void displayVacancyInfo(Vacancy vacancy) {
+        println("Nome da vaga: ${vacancy.name}")
+        println("Localidade: ${vacancy.locality}")
+        println("Descrição: ${vacancy.description}")
+
+        Company company = vacancy.company
+        if (company != null) {
+            println("Empresa associada:")
+            println("Nome: ${company.name}")
+        } else {
+            println("\nEmpresa associada: Nenhuma empresa associada.")
+        }
+
+        List<Skill> skills = vacancy.skills
+        if (skills) {
+            println("Habilidades da vaga:")
+            skills.each { println("- ${it.name}") }
+        } else {
+            println("Habilidades da vaga: Nenhuma habilidade cadastrada para esta vaga.")
+        }
+        println("")
+    }
+
     static Candidate createCandidate(Scanner scanner) {
         println "Digite o nome do candidato: "
         String name = scanner.nextLine()
@@ -34,6 +86,55 @@ class PrintOperationsView {
 
         Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age, null)
         return candidate
+    }
+
+    static Company createCompany(Scanner scanner) {
+        print "Digite o nome da empresa: "
+        String name = scanner.nextLine()
+
+        print "Digite o email da empresa: "
+        String email = scanner.nextLine()
+
+        print "Digite o CNPJ da empresa: "
+        String cnpj = scanner.nextLine()
+
+        print "Digite o país da empresa: "
+        String country = scanner.nextLine()
+
+        print "Digite o estado da empresa: "
+        String state = scanner.nextLine()
+
+        print "Digite o CEP da empresa: "
+        String cep = scanner.nextLine()
+
+        print "Digite a descrição da empresa: "
+        String description = scanner.nextLine()
+
+        Company company = new Company(null, name, email, cnpj, country, state, cep, description)
+
+        return company
+    }
+
+    static Vacancy createVacancy(Scanner scanner, Company selectedCompany, List<Skill> skills) {
+        println "Digite o nome da vaga: "
+        String name = scanner.nextLine()
+
+        println "Digite a localidade da vaga: "
+        String locality = scanner.nextLine()
+
+        println "Digite a descrição da vaga: "
+        String description = scanner.nextLine()
+
+        List<String> skillNames = skills.collect { it.getName() }
+
+        Vacancy vacancy = new Vacancy(null, name, locality, description, skillNames as List<Skill>)
+
+        if (selectedCompany?.id != null) {
+            vacancy.setCompany(selectedCompany)
+        } else {
+            println "O ID da empresa não está definido. A vaga não será associada à empresa."
+        }
+        return vacancy
     }
 
     static Candidate updateCandidate(Scanner scanner) {
@@ -68,66 +169,6 @@ class PrintOperationsView {
         return candidate
     }
 
-    static String deleteCandidate(Scanner scanner) {
-        print "Digite o CPF do candidato que deseja deletar: "
-        return scanner.nextLine()
-    }
-
-    static void displayCandidateInfo(Candidate candidate) {
-        println("Nome: ${candidate.getName()}" +
-                "\nEmail: ${candidate.getEmail()}" +
-                "\nCPF: ${candidate.getCpf()}" +
-                "\nIdade: ${candidate.getAge()}" +
-                "\nEstado: ${candidate.getState()}" +
-                "\nCEP: ${candidate.getCep()}" +
-                "\nDescrição Pessoal: ${candidate.getDescription()}")
-
-        if (!candidate.skills.empty) {
-            println "Competências: ${candidate.skills.join(', ')}"
-            println("")
-        } else {
-            println "Nenhuma competência cadastrada para este candidato."
-        }
-    }
-
-    static Company createCompany(Scanner scanner) {
-        print "Digite o nome da empresa: "
-        String name = scanner.nextLine()
-
-        print "Digite o email da empresa: "
-        String email = scanner.nextLine()
-
-        print "Digite o CNPJ da empresa: "
-        String cnpj = scanner.nextLine()
-
-        print "Digite o país da empresa: "
-        String country = scanner.nextLine()
-
-        print "Digite o estado da empresa: "
-        String state = scanner.nextLine()
-
-        print "Digite o CEP da empresa: "
-        String cep = scanner.nextLine()
-
-        print "Digite a descrição da empresa: "
-        String description = scanner.nextLine()
-
-        Company company = new Company(null, name, email, cnpj, country, state, cep, description)
-
-        return company
-    }
-
-    static void displayCompanyInfo(Company company) {
-        println("Nome: ${company.getName()}" +
-                "\nEmail: ${company.getEmail()}" +
-                "\nCNPJ: ${company.getCnpj()}" +
-                "\nPaís: ${company.getCountry()}" +
-                "\nEstado: ${company.getState()}" +
-                "\nCEP: ${company.getCep()}" +
-                "\nDescrição Pessoal: ${company.getDescription()}"+
-                "\n")
-    }
-
     static Company updateCompany(Scanner scanner) {
         print "Digite o CNPJ da empresa que deseja atualizar: "
         String cnpj = scanner.nextLine()
@@ -155,31 +196,35 @@ class PrintOperationsView {
         return company
     }
 
-    static String deleteCompany(Scanner scanner) {
-        print "Digite o CNPJ da empresa que deseja deletar: "
+    static Vacancy updateVacancy(Scanner scanner) {
+        print "Digite o identificador da vaga que deseja atualizar: "
+        Integer id = scanner.nextLine()
+
+        print "Digite o novo nome da vaga: "
+        String name = scanner.nextLine()
+
+        print "Digite a nova localidade da empresa: "
+        String locality = scanner.nextLine()
+
+        print "Digite a nova descrição da vaga: "
+        String description = scanner.nextLine()
+
+        print "Digite as novas habilidades da vaga: "
+        String state = scanner.nextLine()
+
+        Vacancy vacancy = new Company(null, )
+
+        return vacancy
+    }
+
+    static String deleteCandidate(Scanner scanner) {
+        print "Digite o CPF do candidato que deseja deletar: "
         return scanner.nextLine()
     }
 
-    static Vacancy createVacancy(Scanner scanner, Company selectedCompany, List<Skill> skills) {
-        println "Digite o nome da vaga: "
-        String name = scanner.nextLine()
-
-        println "Digite a localidade da vaga: "
-        String locality = scanner.nextLine()
-
-        println "Digite a descrição da vaga: "
-        String description = scanner.nextLine()
-
-        List<String> skillNames = skills.collect { it.getName() }
-
-        Vacancy vacancy = new Vacancy(null, name, locality, description, skillNames as List<Skill>)
-
-        if (selectedCompany?.id != null) {
-            vacancy.setCompany(selectedCompany)
-        } else {
-            println "O ID da empresa não está definido. A vaga não será associada à empresa."
-        }
-        return vacancy
+    static String deleteCompany(Scanner scanner) {
+        print "Digite o CNPJ da empresa que deseja deletar: "
+        return scanner.nextLine()
     }
 
     static Company selectExistingCompany(Scanner scanner, List<Company> companies) {
@@ -215,28 +260,5 @@ class PrintOperationsView {
             skillNames.add(skill.trim())
         }
         return skillNames
-    }
-
-    static void displayVacancyInfo(Vacancy vacancy) {
-        println("Nome da vaga: ${vacancy.name}")
-        println("Localidade: ${vacancy.locality}")
-        println("Descrição: ${vacancy.description}")
-
-        Company company = vacancy.company
-        if (company != null) {
-            println("Empresa associada:")
-            println("Nome: ${company.name}")
-        } else {
-            println("\nEmpresa associada: Nenhuma empresa associada.")
-        }
-
-        List<Skill> skills = vacancy.skills
-        if (skills) {
-            println("Habilidades da vaga:")
-            skills.each { println("- ${it.name}") }
-        } else {
-            println("Habilidades da vaga: Nenhuma habilidade cadastrada para esta vaga.")
-        }
-        println("")
     }
 }

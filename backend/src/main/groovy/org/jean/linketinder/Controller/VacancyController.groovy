@@ -30,12 +30,12 @@ class VacancyController {
             throw new VacancyControllerException("Erro ao buscar uma vaga", e)
         }
     }
-//
-//    void updateVacancy() throws CompanyControllerException{
-//        try {
-//            vacancyService.updateVacancy()
-//        }catch (Exception e) {
-//            throw new VacancyControllerException("Erro ao atualizar uma vaga", e)
-//        }
-//    }
+
+    void updateVacancy() throws CompanyControllerException{
+        try {
+            vacancyService.updateVacancy()
+        }catch (Exception e) {
+            throw new VacancyControllerException("Erro ao atualizar uma vaga", e)
+        }
+    }
 }
