@@ -2,8 +2,10 @@ package org.jean.linketinder.Menu
 
 import org.jean.linketinder.Controller.CandidateController
 import org.jean.linketinder.Controller.CompanyController
+import org.jean.linketinder.Controller.VacancyController
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.DAO.CompanyDAO
+import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.View.PrintMenuView
 import org.jean.linketinder.View.PrintOperationsView
 
@@ -13,6 +15,7 @@ class Menu {
     private static final PrintOperationsView printOperationsView = new PrintOperationsView()
     private static final CandidateDAO candidateDAO = new CandidateDAO()
     private static final CompanyDAO companyDAO = new CompanyDAO()
+    private static final VacancyDAO vacancyDAO = new VacancyDAO()
 
     static void menuHome(String options) throws IOException{
 
@@ -69,8 +72,9 @@ class Menu {
                 case '9':
                     new CompanyController(printOperationsView, companyDAO).deleteCompany()
                     break
-//                case '10':
-//                    new VacancyController(printOperationsView, vacancyDAO).createVacancy()
+                case '10':
+                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).createVacancy()
+                    break
 //                case '11':
 //                    new VacancyController(printOperationsView, vacancyDAO).updateVacancy()
                 case '12' :

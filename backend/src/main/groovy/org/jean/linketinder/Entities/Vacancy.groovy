@@ -1,18 +1,22 @@
 package org.jean.linketinder.Entities
 
 class Vacancy {
-
-    UUID id = UUID.randomUUID()
+    Integer id
     String name
     String locality
     String description
-    List<String> skills
+    List<Skill> skills
+    Company company
 
-    Vacancy(UUID id, String name, String locality, String description, List<String> skills) {
+    Vacancy(Integer id, String name, String locality, String description, List<Skill> skills) {
         this.id = id
         this.name = name
         this.locality = locality
         this.description = description
         this.skills = skills
+    }
+
+    void setCompany(Company company) {
+        this.company = company
     }
 }

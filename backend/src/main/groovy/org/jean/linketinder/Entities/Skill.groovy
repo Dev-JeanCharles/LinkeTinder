@@ -7,4 +7,3 @@ class Skill {
         this.name = name
     }
 }
-

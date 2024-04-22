@@ -3,6 +3,7 @@ package org.jean.linketinder.View
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
+import org.jean.linketinder.Entities.Vacancy
 
 class PrintOperationsView {
 
@@ -31,7 +32,7 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         println "Digite as competências do candidato (separadas por vírgula): "
-        List<String> skills = parseSkills(scanner.nextLine())
+        List<String> skills = parseSkills(scanner.nextLine()) as List<String>
 
         Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age, null)
 
@@ -63,7 +64,7 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         print "Digite as novas competências do candidato (separadas por vírgula): "
-        List<String> skillNames = parseSkills(scanner.nextLine())
+        List<String> skillNames = parseSkills(scanner.nextLine()) as List<String>
 
         List<Skill> skills = skillNames.collect { new Skill(it) }
 
@@ -95,7 +96,6 @@ class PrintOperationsView {
     }
 
     static Company createCompany(Scanner scanner) {
-
         print "Digite o nome da empresa: "
         String name = scanner.nextLine()
 
@@ -121,6 +121,7 @@ class PrintOperationsView {
 
         return company
     }
+
 
     static displayCompanyInfo(Company company) {
         println("Nome: ${company.getName()}" +
@@ -165,12 +166,61 @@ class PrintOperationsView {
         return scanner.nextLine()
     }
 
-    private static List<String> parseSkills(String skillsInput) {
-        String[] skillsArray = skillsInput.split(",")
-        List<String> skillsList = new ArrayList<>()
-        for (String skill : skillsArray) {
-            skillsList.add(skill.trim())
+    static Vacancy createVacancy(Scanner scanner, Company selectedCompany, List<Skill> skills) {
+        println "Digite o nome da vaga: "
+        String name = scanner.nextLine()
+
+        println "Digite a localidade da vaga: "
+        String locality = scanner.nextLine()
+
+        println "Digite a descrição da vaga: "
+        String description = scanner.nextLine()
+
+        List<String> skillNames = skills.collect { it.getName() }
+        Vacancy vacancy = new Vacancy(null, name, locality, description, skillNames as List<Skill>)
+
+        if (selectedCompany?.id != null) {
+            vacancy.setCompany(selectedCompany)
+        } else {
+            println "O ID da empresa não está definido. A vaga não será associada à empresa."
         }
-        return skillsList
+
+        return vacancy
+    }
+
+    static Company selectExistingCompany(Scanner scanner, List<Company> companies) {
+        println "Selecione a empresa da lista abaixo:"
+        displayCompanies(companies)
+
+        if (companies.isEmpty()) {
+            println "Nenhuma empresa disponível para seleção."
+            return null
+        }
+
+        print "Digite o número correspondente à empresa selecionada: "
+        int companyIndex = scanner.nextInt() - 1
+        scanner.nextLine()
+
+        if (companyIndex >= 0 && companyIndex < companies.size()) {
+            return companies[companyIndex]
+        } else {
+            println "Empresa selecionada inválida."
+            return null
+        }
+    }
+
+    static void displayCompanies(List<Company> companies) {
+        companies.eachWithIndex { company, index ->
+            println "${index + 1}. ${company.getName()}"
+        }
+    }
+
+    static List<String> parseSkills(String skillsInput) {
+        String[] skillsArray = skillsInput.split(",")
+        List<String> skillNames = new ArrayList<>()
+        for (String skill : skillsArray) {
+            skillNames.add(skill.trim())
+        }
+        return skillNames
     }
 }

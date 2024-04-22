@@ -22,19 +22,24 @@ class DBOperations {
 
             println("Tabela $nameTable criada com sucesso!")
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             println("Erro ao criar tabela $nameTable: ${e.message}")
         }
     }
+
     private boolean ExistTable(String nameTable) {
-        def result = sql.firstRow("""
+        try {
+            def result = sql.firstRow("""
             SELECT EXISTS(
                 SELECT 1
                 FROM   information_schema.tables
-                WHERE  table_name = $nameTable
-            )
-        """)
-        return result?.EXISTS
+                WHERE  table_name = ?
+            )""", [nameTable])
+            return result?.EXISTS
+        } catch (Exception e) {
+            println("Erro ao verificar a existência da tabela $nameTable: ${e.message}")
+            return false
+        }
     }
 }
 

@@ -89,7 +89,7 @@ class App {
 
     static void createTableVacancySkills(DBOperations operationsDAO) {
         List<String> vacancySkills = [
-                "vacancy_id INTEGER REFERENCES companies(id)",
+                "vacancy_id INTEGER REFERENCES vacancies(vacancy_id)",
                 "skill_id INTEGER REFERENCES skills(skill_id)"
         ]
         operationsDAO.createTable("vacancy_skills", vacancySkills)

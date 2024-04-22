@@ -10,13 +10,12 @@ class CompanyDAO {
     private static final UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
     private static final DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
-    private static HandleException exception
+    private HandleException exception = new HandleException()
+    private Sql sql = Sql.newInstance(DBConection.conect())
 
-    Sql sql = Sql.newInstance(DBConection.conect())
-
-    void create(Company company) {
+    Company create(Company company) {
         try {
-            sql.execute(INSERT_COMPANY_QUERY, [
+            def parameters = [
                     company.name,
                     company.email,
                     company.cnpj,
@@ -24,10 +23,23 @@ class CompanyDAO {
                     company.state,
                     company.cep,
                     company.description
-            ])
-            println("Empresa adicionada com sucesso!")
+            ]
+
+            sql.executeInsert(INSERT_COMPANY_QUERY, parameters)
+
+            Integer generatedId = sql.firstRow("SELECT lastval() as id")?.id as Integer
+
+            if (generatedId != null) {
+                company.id = generatedId
+                println("Empresa adicionada com sucesso!")
+                return company
+            } else {
+                println("Erro ao recuperar o ID da empresa recém-adicionada.")
+                return null
+            }
         } catch (Exception e) {
             exception.handleException("Erro ao adicionar empresa", e)
+            return null
         }
     }
 
@@ -37,6 +49,7 @@ class CompanyDAO {
             List<Map<String, Object>> rows = sql.rows(SELECT_ALL_COMPANIES_QUERY)
             rows.each { row ->
                 companies.add(new Company(
+                        row.id as Integer,
                         row.name as String,
                         row.email as String,
                         row.cnpj as String,
