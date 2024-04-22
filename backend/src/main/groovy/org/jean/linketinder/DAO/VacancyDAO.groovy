@@ -156,4 +156,42 @@ class VacancyDAO {
             return null
         }
     }
+
+    void update(Vacancy vacancy) {
+        try {
+            Integer vacancyId = vacancy.id
+            if (vacancyId) {
+                updateVacancyBasicInfo(vacancy)
+
+                addNewSkillsToVacancy(vacancyId, vacancy.skills)
+            } else {
+                println "ID da vaga não fornecido. Não é possível atualizar."
+            }
+        } catch (Exception e) {
+            exception.handleException("Erro ao atualizar a vaga", e)
+        }
+    }
+
+    private void updateVacancyBasicInfo(Vacancy vacancy) {
+        try {
+            List<Object> parameters = [vacancy.name, vacancy.locality, vacancy.description, vacancy.id]
+            sql.execute("UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?", parameters)
+        } catch (Exception e) {
+            exception.handleException("Erro ao atualizar informações básicas da vaga", e)
+        }
+    }
+
+    private void addNewSkillsToVacancy(Integer vacancyId, List<Skill> skills) {
+        try {
+            skills.each { skill ->
+                String skillName = skill instanceof Skill ? skill.name : skill
+                Integer skillId = getOrCreateSkillId(skillName as String)
+                if (skillId) {
+                    sql.execute(INSERT_VACANCY_SKILL_QUERY, [vacancyId, skillId])
+                }
+            }
+        } catch (Exception e) {
+            exception.handleException("Erro ao adicionar novas habilidades à vaga", e)
+        }
+    }
 }

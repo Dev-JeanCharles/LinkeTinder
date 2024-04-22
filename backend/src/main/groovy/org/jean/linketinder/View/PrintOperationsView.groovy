@@ -212,7 +212,7 @@ class PrintOperationsView {
         print "Digite as novas habilidades da vaga: "
         String state = scanner.nextLine()
 
-        Vacancy vacancy = new Company(null, )
+        Vacancy vacancy = new Company(null, ) as Vacancy
 
         return vacancy
     }
