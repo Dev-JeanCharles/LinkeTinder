@@ -6,9 +6,7 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 
 class PrintOperationsView {
-
     static Candidate createCandidate(Scanner scanner) {
-
         println "Digite o nome do candidato: "
         String name = scanner.nextLine()
 
@@ -20,8 +18,8 @@ class PrintOperationsView {
 
         println "Digite a idade do candidato: "
         int age = scanner.nextInt()
-        scanner.nextLine()
 
+        scanner.nextLine()
         println "Digite o estado do candidato: "
         String state = scanner.nextLine()
 
@@ -35,12 +33,10 @@ class PrintOperationsView {
         List<String> skills = parseSkills(scanner.nextLine()) as List<String>
 
         Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age, null)
-
         return candidate
     }
 
     static Candidate updateCandidate(Scanner scanner) {
-
         print "Digite o CPF do candidato que deseja atualizar: "
         String cpf = scanner.nextLine()
 
@@ -69,7 +65,6 @@ class PrintOperationsView {
         List<Skill> skills = skillNames.collect { new Skill(it) }
 
         Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String> as List<Skill>, null, cpf, age, null)
-
         return candidate
     }
 
@@ -78,7 +73,7 @@ class PrintOperationsView {
         return scanner.nextLine()
     }
 
-    static displayCandidateInfo(Candidate candidate) {
+    static void displayCandidateInfo(Candidate candidate) {
         println("Nome: ${candidate.getName()}" +
                 "\nEmail: ${candidate.getEmail()}" +
                 "\nCPF: ${candidate.getCpf()}" +
@@ -122,8 +117,7 @@ class PrintOperationsView {
         return company
     }
 
-
-    static displayCompanyInfo(Company company) {
+    static void displayCompanyInfo(Company company) {
         println("Nome: ${company.getName()}" +
                 "\nEmail: ${company.getEmail()}" +
                 "\nCNPJ: ${company.getCnpj()}" +
@@ -177,6 +171,7 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         List<String> skillNames = skills.collect { it.getName() }
+
         Vacancy vacancy = new Vacancy(null, name, locality, description, skillNames as List<Skill>)
 
         if (selectedCompany?.id != null) {
@@ -184,7 +179,6 @@ class PrintOperationsView {
         } else {
             println "O ID da empresa não está definido. A vaga não será associada à empresa."
         }
-
         return vacancy
     }
 
@@ -196,7 +190,6 @@ class PrintOperationsView {
             println "Nenhuma empresa disponível para seleção."
             return null
         }
-
         print "Digite o número correspondente à empresa selecionada: "
         int companyIndex = scanner.nextInt() - 1
         scanner.nextLine()
