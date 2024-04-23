@@ -13,23 +13,23 @@ export function mascararDados(dado: string, tipo: string): string {
     }
 }
 
-function mascararNome(nome: string): string {
+export function mascararNome(nome: string): string {
     const primeiroParte = nome.slice(0, 2);
     const resto = nome.slice(2).replace(/./g, '*');
     return primeiroParte + resto;
 }
 
-function mascararEmail(email: string): string {
+export function mascararEmail(email: string): string {
     const [usuario, dominio] = email.split('@');
     const usuarioMascarado = usuario.slice(0, 3) + '***' + usuario.slice(-2);
     const dominioMascarado = dominio.slice(3, 0) + '*****' + dominio.slice(-8);
     return usuarioMascarado + '@' + dominioMascarado;
 }
 
-function mascararCPF(cpf: string): string {
+export function mascararCPF(cpf: string): string {
     return cpf.replace(/\d/g, '*');
 }
 
-function mascararCNPJ(cnpj: string): string {
+export function mascararCNPJ(cnpj: string): string {
     return cnpj.replace(/\d/g, '*');
 }
