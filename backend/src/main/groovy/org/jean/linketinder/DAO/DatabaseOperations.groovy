@@ -2,7 +2,11 @@ package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
 
-class DBOperations {
+interface DatabaseOperations {
+    void createTable(String nameTable, List<String> fields)
+}
+
+class DBOperations implements DatabaseOperations {
 
     private Sql sql
 
@@ -10,6 +14,7 @@ class DBOperations {
         this.sql = instance
     }
 
+    @Override
     void createTable(String nameTable, List<String> fields) {
         try {
             if (ExistTable(nameTable)) {
@@ -42,6 +47,3 @@ class DBOperations {
         }
     }
 }
-
-
-

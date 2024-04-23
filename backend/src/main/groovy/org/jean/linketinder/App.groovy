@@ -1,7 +1,7 @@
 package org.jean.linketinder
 
 import groovy.sql.Sql
-import org.jean.linketinder.DAO.DBConection
+import org.jean.linketinder.DAO.DBConnection
 import org.jean.linketinder.DAO.DBOperations
 import org.jean.linketinder.Menu.Menu
 
@@ -12,8 +12,8 @@ class App {
     }
 
     static void createDatabaseTables() {
-        DBConection conectDTO = new DBConection()
-        Sql instance = new Sql(conectDTO.conect())
+        DBConnection connectDTO = new DBConnection()
+        Sql instance = new Sql(connectDTO.connect())
         DBOperations operationsDAO = new DBOperations(instance)
 
         createTableCandidates(operationsDAO)

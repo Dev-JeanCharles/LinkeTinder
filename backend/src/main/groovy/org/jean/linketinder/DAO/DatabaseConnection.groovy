@@ -3,12 +3,16 @@ package org.jean.linketinder.DAO
 import java.sql.Connection
 import java.sql.DriverManager
 
-class DBConection {
+interface DatabaseConnection {
+    Connection connect()
+}
+
+class DBConnection implements  DatabaseConnection {
 
     static Connection connection = null
 
-    static Connection conect() {
-
+    @Override
+    Connection connect() {
         String dbname = "linkertinder"
         String user = "postgres"
         String password = "123"
@@ -23,6 +27,3 @@ class DBConection {
         return connection
     }
 }
-
-
-
