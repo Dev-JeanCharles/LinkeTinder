@@ -14,7 +14,10 @@ class Candidate extends Users {
         this.skillIds = skillIds
     }
 
-    Candidate(String name, String email, String state, String cep, String description, List<Skill> skills) {
-        super(name, email, state, cep, description, skills as List<String>)
+    Candidate(String name, String email, String cpf, Integer age, String state, String cep, String description, List<Skill> skillNames) {
+        super(name, email, state, cep, description, skillNames)
+        this.cpf = cpf
+        this.age = age
     }
+
 }
