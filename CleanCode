@@ -1,0 +1,33 @@
+Principais mudanças realizadas:
+
+Backend + Banco de dados + testes unitários
+
+  - Separação dos métodos que realizam o tratamento de exceções personalizadas.
+  - Separação das consultas sql realizadas no DAO, adicionando variáveis para cada consulta.
+  - Separação dos métodos com múltiplas funcionalidades para CandidateDAO, CompanyDAO e VacancyDAO.
+  - Criação da funcionalide que ao excluir uma empresa automaticamente as vagas associadas são excluídas.
+  - Alteração de ConectionDAO e OperationsDAO para DBConection e DBOperations.
+  - Criação da entidade Skill que antes era um enum de habilidades.
+  - Adicão do método setCompany para adicionar uma nova empresa associada a vaga na entidade Vacancy.
+  - Divisão dos métodos no menu e adição de mais opções para consulta.
+  - Criação e divisão dos métodos responsáveis por consultas em CandidateService, CompanyService e VacancyService.
+  - Atribuição de instancias antes de todos os métodos com suas respectivas variaveis para serem utilizadas.
+  - PrintMenuView essa nova classe tem a função de imprimir todas as mensagens do menu que serão apresentadas no console.
+  - PrintOperationsView com divisão de cada método e suas responsabilidades.
+  - App.groovy com o método main que chama os métodos responsáveis pela criação das tabelas e inicialização do menu.
+  - Após a definição das tabelas é chamado o operationsDAO que por sua vez tem o método createTable e estará realizando a criação da tabela com seu nome específico.
+  - Criação dos testes que faltaram CompanyDAOTest e VacancyDAOTest.
+  - Testes utilizando o framework spock.
+  - Aplicado BeforeEach e o setup para a inicialização das instâncias.
+  - Uso do HandleException para o tratamento de excessões.
+  - Em VacancyDAOTest é realizado o teste de adicionar a vaga e empresa associada.
+
+Frontend
+
+- Tanto em cadastroEmpresa quanto cadastroCandidato agora tem um método main para a inicialização dos eventos no formulário.
+- A estruturaCandidato agora tem os métodos separados e formatados.
+- Substituição do nome do método MascararDados por aplicarMascara.
+- Uso do método Record para mapear propriedades de objetos de outros tipos.
+- Definição de constantes no inicio no método preencherPerfilEmpresa.
+- Aplicação de Try Catch nos métodos CandidatoDTO e EmpresaDTO.
+- Toda a parte de validações agora estão separados em métodos para suas respectivas validações e após essa etapa é formatado o documento.
