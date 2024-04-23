@@ -1,4 +1,4 @@
-export function mascararDados(dado: string, tipo: string): string {
+export function aplicarMascara(dado: string, tipo: string): string {
     switch (tipo) {
         case 'nome':
             return mascararNome(dado);

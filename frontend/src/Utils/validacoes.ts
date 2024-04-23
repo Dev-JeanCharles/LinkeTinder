@@ -4,87 +4,98 @@ document.addEventListener("DOMContentLoaded", () => {
     const cepInput = document.getElementById("cep") as HTMLInputElement;
     const emailInput = document.getElementById("email") as HTMLInputElement;
 
-    function validacaoDocumentoHtml(eventos: Event) {
-        const input = eventos.target as HTMLInputElement;
-        let validador = input.value.replace(/\D/g, "");
+    function formatarDocumento(evento: Event) {
+        const input = evento.target as HTMLInputElement;
+        let valor = input.value.replace(/\D/g, "");
 
-        if (input == cpfInput) {
-            let cpf = validador.substring(0,11)
-            let cpfValidado = ""
-
-            for(let i = 0; i < cpf.length; i++) {
-                if(i === 3 || i === 6) {
-                    cpfValidado += "."
-                }else if (i === 9) {
-                    cpfValidado += "-";
-                }
-                cpfValidado += cpf[i]
-            }
-            input.value = cpfValidado
-        
+        if (input === cpfInput) {
+            input.value = formatarCPF(valor);
         } else if (input === cepInput) {
-            let cep = validador.substring(0,8)
-            let cepValidado = ""
-        
-            for(let i = 0; i < cep.length; i++) {
-                if(i === 5) {
-                    cepValidado += "-"
-                }
-                cepValidado += cep[i]
-            }
-            input.value = cepValidado
-
+            input.value = formatarCEP(valor);
         } else if (input === cnpjInput) {
-            let cnpj = validador.substring(0,14)
-            let cnpjValidado = ""
-
-            for(let i = 0; i < cnpj.length; i++) {
-                if(i === 2 || i === 5) {
-                    cnpjValidado += "."
-                }else if (i === 8) {
-                    cnpjValidado += "/"
-                }else if (i === 12) {
-                    cnpjValidado += "-"
-                }
-                cnpjValidado += cnpj[i]
-            }
-            input.value = cnpjValidado
+            input.value = formatarCNPJ(valor);
         }
     }
-    function validacaoEmail(event: Event) {
-        const inputEmail =  event.target as HTMLInputElement
-        let email = inputEmail.value.trim()
 
-        const emailRegex = /^[^\s@]+@(?!.*\d)[^\s@]+\.[^\s@]+$/
+    function formatarCPF(valor: string): string {
+        let cpfFormatado = "";
 
-        if(!emailRegex.test(email)) {
-            return
+        for (let i = 0; i < valor.length; i++) {
+            if (i === 3 || i === 6) {
+                cpfFormatado += ".";
+            } else if (i === 9) {
+                cpfFormatado += "-";
+            }
+            cpfFormatado += valor[i];
         }
 
-        const prox = email[email.length - 1]
-        if (prox === ".") {
-            email = email.slice(0, -1)
-        }else if (!email.endsWith('.com.br')){
-            email += ".br"
+        return cpfFormatado.substring(0, 14);
+    }
+
+    function formatarCEP(valor: string): string {
+        let cepFormatado = "";
+
+        for (let i = 0; i < valor.length; i++) {
+            if (i === 5) {
+                cepFormatado += "-";
+            }
+            cepFormatado += valor[i];
         }
-        inputEmail.maxLength = email.endsWith('.br') ? email.length : 50
-        inputEmail.value = email
+
+        return cepFormatado.substring(0, 9);
+    }
+
+    function formatarCNPJ(valor: string): string {
+        let cnpjFormatado = "";
+
+        for (let i = 0; i < valor.length; i++) {
+            if (i === 2 || i === 5) {
+                cnpjFormatado += ".";
+            } else if (i === 8) {
+                cnpjFormatado += "/";
+            } else if (i === 12) {
+                cnpjFormatado += "-";
+            }
+            cnpjFormatado += valor[i];
+        }
+
+        return cnpjFormatado.substring(0, 18);
+    }
+
+    function validarEmail(evento: Event) {
+        const inputEmail = evento.target as HTMLInputElement;
+        let email = inputEmail.value.trim();
+
+        const emailRegex = /^[^\s@]+@(?!.*\d)[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+            return;
+        }
+
+        const lastChar = email[email.length - 1];
+        if (lastChar === '.') {
+            email = email.slice(0, -1);
+        } else if (!email.endsWith('.com.br')) {
+            email += '.br';
+        }
+
+        inputEmail.maxLength = email.endsWith('.br') ? email.length : 50;
+        inputEmail.value = email;
     }
 
     if (cpfInput) {
-        cpfInput.addEventListener("input", validacaoDocumentoHtml)
+        cpfInput.addEventListener("input", formatarDocumento);
     }
 
     if (cnpjInput) {
-        cpfInput.addEventListener("input", validacaoDocumentoHtml)
+        cnpjInput.addEventListener("input", formatarDocumento);
     }
 
     if (cepInput) {
-        cpfInput.addEventListener("input", validacaoDocumentoHtml)
+        cepInput.addEventListener("input", formatarDocumento);
     }
 
     if (emailInput) {
-        emailInput.addEventListener("input", validacaoEmail)
+        emailInput.addEventListener("input", validarEmail);
     }
-
 });

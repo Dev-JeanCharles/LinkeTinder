@@ -1,12 +1,12 @@
 import { Candidato } from "../Models/Candidato";
-import { mascararDados } from "../Utils/mascarar";
+import { aplicarMascara } from "../Utils/mascarar";
 
 export function construirCandidato(candidato: Candidato): string {
     const { nome, email, cpf, competencias, descricao } = candidato;
 
-    const emailMascarado = mascararDados(email, 'email');
-    const cpfMascarado = mascararDados(cpf, 'cpf');
-    const nomeMascarado = mascararDados(nome, 'nome');
+    const emailMascarado = aplicarMascara(email, 'email');
+    const cpfMascarado = aplicarMascara(cpf, 'cpf');
+    const nomeMascarado = aplicarMascara(nome, 'nome');
 
     const competenciasFormatadas = formatarCompetencias(competencias);
 

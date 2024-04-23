@@ -1,8 +1,8 @@
-import {Candidato} from "../Models/Candidato";
+import { Candidato } from "../Models/Candidato";
 import Chart from "chart.js/auto";
 
 export function criarGraficoBarras(dados: Candidato[]): void {
-    const competenciasContagem: { [key: string]: number } = {};
+    const competenciasContagem: Record<string, number> = {};
 
     dados.forEach(candidato => {
         candidato.competencias.forEach(competencia => {
@@ -10,6 +10,7 @@ export function criarGraficoBarras(dados: Candidato[]): void {
         });
     });
 
+    // Extrair labels e dados para o gráfico
     const labels = Object.keys(competenciasContagem);
     const data = Object.values(competenciasContagem);
 

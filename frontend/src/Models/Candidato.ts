@@ -1,29 +1,30 @@
 import { Usuario } from "./Usuario";
 
 export class Candidato extends Usuario {
-    constructor(        
-        public nome: string,
+    constructor(
+        nome: string,
         public idade: number,
         public cpf: string,
-        public estado: string,
-        public cep: string,
-        public email: string,
-        public competencias: string[],
-        public descricao: string
-    ){
-        super(nome, estado, cep, email,descricao,competencias);
+        estado: string,
+        cep: string,
+        email: string,
+        competencias: string[],
+        descricao: string
+    ) {
+        super(nome, estado, cep, email, descricao, competencias);
     }
 
-    getAll() {
+    // Retorna todos os detalhes do candidato como um objeto
+    getAll(): Record<string, any> {
         return {
-            nome: this.nome ,
-            idade: this.idade ,
-            cpf: this.cpf ,
-            estado: this.estado ,
-            cep: this.cep ,
-            email: this.email ,
-            competencias: this.competencias ,
-            descricao: this.descricao
-        }
+            nome: this.nome,
+            idade: this.idade,
+            cpf: this.cpf,
+            estado: this.estado,
+            cep: this.cep,
+            email: this.email,
+            competencias: this.competencias,
+            descricao: this.descricao,
+        };
     }
 }

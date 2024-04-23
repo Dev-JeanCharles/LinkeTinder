@@ -2,28 +2,29 @@ import { Usuario } from "./Usuario";
 
 export class Empresa extends Usuario {
     constructor(
-        public nome: string,
+        nome: string,
         public email: string,
         public cnpj: string,
         public pais: string,
-        public estado: string,
-        public cep: string,
-        public descricao: string,
-        public competencias: string[]
+        estado: string,
+        cep: string,
+        descricao: string,
+        competencias: string[]
     ) {
-        super(nome, estado, cep, email,descricao, competencias);
+        super(nome, estado, cep, email, descricao, competencias);
     }
 
-    getAll() {
+    // Retorna todos os detalhes da empresa como um objeto
+    getAll(): Record<string, any> {
         return {
-            nome: this.nome ,
-            email: this.email ,
-            cnpj: this.cnpj ,
-            pais: this.pais ,
-            estado: this.estado ,
-            cep: this.cep ,
-            descricao: this.descricao ,
-            competencias: this.competencias
+            nome: this.nome,
+            email: this.email,
+            cnpj: this.cnpj,
+            pais: this.pais,
+            estado: this.estado,
+            cep: this.cep,
+            descricao: this.descricao,
+            competencias: this.competencias,
         };
     }
 }

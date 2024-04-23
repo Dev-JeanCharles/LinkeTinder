@@ -1,17 +1,24 @@
-import {Empresa} from "../Empresa";
+import { Empresa } from "../Empresa";
 
 export class DTOEmpresa {
-    add(empresa: any): void {
-        let empresas = this.get();
-        empresas.push(empresa);
-        localStorage.setItem("empresas", JSON.stringify(empresas));
+    // Adiciona uma empresa ao armazenamento local
+    add(empresa: Empresa): void {
+        try {
+            const empresas = this.get();
+            empresas.push(empresa);
+            localStorage.setItem("empresas", JSON.stringify(empresas));
+        } catch (error) {
+            console.error("Erro ao adicionar empresa:", error);
+        }
     }
 
+    // Obtém todas as empresas do armazenamento local
     get(): Empresa[] {
-        const local = localStorage.getItem("empresas");
-        if (local) {
-            return JSON.parse(local);
-        } else {
+        try {
+            const local = localStorage.getItem("empresas");
+            return local ? JSON.parse(local) : [];
+        } catch (error) {
+            console.error("Erro ao obter empresas:", error);
             return [];
         }
     }
