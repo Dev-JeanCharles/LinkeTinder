@@ -25,6 +25,7 @@ class VacancyDAO {
     private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
     private static final String INSERT_VACANCY_COMPANY_QUERY = "INSERT INTO vacancy_companies (company_id, vacancy_id) VALUES (?, ?)"
     private static final String UPDATE_VACANCY_INFO_QUERY = "UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?"
+    private static final String DELETE_COMPANY_ASSOCIATE_QUERY = "DELETE FROM vacancy_companies WHERE company_id = ?"
 
     HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConection.conect())
@@ -38,6 +39,8 @@ class VacancyDAO {
                 addSkillToVacancy(row, vacancy)
                 addCompanyToVacancy(row, vacancy)
             }
+            vacancies.removeIf { vacancy -> vacancy.company == null }
+
             return vacancies
         } catch (Exception e) {
             exception.handleException("Erro ao obter todas as vagas", e)
@@ -109,7 +112,7 @@ class VacancyDAO {
             List<Object> parameters = [vacancy.name, vacancy.locality, vacancy.description]
             sql.executeInsert(INSERT_VACANCY_QUERY, parameters)
 
-            return (sql.firstRow(GET_SKILL_ID_QUERY)?.id as Integer)
+            return (sql.firstRow(GET_ID_QUERY)?.id as Integer)
         } catch (Exception e) {
             exception.handleException("Erro ao inserir a vaga", e)
             return null
@@ -194,6 +197,15 @@ class VacancyDAO {
             }
         } catch (Exception e) {
             exception.handleException("Erro ao adicionar novas habilidades à vaga", e)
+        }
+    }
+
+    void deleteByCompanyId(Integer companyId) {
+        try {
+            sql.execute(DELETE_COMPANY_ASSOCIATE_QUERY, [companyId])
+            println "Vagas associadas à empresa removidas com sucesso."
+        } catch (Exception e) {
+            exception.handleException("Erro ao remover vagas associadas à empresa", e)
         }
     }
 }

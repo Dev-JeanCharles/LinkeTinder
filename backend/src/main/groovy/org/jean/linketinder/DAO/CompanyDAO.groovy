@@ -13,6 +13,7 @@ class CompanyDAO {
 
     HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConection.conect())
+    VacancyDAO vacancyDAO = new VacancyDAO()
 
     Company create(Company company) {
         try {
@@ -65,6 +66,21 @@ class CompanyDAO {
         return companies
     }
 
+    Integer getCompanyIdByCnpj(String cnpj) {
+        try {
+            def result = sql.firstRow("SELECT id FROM companies WHERE cnpj = ?", [cnpj])
+            if (result) {
+                return result.id as Integer
+            } else {
+                println("Empresa com CNPJ $cnpj não encontrada.")
+                return null
+            }
+        } catch (Exception e) {
+            exception.handleException("Erro ao obter o ID da empresa pelo CNPJ", e)
+            return null
+        }
+    }
+
     void update(String cnpj, Company company) {
         try {
             sql.execute(UPDATE_COMPANY_QUERY, [
@@ -85,6 +101,12 @@ class CompanyDAO {
 
     void delete(String cnpj) {
         try {
+            Integer companyId = getCompanyIdByCnpj(cnpj)
+
+            if (companyId != null) {
+            vacancyDAO.deleteByCompanyId(companyId)
+            }
+
             sql.execute(DELETE_COMPANY_QUERY, [cnpj])
             println("Empresa removida com sucesso!")
         } catch (Exception e) {
