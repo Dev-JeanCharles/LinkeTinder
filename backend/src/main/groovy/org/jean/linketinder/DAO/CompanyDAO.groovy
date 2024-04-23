@@ -28,7 +28,6 @@ class CompanyDAO {
             sql.executeInsert(INSERT_COMPANY_QUERY, parameters) { generatedId ->
                 if (generatedId != null && generatedId > 0) {
                     company.id = generatedId
-                    println("Empresa adicionada com sucesso! ID: $generatedId")
                 } else {
                     println("Erro ao recuperar o ID da empresa recém-adicionada.")
                 }

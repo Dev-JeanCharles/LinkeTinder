@@ -23,8 +23,8 @@ class VacancyDAO {
     LEFT JOIN companies c ON vc.company_id = c.id
 """
 
-    private HandleException exception = new HandleException()
-    private Sql sql = Sql.newInstance(DBConection.conect())
+    HandleException exception
+    Sql sql = Sql.newInstance(DBConection.conect())
 
     List<Vacancy> getAll() {
         try {

@@ -10,6 +10,21 @@ class Company extends Users {
         this.cnpj = cnpj
         this.country = country
     }
+
+    Company(Map<String, Object> attributes) {
+        super(
+                attributes.name as String,
+                attributes.email as String,
+                attributes.state as String,
+                attributes.cep as String,
+                attributes.description as String,
+                null
+        )
+        this.id = attributes.id as Integer
+        this.cnpj = attributes.cnpj as String
+        this.country = attributes.country as String
+    }
+
     Company(String name) {
         super(name, null, null, null, null, null)
     }
