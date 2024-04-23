@@ -2,16 +2,18 @@ package org.jean.linketinder.Service
 
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.Interfaces.CandidateImplementation
 import org.jean.linketinder.View.PrintOperationsView
 
-class CandidateService {
+class CandidateService implements CandidateImplementation.CandidateOperationsInterface{
     private PrintOperationsView printView = new PrintOperationsView()
     private CandidateDAO candidateDAO = new CandidateDAO()
     private Scanner scanner = new Scanner(System.in)
 
-    CandidateService(PrintOperationsView printView, CandidateDAO candidateDAO) {
+    CandidateService(PrintOperationsView printView, CandidateDAO candidateDAO, Scanner scanner) {
         this.printView = printView
         this.candidateDAO = candidateDAO
+        this.scanner = scanner
     }
 
     void createCandidate() {

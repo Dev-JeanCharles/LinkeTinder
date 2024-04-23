@@ -12,7 +12,7 @@ class CompanyDAO {
     private static final String DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
     HandleException exception = new HandleException()
-    Sql sql = Sql.newInstance(DBConection.conect())
+    Sql sql = Sql.newInstance(DBConnection.connection)
     VacancyDAO vacancyDAO = new VacancyDAO()
 
     Company create(Company company) {

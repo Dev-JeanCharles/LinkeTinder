@@ -5,15 +5,14 @@ import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
+import org.jean.linketinder.Interfaces.VacancyImplementation
 import org.jean.linketinder.View.PrintOperationsView
 
-import java.util.Scanner
+class VacancyService implements VacancyImplementation.VacancyOperationsInterface{
 
-class VacancyService {
-
-    private PrintOperationsView printView
-    private VacancyDAO vacancyDAO
-    private CompanyDAO companyDAO
+    private final PrintOperationsView printView
+    private final VacancyDAO vacancyDAO
+    private final CompanyDAO companyDAO
     private static final Scanner scanner = new Scanner(System.in)
 
     VacancyService(PrintOperationsView printView, VacancyDAO vacancyDAO, CompanyDAO companyDAO) {

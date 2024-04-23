@@ -28,7 +28,7 @@ class VacancyDAO {
     private static final String DELETE_COMPANY_ASSOCIATE_QUERY = "DELETE FROM vacancy_companies WHERE company_id = ?"
 
     HandleException exception = new HandleException()
-    Sql sql = Sql.newInstance(DBConection.conect())
+    Sql sql = Sql.newInstance(DBConnection.connection)
 
     List<Vacancy> getAll() {
         try {

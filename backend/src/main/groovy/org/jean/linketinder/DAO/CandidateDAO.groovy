@@ -19,7 +19,7 @@ class CandidateDAO {
 
     HandleException exception = new HandleException()
 
-    Sql sql = Sql.newInstance(DBConection.conect())
+    Sql sql = Sql.newInstance(DBConnection.connection)
 
     void create(Candidate candidate) {
         try {
