@@ -1,61 +1,65 @@
 import { Empresa } from "../Models/Empresa";
-import {DTOEmpresa} from "../Models/dto/EmpresaDTO"
+import { DTOEmpresa } from "../Models/dto/EmpresaDTO";
 
-let nomeEmpresa: string
-let emailEmpresa: string
-let cnpjEmpresa: string
-let paisEmpresa: string
-let estadoEmpresa: string
-let cepEmpresa: string
-let descricaoEmpresa: string
-let competenciasEmpresa: string[] = []
+let nomeEmpresa: string;
+let emailEmpresa: string;
+let cnpjEmpresa: string;
+let paisEmpresa: string;
+let estadoEmpresa: string;
+let cepEmpresa: string;
+let descricaoEmpresa: string;
+let competenciasEmpresa: string[] = [];
 
-const formEmpresa: HTMLFormElement | null = document.forms.namedItem("form2");
-formEmpresa?.addEventListener("submit", (event) => {
+function main(): void {
+    const formEmpresa: HTMLFormElement | null = document.forms.namedItem("form2");
+    formEmpresa?.addEventListener("submit", handleSubmitEmpresa);
+}
+
+function handleSubmitEmpresa(event: Event): void {
     event.preventDefault();
 
     if (validarCamposEmpresa()) {
+        const novaEmpresa = criarNovaEmpresa();
 
-        const novaEmpresa = new Empresa(
-            nomeEmpresa,
-            emailEmpresa,
-            cnpjEmpresa,
-            paisEmpresa,
-            estadoEmpresa,
-            cepEmpresa,
-            descricaoEmpresa,
-            competenciasEmpresa
-        );
-
-        const empresadto = new DTOEmpresa()
-        empresadto.add(novaEmpresa) 
+        const empresadto = new DTOEmpresa();
+        empresadto.add(novaEmpresa);
 
         alert("Cadastro realizado com sucesso!");
 
-        window.location.href = `perfilEmpresa.html?cnpj=${encodeURIComponent(cnpjEmpresa)}`;
+        const encodedCnpj = encodeURIComponent(cnpjEmpresa);
+        window.location.href = `perfilEmpresa.html?cnpj=${encodedCnpj}`;
     } else {
         alert("Por favor, preencha todos os campos obrigatórios.");
     }
-});
+}
 
 function validarCamposEmpresa(): boolean {
     const camposObrigatorios: string[] = ["nome", "email", "cnpj", "pais", "estado", "cep", "descricao"];
-    let todosCamposPreenchidos = true;
     const emailRegex = /^[^\s@]+@(?!.*\d)[^\s@]+\.[^\s@]+$/;
 
-    camposObrigatorios.forEach((campo) => {
+    for (const campo of camposObrigatorios) {
         const input: HTMLInputElement | null = document.getElementById(campo) as HTMLInputElement;
         if (!input || input.value.trim() === "") {
-            todosCamposPreenchidos = false;
-        } else if (campo === "email") {
-            if (!emailRegex.test(input.value)) {
-                todosCamposPreenchidos = false;
-                alert('O e-mail inserido não é válido. Por favor, verifique e tente novamente.');
-            }
+            return false;
+        } else if (campo === "email" && !emailRegex.test(input.value)) {
+            alert('O e-mail inserido não é válido. Por favor, verifique e tente novamente.');
+            return false;
         }
-    });
+    }
+    return true;
+}
 
-    return todosCamposPreenchidos;
+function criarNovaEmpresa(): Empresa {
+    return new Empresa(
+        nomeEmpresa,
+        emailEmpresa,
+        cnpjEmpresa,
+        paisEmpresa,
+        estadoEmpresa,
+        cepEmpresa,
+        descricaoEmpresa,
+        competenciasEmpresa
+    );
 }
 
 function iniciarListenersEmpresa(): void {
@@ -104,3 +108,4 @@ function iniciarListenersEmpresa(): void {
 }
 
 iniciarListenersEmpresa();
+main()

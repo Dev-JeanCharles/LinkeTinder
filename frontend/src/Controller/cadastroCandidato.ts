@@ -1,6 +1,15 @@
 import { Candidato } from "../Models/Candidato";
 import { DTOCandidato } from "../Models/dto/CandidatoDTO";
 
+let nomeCandidato: string;
+let idadeCandidato: number;
+let cpfCandidato: string;
+let estadoCandidato: string;
+let cepCandidato: string;
+let emailCandidato: string;
+let competenciasCandidato: string[] = [];
+let descricaoCandidato: string;
+
 function main(): void {
     const formCandidato: HTMLFormElement | null = document.forms.namedItem("form1");
     formCandidato?.addEventListener("submit", handleSubmit);
@@ -105,15 +114,6 @@ function iniciarListenersCandidato(): void {
         });
     });
 }
-
-let nomeCandidato: string;
-let idadeCandidato: number;
-let cpfCandidato: string;
-let estadoCandidato: string;
-let cepCandidato: string;
-let emailCandidato: string;
-let competenciasCandidato: string[] = [];
-let descricaoCandidato: string;
 
 iniciarListenersCandidato();
 main();
