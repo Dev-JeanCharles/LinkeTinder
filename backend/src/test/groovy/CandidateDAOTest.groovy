@@ -42,7 +42,7 @@ class CandidateDAOTest extends Specification {
         then:
         assertEquals("John Doe", candidate.name)
         assertEquals("john.doe@example.com", candidate.email)
-        assertEquals("123.456.789-00", candidate.cpf) // CPF esperado
+        assertEquals("123.456.789-00", candidate.cpf)
         assertEquals(30, candidate.age)
         assertEquals("California", candidate.state)
         assertEquals("12345-678", candidate.cep)

@@ -39,10 +39,13 @@ class VacancyDAOTest extends Specification {
         vacancyDAO.create(vacancy, company)
 
         then:
+        assertEquals(1, company.id)
+        assertEquals("Tech Solutions", company.name)
         assertEquals(4, vacancy.id)
         assertEquals("Estágio Desenvolvedor Backend Java", vacancy.name)
         assertEquals("Paraná", vacancy.locality)
         assertEquals("Desenvolver Software Desktop", vacancy.description)
         assertEquals(3, vacancy.skills.size())
+
     }
 }

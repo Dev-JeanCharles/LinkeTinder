@@ -24,8 +24,4 @@ class Company extends Users {
         this.cnpj = attributes.cnpj as String
         this.country = attributes.country as String
     }
-
-    Company(String name) {
-        super(name, null, null, null, null, null)
-    }
 }
