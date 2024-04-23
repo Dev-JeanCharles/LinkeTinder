@@ -69,6 +69,8 @@ class App {
         operationsDAO.createTable("companies", fieldCompanies)
     }
 
+
+
     static void createTableVacancies(DBOperations operationsDAO) {
         List<String> fieldVacancies = [
                 "vacancy_id SERIAL PRIMARY KEY",

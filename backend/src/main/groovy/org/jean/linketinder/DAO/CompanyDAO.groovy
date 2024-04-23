@@ -10,7 +10,7 @@ class CompanyDAO {
     private static final UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
     private static final DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
-    HandleException exception
+    HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConection.conect())
 
     Company create(Company company) {
@@ -24,21 +24,23 @@ class CompanyDAO {
                     company.cep,
                     company.description
             ]
+            sql.executeInsert(INSERT_COMPANY_QUERY, parameters)
 
-            sql.executeInsert(INSERT_COMPANY_QUERY, parameters) { generatedId ->
-                if (generatedId != null && generatedId > 0) {
-                    company.id = generatedId
-                } else {
-                    println("Erro ao recuperar o ID da empresa recém-adicionada.")
+            Integer generatedId = sql.firstRow("SELECT lastval() as id")?.id as Integer
+
+            if (generatedId != null) {
+                company.id = generatedId
+                println("Empresa adicionada com sucesso!")
+                return company
+            } else {
+                println("Erro ao recuperar o ID da empresa recém-adicionada.")
+                return null
                 }
+            } catch (Exception e) {
+                exception.handleException("Erro ao adicionar empresa", e)
+                return null
             }
-
-            return company
-        } catch (Exception e) {
-            exception.handleException("Erro ao adicionar empresa", e)
-            return null
         }
-    }
 
     List<Company> getAll() {
         List<Company> companies = []

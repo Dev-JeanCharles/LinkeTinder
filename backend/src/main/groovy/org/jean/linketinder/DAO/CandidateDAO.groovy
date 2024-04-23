@@ -14,7 +14,7 @@ class CandidateDAO {
     private static final DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
     private static final DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
 
-    HandleException exception
+    HandleException exception = new HandleException()
 
     Sql sql = Sql.newInstance(DBConection.conect())
 

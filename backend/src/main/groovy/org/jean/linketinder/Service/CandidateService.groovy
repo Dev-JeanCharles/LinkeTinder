@@ -27,7 +27,6 @@ class CandidateService {
             for (Candidate candidate : candidates) {
                 printView.displayCandidateInfo(candidate)
             }
-
         } else {
             println("Nenhum candidato encontrado.")
         }
