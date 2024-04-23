@@ -9,11 +9,9 @@ import org.jean.linketinder.Exceptions.HandleException
 import java.sql.PreparedStatement
 
 class VacancyDAO {
-    private static final String INSERT_VACANCY_QUERY = "INSERT INTO vacancies (name, locality, description) VALUES (?, ?, ?)"
-    private static final String INSERT_VACANCY_SKILL_QUERY = "INSERT INTO vacancy_skills (vacancy_id, skill_id) VALUES (?, ?)"
-    private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
-    private static final String INSERT_VACANCY_COMPANY_QUERY = "INSERT INTO vacancy_companies (company_id, vacancy_id) VALUES (?, ?)"
-    private static final String SELECT_ALL_VACANCIES_QUERY = """
+    private static final String GET_ID_QUERY = "SELECT lastval() as id"
+    private static final String GET_SKILL_ID_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
+    private static final String GET_ALL_VACANCIES_QUERY = """
     SELECT v.vacancy_id, v.name, v.locality, v.description, 
            s.name as skill_name, vc.company_id, c.name as company_name
     FROM vacancies v
@@ -21,7 +19,12 @@ class VacancyDAO {
     LEFT JOIN skills s ON vs.skill_id = s.skill_id
     LEFT JOIN vacancy_companies vc ON v.vacancy_id = vc.vacancy_id
     LEFT JOIN companies c ON vc.company_id = c.id
-"""
+    """
+    private static final String INSERT_VACANCY_QUERY = "INSERT INTO vacancies (name, locality, description) VALUES (?, ?, ?)"
+    private static final String INSERT_VACANCY_SKILL_QUERY = "INSERT INTO vacancy_skills (vacancy_id, skill_id) VALUES (?, ?)"
+    private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
+    private static final String INSERT_VACANCY_COMPANY_QUERY = "INSERT INTO vacancy_companies (company_id, vacancy_id) VALUES (?, ?)"
+    private static final String UPDATE_VACANCY_INFO_QUERY = "UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?"
 
     HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConection.conect())
@@ -29,7 +32,7 @@ class VacancyDAO {
     List<Vacancy> getAll() {
         try {
             List<Vacancy> vacancies = []
-            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_VACANCIES_QUERY)
+            List<Map<String, Object>> rows = sql.rows(GET_ALL_VACANCIES_QUERY)
             rows.each { Map<String, Object> row ->
                 Vacancy vacancy = createVacancyFromRow(row, vacancies)
                 addSkillToVacancy(row, vacancy)
@@ -106,7 +109,7 @@ class VacancyDAO {
             List<Object> parameters = [vacancy.name, vacancy.locality, vacancy.description]
             sql.executeInsert(INSERT_VACANCY_QUERY, parameters)
 
-            return (sql.firstRow("SELECT lastval() as id")?.id as Integer)
+            return (sql.firstRow(GET_SKILL_ID_QUERY)?.id as Integer)
         } catch (Exception e) {
             exception.handleException("Erro ao inserir a vaga", e)
             return null
@@ -145,10 +148,10 @@ class VacancyDAO {
 
     private Integer getOrCreateSkillId(String skillName) {
         try {
-            Integer skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
+            Integer skillId = sql.firstRow(GET_SKILL_ID_QUERY, [skillName])?.skill_id as Integer
             if (skillId == null) {
                 sql.execute(INSERT_SKILL_QUERY, [skillName])
-                skillId = sql.firstRow("SELECT lastval() as id")?.id as Integer
+                skillId = sql.firstRow(GET_ID_QUERY)?.id as Integer
             }
             return skillId
         } catch (Exception e) {
@@ -171,11 +174,10 @@ class VacancyDAO {
         }
     }
 
-
     private void updateVacancyBasicInfo(Vacancy vacancy) {
         try {
             List<Object> parameters = [vacancy.name, vacancy.locality, vacancy.description, vacancy.id]
-            sql.execute("UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?", parameters)
+            sql.execute(UPDATE_VACANCY_INFO_QUERY, parameters)
         } catch (Exception e) {
             exception.handleException("Erro ao atualizar informações básicas da vaga", e)
         }

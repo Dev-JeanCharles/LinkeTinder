@@ -5,10 +5,11 @@ import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
 
 class CompanyDAO {
-    private static final INSERT_COMPANY_QUERY = "INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    private static final SELECT_ALL_COMPANIES_QUERY = "SELECT * FROM companies"
-    private static final UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
-    private static final DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
+    private static final String GET_ALL_COMPANIES_QUERY = "SELECT * FROM companies"
+    private static final String GET_ID_QUERY = "SELECT lastval() as id"
+    private static final String INSERT_COMPANY_QUERY = "INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    private static final String UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
+    private static final String DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
     HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConection.conect())
@@ -26,7 +27,7 @@ class CompanyDAO {
             ]
             sql.executeInsert(INSERT_COMPANY_QUERY, parameters)
 
-            Integer generatedId = sql.firstRow("SELECT lastval() as id")?.id as Integer
+            Integer generatedId = sql.firstRow(GET_ID_QUERY)?.id as Integer
 
             if (generatedId != null) {
                 company.id = generatedId
@@ -45,7 +46,7 @@ class CompanyDAO {
     List<Company> getAll() {
         List<Company> companies = []
         try {
-            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_COMPANIES_QUERY)
+            List<Map<String, Object>> rows = sql.rows(GET_ALL_COMPANIES_QUERY)
             rows.each { row ->
                 companies.add(new Company(
                         row.id as Integer,

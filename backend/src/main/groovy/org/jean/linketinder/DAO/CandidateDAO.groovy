@@ -6,13 +6,16 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
 
 class CandidateDAO {
-    private static final INSERT_CANDIDATE_QUERY = "INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    private static final INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
-    private static final INSERT_CANDIDATE_SKILL_QUERY = "INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)"
-    private static final SELECT_ALL_CANDIDATES_QUERY = "SELECT * FROM candidates"
-    private static final SELECT_SKILLS_FOR_CANDIDATE_QUERY = "SELECT name FROM skills " + "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " + "WHERE candidate_skills.candidate_id = ?"
-    private static final DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
-    private static final DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
+    private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"
+    private static final String GET_ID_SKILLS_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
+    private static final String GET_ALL_CANDIDATES_QUERY = "SELECT * FROM candidates"
+    private static final String GET_SKILLS_FOR_CANDIDATE_QUERY = "SELECT name FROM skills " + "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " + "WHERE candidate_skills.candidate_id = ?"
+    private static final String INSERT_CANDIDATE_QUERY = "INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
+    private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
+    private static final String INSERT_CANDIDATE_SKILL_QUERY = "INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)"
+    private static final String UPDATE_CANDIDATE_QUERY = "UPDATE candidates SET name = ?, email = ?, cpf = ?, age = ?, state = ?, cep = ?, description = ? WHERE cpf = ?"
+    private static final String DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
+    private static final String DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
 
     HandleException exception = new HandleException()
 
@@ -48,16 +51,16 @@ class CandidateDAO {
     }
 
     private Integer getCandidateId(String cpf) {
-        Map<String, Object> idRow = sql.firstRow("SELECT id FROM candidates WHERE cpf = ?", [cpf])
+        Map<String, Object> idRow = sql.firstRow(GET_ID_CANDIDATE_QUERY, [cpf])
         return idRow?.id as Integer
     }
 
     private Integer getOrCreateSkillId(skill) {
         String skillName = (skill instanceof String) ? skill : skill.name
-        Integer skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
+        Integer skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
         if (skillId == null) {
             sql.execute(INSERT_SKILL_QUERY, [skillName])
-            skillId = sql.firstRow("SELECT skill_id FROM skills WHERE name = ?", [skillName])?.skill_id as Integer
+            skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
         }
         return skillId
     }
@@ -65,7 +68,7 @@ class CandidateDAO {
     List<Candidate> getAll() {
         try {
             List<Candidate> candidates = []
-            List<Map<String, Object>> rows = sql.rows(SELECT_ALL_CANDIDATES_QUERY)
+            List<Map<String, Object>> rows = sql.rows(GET_ALL_CANDIDATES_QUERY)
 
             rows.each { row ->
                 List<String> skills = getSkillsForCandidate(row.id as Integer)
@@ -93,7 +96,7 @@ class CandidateDAO {
     }
 
     private List<String> getSkillsForCandidate(Integer candidateId) {
-        List<Map<String, Object>> skillRows = sql.rows(SELECT_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
+        List<Map<String, Object>> skillRows = sql.rows(GET_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
         return skillRows.collect(({ it.name } as Closure<String>))
     }
 
@@ -107,7 +110,7 @@ class CandidateDAO {
     }
 
     private void updateCandidate(String cpf, Candidate candidate) {
-        sql.execute("UPDATE candidates SET name = ?, email = ?, cpf = ?, age = ?, state = ?, cep = ?, description = ? WHERE cpf = ?", [
+        sql.execute(UPDATE_CANDIDATE_QUERY, [
                 candidate.name,
                 candidate.email,
                 candidate.cpf,
