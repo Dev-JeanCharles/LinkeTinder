@@ -1,8 +1,8 @@
 package org.jean.linketinder
 
 import groovy.sql.Sql
-import org.jean.linketinder.DAO.DBConnection
-import org.jean.linketinder.DAO.DBOperations
+import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Interfaces.DB.DBOperations
 import org.jean.linketinder.Menu.Menu
 
 class App {

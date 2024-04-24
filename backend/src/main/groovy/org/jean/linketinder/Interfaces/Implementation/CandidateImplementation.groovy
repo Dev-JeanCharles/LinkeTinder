@@ -1,4 +1,4 @@
-package org.jean.linketinder.Interfaces
+package org.jean.linketinder.Interfaces.Implementation
 
 import org.jean.linketinder.Exceptions.CandidateControllerException
 

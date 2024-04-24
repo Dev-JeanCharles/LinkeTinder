@@ -4,6 +4,7 @@ import groovy.sql.Sql
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
+import org.jean.linketinder.Interfaces.DB.DBConnection
 
 class CandidateDAO {
     private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"

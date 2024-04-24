@@ -11,6 +11,7 @@ import org.jean.linketinder.View.PrintOperationsView
 
 class Menu {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+    private static final Scanner scanner = new Scanner(System.in)
     private static final PrintMenuView print = new PrintMenuView()
     private static final PrintOperationsView printOperationsView = new PrintOperationsView()
     private static final CandidateDAO candidateDAO = new CandidateDAO()
@@ -50,7 +51,7 @@ class Menu {
                     new CandidateController(printOperationsView, candidateDAO).getCandidate()
                     break
                 case '2' :
-                    new CompanyController(printOperationsView, companyDAO).getCompany()
+                    new CompanyController(printOperationsView, companyDAO, scanner).getCompany()
                     break
                 case '3':
                     new VacancyController(printOperationsView, vacancyDAO, companyDAO).getVacancy()
@@ -59,7 +60,7 @@ class Menu {
                     new CandidateController(printOperationsView, candidateDAO).createCandidate()
                     break
                 case '5':
-                    new CompanyController(printOperationsView, companyDAO).createCompany()
+                    new CompanyController(printOperationsView, companyDAO, scanner).createCompany()
                     break
                 case '6':
                     new VacancyController(printOperationsView, vacancyDAO, companyDAO).createVacancy()
@@ -68,7 +69,7 @@ class Menu {
                     new CandidateController(printOperationsView, candidateDAO).updateCandidate()
                     break
                 case '8':
-                    new CompanyController(printOperationsView, companyDAO).updateCompany()
+                    new CompanyController(printOperationsView, companyDAO, scanner).updateCompany()
                     break
                 case '9':
                     new VacancyController(printOperationsView, vacancyDAO, companyDAO).updateVacancy()
@@ -77,7 +78,7 @@ class Menu {
                     new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
                     break
                 case '11':
-                    new CompanyController(printOperationsView, companyDAO).deleteCompany()
+                    new CompanyController(printOperationsView, companyDAO, scanner).deleteCompany()
                     break
                 case '12' :
                     print.exitOperationsMenu()

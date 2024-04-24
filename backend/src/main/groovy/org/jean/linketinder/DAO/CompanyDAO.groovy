@@ -3,6 +3,7 @@ package org.jean.linketinder.DAO
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
+import org.jean.linketinder.Interfaces.DB.DBConnection
 
 class CompanyDAO {
     private static final String GET_ALL_COMPANIES_QUERY = "SELECT * FROM companies"

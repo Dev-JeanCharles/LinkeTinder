@@ -2,7 +2,7 @@ package org.jean.linketinder.Service
 
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Entities.Candidate
-import org.jean.linketinder.Interfaces.CandidateImplementation
+import org.jean.linketinder.Interfaces.Implementation.CandidateImplementation
 import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateService implements CandidateImplementation.CandidateOperationsInterface{

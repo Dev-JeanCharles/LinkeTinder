@@ -3,7 +3,7 @@ package org.jean.linketinder.Controller
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Exceptions.CandidateControllerException
 import org.jean.linketinder.Service.CandidateService
-import org.jean.linketinder.Interfaces.CandidateImplementation
+import org.jean.linketinder.Interfaces.Implementation.CandidateImplementation
 import org.jean.linketinder.View.PrintOperationsView
 
 class CandidateController implements CandidateImplementation.CandidateControllerInterface{
