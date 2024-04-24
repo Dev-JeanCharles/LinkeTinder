@@ -5,8 +5,10 @@ import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Interfaces.Repository.CandidateRepository
+import org.jean.linketinder.Interfaces.Repository.SkillRepository
 
-class CandidateDAO {
+class CandidateDAO implements CandidateRepository, SkillRepository{
     private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"
     private static final String GET_ID_SKILLS_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
     private static final String GET_ALL_CANDIDATES_QUERY = "SELECT * FROM candidates"
@@ -18,9 +20,13 @@ class CandidateDAO {
     private static final String DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
     private static final String DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
 
-    HandleException exception = new HandleException()
+    private final HandleException exception
+    private final Sql sql
 
-    Sql sql = Sql.newInstance(DBConnection.connection)
+    CandidateDAO(DBConnection dbConnection, HandleException exception) {
+        this.exception = exception
+        this.sql = Sql.newInstance(dbConnection.connection)
+    }
 
     void create(Candidate candidate) {
         try {
@@ -56,7 +62,7 @@ class CandidateDAO {
         return idRow?.id as Integer
     }
 
-    private Integer getOrCreateSkillId(skill) {
+    Integer getOrCreateSkillId(skill) {
         String skillName = (skill instanceof String) ? skill : skill.name
         Integer skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
         if (skillId == null) {
@@ -96,7 +102,7 @@ class CandidateDAO {
         }
     }
 
-    private List<String> getSkillsForCandidate(Integer candidateId) {
+    List<String> getSkillsForCandidate(Integer candidateId) {
         List<Map<String, Object>> skillRows = sql.rows(GET_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
         return skillRows.collect(({ it.name } as Closure<String>))
     }
