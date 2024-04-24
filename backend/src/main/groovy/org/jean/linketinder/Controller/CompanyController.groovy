@@ -16,6 +16,7 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
         this.scanner = scanner
     }
 
+    @Override
     void createCompany() throws CompanyControllerException{
         try {
             companyService.createCompany()
@@ -24,6 +25,7 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
         }
     }
 
+    @Override
     void getCompany() throws CompanyControllerException{
         try {
             companyService.displayCompany()
@@ -32,6 +34,7 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
         }
     }
 
+    @Override
     void updateCompany() throws CompanyControllerException{
         try {
             companyService.update()
@@ -40,6 +43,7 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
         }
     }
 
+    @Override
     void deleteCompany() throws CompanyControllerException{
         try {
             companyService.delete()

@@ -15,6 +15,7 @@ class CandidateController implements CandidateImplementation.CandidateController
         this.candidateService = new CandidateService(printView, candidateDAO, scanner)
     }
 
+    @Override
     void createCandidate() throws CandidateControllerException{
         try {
             candidateService.createCandidate()
@@ -23,6 +24,7 @@ class CandidateController implements CandidateImplementation.CandidateController
         }
     }
 
+    @Override
     void getCandidate() throws CandidateControllerException {
         try {
             candidateService.displayCandidates()
@@ -31,6 +33,7 @@ class CandidateController implements CandidateImplementation.CandidateController
         }
     }
 
+    @Override
     void updateCandidate() throws CandidateControllerException{
         try {
             candidateService.updateCandidate()
@@ -39,6 +42,7 @@ class CandidateController implements CandidateImplementation.CandidateController
         }
     }
 
+    @Override
     void deleteCandidate() throws CandidateControllerException{
         try {
             candidateService.deleteCandidate()

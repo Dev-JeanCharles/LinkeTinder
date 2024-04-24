@@ -6,6 +6,8 @@ import org.jean.linketinder.Controller.VacancyController
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.DAO.VacancyDAO
+import org.jean.linketinder.Exceptions.HandleException
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.View.PrintMenuView
 import org.jean.linketinder.View.PrintOperationsView
 
@@ -13,8 +15,10 @@ class Menu {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
     private static final Scanner scanner = new Scanner(System.in)
     private static final PrintMenuView print = new PrintMenuView()
+    private static final DBConnection dbConnection = new DBConnection()
+    private static final HandleException handleException = new HandleException()
     private static final PrintOperationsView printOperationsView = new PrintOperationsView()
-    private static final CandidateDAO candidateDAO = new CandidateDAO()
+    private static final CandidateDAO candidateDAO = new CandidateDAO(dbConnection, handleException)
     private static final CompanyDAO companyDAO = new CompanyDAO()
     private static final VacancyDAO vacancyDAO = new VacancyDAO()
 

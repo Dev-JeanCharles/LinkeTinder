@@ -21,6 +21,7 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
         this.companyDAO = companyDAO
     }
 
+    @Override
     void createVacancy() {
         List<Company> companies = companyDAO.getAll()
         Company selectedCompany = printView.selectExistingCompany(scanner, companies)
@@ -40,6 +41,7 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
         }
     }
 
+    @Override
     void displayVacancies() {
         List<Vacancy> vacancies = vacancyDAO.getAll()
 
@@ -54,6 +56,7 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
         }
     }
 
+    @Override
     void updateVacancy() {
         Vacancy vacancy = printView.updateVacancy(scanner)
         vacancyDAO.update(vacancy.id, vacancy)

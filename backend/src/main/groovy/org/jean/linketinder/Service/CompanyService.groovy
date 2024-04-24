@@ -17,11 +17,13 @@ class CompanyService implements CompanyImplementation.CompanyOperationsInterface
         this.scanner = scanner
     }
 
+    @Override
     void createCompany() {
         Company newCompany = printView.createCompany(scanner)
         companyDAO.create(newCompany)
     }
 
+    @Override
     void displayCompany() {
         List<Company> companies = companyDAO.getAll()
 
@@ -35,11 +37,13 @@ class CompanyService implements CompanyImplementation.CompanyOperationsInterface
         }
     }
 
+    @Override
     void update() {
         Company company = printView.updateCompany(scanner)
         companyDAO.update(company.cnpj, company)
     }
 
+    @Override
     void delete() {
         String cnpj = printView.deleteCompany(scanner)
         companyDAO.delete(cnpj)
