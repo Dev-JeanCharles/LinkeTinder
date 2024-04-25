@@ -8,8 +8,6 @@ import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CandidateRepository
 import org.jean.linketinder.Interfaces.Repository.SkillRepository
 
-import java.sql.Connection
-
 class CandidateDAO implements CandidateRepository, SkillRepository{
     private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"
     private static final String GET_ID_SKILLS_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
