@@ -8,6 +8,8 @@ import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CandidateRepository
 import org.jean.linketinder.Interfaces.Repository.SkillRepository
 
+import java.sql.Connection
+
 class CandidateDAO implements CandidateRepository, SkillRepository{
     private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"
     private static final String GET_ID_SKILLS_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
@@ -25,7 +27,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
 
     CandidateDAO(DBConnection dbConnection, HandleException exception) {
         this.exception = exception
-        this.sql = Sql.newInstance(dbConnection.connection)
+        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
     }
 
     @Override
@@ -40,6 +42,11 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
     }
 
     private void insertCandidate(Candidate candidate) {
+
+        if (sql == null) {
+            throw new RuntimeException("SQL connection is null")
+        }
+
         sql.execute(INSERT_CANDIDATE_QUERY, [
                 candidate.name,
                 candidate.email,
@@ -52,9 +59,15 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
     }
 
     private void insertCandidateSkills(Candidate candidate) {
+
+        if (sql == null) {
+            throw new RuntimeException("SQL connection is null")
+        }
+
         candidate.skills.each { skill ->
             Integer skillId = getOrCreateSkillId(skill)
-            sql.execute(INSERT_CANDIDATE_SKILL_QUERY, [getCandidateId(candidate.cpf), skillId])
+            Integer candidateId = getCandidateId(candidate.cpf)
+            sql.execute(INSERT_CANDIDATE_SKILL_QUERY, [candidateId, skillId])
         }
     }
 

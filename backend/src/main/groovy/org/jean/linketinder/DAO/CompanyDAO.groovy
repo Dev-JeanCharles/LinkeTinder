@@ -14,9 +14,15 @@ class CompanyDAO implements CompanyRepository{
     private static final String UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
     private static final String DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
 
-    HandleException exception = new HandleException()
-    Sql sql = Sql.newInstance(DBConnection.connection)
-    VacancyDAO vacancyDAO = new VacancyDAO()
+    private final HandleException exception
+    private final Sql sql
+    private final VacancyDAO vacancyDAO
+
+    CompanyDAO(DBConnection dbConnection, HandleException exception, VacancyDAO vacancyDAO) {
+        this.exception = exception
+        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
+        this.vacancyDAO = vacancyDAO
+    }
 
     @Override
     Company create(Company company) {

@@ -29,8 +29,13 @@ class VacancyDAO implements VacancyRepository {
     private static final String UPDATE_VACANCY_INFO_QUERY = "UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?"
     private static final String DELETE_COMPANY_ASSOCIATE_QUERY = "DELETE FROM vacancy_companies WHERE company_id = ?"
 
-    HandleException exception = new HandleException()
-    Sql sql = Sql.newInstance(DBConnection.connection)
+    private final HandleException exception
+    private final Sql sql
+
+    VacancyDAO(DBConnection dbConnection, HandleException exception) {
+        this.exception = exception
+        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
+    }
 
     @Override
     List<Vacancy> getAll() {

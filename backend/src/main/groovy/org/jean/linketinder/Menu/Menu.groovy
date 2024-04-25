@@ -19,8 +19,8 @@ class Menu {
     private static final HandleException handleException = new HandleException()
     private static final PrintOperationsView printOperationsView = new PrintOperationsView()
     private static final CandidateDAO candidateDAO = new CandidateDAO(dbConnection, handleException)
-    private static final CompanyDAO companyDAO = new CompanyDAO()
-    private static final VacancyDAO vacancyDAO = new VacancyDAO()
+    private static final CompanyDAO companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO)
+    private static final VacancyDAO vacancyDAO = new VacancyDAO(dbConnection, handleException)
 
     static void menuHome(String options) throws IOException{
 

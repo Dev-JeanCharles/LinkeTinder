@@ -9,7 +9,7 @@ interface DatabaseConnection {
 
 class DBConnection implements  DatabaseConnection {
 
-    static Connection connection = null
+    Connection connection = null
 
     @Override
     Connection connect() {

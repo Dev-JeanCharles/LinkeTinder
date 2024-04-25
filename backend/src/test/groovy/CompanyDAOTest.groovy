@@ -1,11 +1,17 @@
 import groovy.sql.Sql
 import org.jean.linketinder.DAO.CompanyDAO
+import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import spock.lang.Specification
-import static org.junit.jupiter.api.Assertions.*
+
+import java.sql.Connection
+
+import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.mockito.Mockito.*
 
 class CompanyDAOTest extends Specification{
 
@@ -14,9 +20,15 @@ class CompanyDAOTest extends Specification{
 
     @BeforeEach
     void setup() {
-        sql = Mock(Sql)
-        companyDAO = new CompanyDAO(sql: sql)
-        companyDAO.exception = new HandleException()
+        sql = mock(Sql)
+        HandleException handleException = mock(HandleException)
+        DBConnection dbConnection = mock(DBConnection)
+        VacancyDAO vacancyDAO = mock(VacancyDAO)
+
+        when(dbConnection.connect()).thenReturn(mock(Connection))
+
+        companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO)
+
     }
 
     @Test

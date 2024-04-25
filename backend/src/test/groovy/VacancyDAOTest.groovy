@@ -4,6 +4,7 @@ import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.Exceptions.HandleException
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import spock.lang.Specification
@@ -18,8 +19,9 @@ class VacancyDAOTest extends Specification {
     @BeforeEach
     void setup() {
         sql = Mock(Sql)
-        vacancyDAO = new VacancyDAO(sql: sql)
-        vacancyDAO.exception = new HandleException()
+        HandleException handleException = Mock(HandleException)
+        DBConnection dbConnection = Mock(DBConnection)
+        vacancyDAO = new VacancyDAO(dbConnection, handleException)
     }
 
     @Test

@@ -3,9 +3,13 @@ import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import spock.lang.Specification
+
+import java.sql.Connection
+
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 
@@ -14,17 +18,20 @@ class CandidateDAOTest extends Specification {
     Sql sql
     CandidateDAO candidateDAO
 
-    @BeforeEach
     void setup() {
-        sql = Mock(Sql)
-        candidateDAO = new CandidateDAO(sql: sql)
-        candidateDAO.exception = new HandleException()
+        sql = mock(Sql)
+        HandleException handleException = mock(HandleException)
+        DBConnection dbConnection = mock(DBConnection)
+
+        when(dbConnection.connect()).thenReturn(mock(Connection))
+
+        candidateDAO = new CandidateDAO(dbConnection, handleException)
     }
 
-    @Test
-    void CreateCandidate() {
+    void "CreateCandidate"() {
         given:
         List<String> skillNames = ["Java", "Python"]
+        List<Skill> skills = skillNames.collect { new Skill(it) }
         Candidate candidate = new Candidate(
                 "John Doe",
                 "john.doe@example.com",
@@ -33,7 +40,7 @@ class CandidateDAOTest extends Specification {
                 "California",
                 "12345-678",
                 "Experienced software engineer",
-                skillNames as List<Skill>
+                skills
         )
 
         when:
