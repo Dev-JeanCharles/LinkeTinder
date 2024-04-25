@@ -1,0 +1,5 @@
+Principais pontos após aplicar S.O.L.I.D no backend
+  - Criação de interfaces DB, Implementation, Repository
+  - Implementação de interfaces nas classes CandidateDAO, CompanyDAO, VacancyDAO.
+  - Aplicação de interfaces no Controller e Service.
+  
