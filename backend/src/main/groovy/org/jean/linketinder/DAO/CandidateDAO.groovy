@@ -28,6 +28,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         this.sql = Sql.newInstance(dbConnection.connection)
     }
 
+    @Override
     void create(Candidate candidate) {
         try {
             insertCandidate(candidate)
@@ -62,6 +63,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         return idRow?.id as Integer
     }
 
+    @Override
     Integer getOrCreateSkillId(skill) {
         String skillName = (skill instanceof String) ? skill : skill.name
         Integer skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
@@ -72,6 +74,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         return skillId
     }
 
+    @Override
     List<Candidate> getAll() {
         try {
             List<Candidate> candidates = []
@@ -102,11 +105,13 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         }
     }
 
+    @Override
     List<String> getSkillsForCandidate(Integer candidateId) {
         List<Map<String, Object>> skillRows = sql.rows(GET_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
         return skillRows.collect(({ it.name } as Closure<String>))
     }
 
+    @Override
     void update(String cpf, Candidate candidate) {
         try {
             updateCandidate(cpf, candidate)
@@ -136,6 +141,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         }
     }
 
+    @Override
     void delete(String cpf) {
         try {
             Integer id = getCandidateId(cpf)

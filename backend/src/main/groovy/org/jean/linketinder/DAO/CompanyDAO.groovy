@@ -4,10 +4,12 @@ import groovy.sql.Sql
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Interfaces.Repository.CompanyRepository
 
-class CompanyDAO {
+class CompanyDAO implements CompanyRepository{
     private static final String GET_ALL_COMPANIES_QUERY = "SELECT * FROM companies"
     private static final String GET_ID_QUERY = "SELECT lastval() as id"
+    private static final String GET_CNPJ_COMPANY_QUERY = "SELECT id FROM companies WHERE cnpj = ?"
     private static final String INSERT_COMPANY_QUERY = "INSERT INTO companies (name, email, cnpj, country, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
     private static final String UPDATE_COMPANY_QUERY = "UPDATE companies SET name = ?, email = ?, cnpj = ?, country = ?, state = ?, cep = ?, description = ? WHERE cnpj = ?"
     private static final String DELETE_COMPANY_QUERY = "DELETE FROM companies WHERE cnpj = ?"
@@ -16,6 +18,7 @@ class CompanyDAO {
     Sql sql = Sql.newInstance(DBConnection.connection)
     VacancyDAO vacancyDAO = new VacancyDAO()
 
+    @Override
     Company create(Company company) {
         try {
             List<String> parameters = [
@@ -45,6 +48,7 @@ class CompanyDAO {
             }
         }
 
+    @Override
     List<Company> getAll() {
         List<Company> companies = []
         try {
@@ -67,9 +71,10 @@ class CompanyDAO {
         return companies
     }
 
+    @Override
     Integer getCompanyIdByCnpj(String cnpj) {
         try {
-            def result = sql.firstRow("SELECT id FROM companies WHERE cnpj = ?", [cnpj])
+            Map<String, Object> result = sql.firstRow(GET_CNPJ_COMPANY_QUERY, [cnpj])
             if (result) {
                 return result.id as Integer
             } else {
@@ -82,6 +87,7 @@ class CompanyDAO {
         }
     }
 
+    @Override
     void update(String cnpj, Company company) {
         try {
             sql.execute(UPDATE_COMPANY_QUERY, [
@@ -100,6 +106,7 @@ class CompanyDAO {
         }
     }
 
+    @Override
     void delete(String cnpj) {
         try {
             Integer companyId = getCompanyIdByCnpj(cnpj)

@@ -6,10 +6,11 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Interfaces.Repository.VacancyRepository
 
 import java.sql.PreparedStatement
 
-class VacancyDAO {
+class VacancyDAO implements VacancyRepository {
     private static final String GET_ID_QUERY = "SELECT lastval() as id"
     private static final String GET_SKILL_ID_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
     private static final String GET_ALL_VACANCIES_QUERY = """
@@ -31,6 +32,7 @@ class VacancyDAO {
     HandleException exception = new HandleException()
     Sql sql = Sql.newInstance(DBConnection.connection)
 
+    @Override
     List<Vacancy> getAll() {
         try {
             List<Vacancy> vacancies = []
@@ -92,6 +94,7 @@ class VacancyDAO {
         )
     }
 
+    @Override
     void create(Vacancy vacancy, Company company) {
         try {
             println "Criando nova vaga: ${vacancy.name}"
@@ -164,6 +167,7 @@ class VacancyDAO {
         }
     }
 
+    @Override
     void update(Integer vacancyId, Vacancy vacancy) {
         try {
             if (vacancyId) {
