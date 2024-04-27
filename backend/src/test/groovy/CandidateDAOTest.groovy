@@ -4,14 +4,14 @@ import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Queries.CandidateQueries
 import spock.lang.Specification
 
 import java.sql.Connection
 
+import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.when
-
-import static org.junit.jupiter.api.Assertions.assertEquals
 
 class CandidateDAOTest extends Specification {
 
@@ -22,10 +22,11 @@ class CandidateDAOTest extends Specification {
         sql = mock(Sql)
         HandleException handleException = mock(HandleException)
         DBConnection dbConnection = mock(DBConnection)
+        CandidateQueries candidateQueries = mock(CandidateQueries)
 
         when(dbConnection.connect()).thenReturn(mock(Connection))
 
-        candidateDAO = new CandidateDAO(dbConnection, handleException)
+        candidateDAO = new CandidateDAO(dbConnection, handleException, candidateQueries)
     }
 
     void "CreateCandidate"() {

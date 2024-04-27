@@ -7,24 +7,22 @@ import org.jean.linketinder.View.PrintOperationsView
 
 class CompanyService implements CompanyImplementation.CompanyOperationsInterface{
 
-    private final PrintOperationsView printView
-    private final CompanyDAO companyDAO
-    private final Scanner scanner
+    private PrintOperationsView printView = new PrintOperationsView()
+    private CompanyDAO companyDAO
 
-    CompanyService(PrintOperationsView printView, CompanyDAO companyDAO, Scanner scanner) {
-        this.printView = printView
+    CompanyService(CompanyDAO companyDAO) {
         this.companyDAO = companyDAO
-        this.scanner = scanner
     }
 
     @Override
-    void createCompany() {
+    void createCompany(Scanner scanner) {
         Company newCompany = printView.createCompany(scanner)
         companyDAO.create(newCompany)
     }
 
     @Override
     void displayCompany() {
+
         List<Company> companies = companyDAO.getAll()
 
         if (companies) {
@@ -38,13 +36,13 @@ class CompanyService implements CompanyImplementation.CompanyOperationsInterface
     }
 
     @Override
-    void update() {
+    void update(Scanner scanner) {
         Company company = printView.updateCompany(scanner)
         companyDAO.update(company.cnpj, company)
     }
 
     @Override
-    void delete() {
+    void delete(Scanner scanner) {
         String cnpj = printView.deleteCompany(scanner)
         companyDAO.delete(cnpj)
     }

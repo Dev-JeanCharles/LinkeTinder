@@ -11,14 +11,16 @@ import org.jean.linketinder.View.PrintOperationsView
 class VacancyController implements VacancyImplementation.VacancyControllerInterface{
 
     private final VacancyService vacancyService
+    private final Scanner scanner = new Scanner(System.in)
 
-    VacancyController(PrintOperationsView printView, VacancyDAO vacancyDAO, CompanyDAO companyDAO) {
-        this.vacancyService = new VacancyService(printView, vacancyDAO, companyDAO)
+    VacancyController(VacancyDAO vacancyDAO, CompanyDAO companyDAO) {
+        this.vacancyService = new VacancyService(vacancyDAO, companyDAO)
     }
 
     void createVacancy() throws CompanyControllerException{
         try {
-            vacancyService.createVacancy()
+            vacancyService.createVacancy(scanner)
+
         }catch (Exception e) {
             throw new VacancyControllerException("Erro ao inserir uma nova vaga", e)
         }
@@ -27,6 +29,7 @@ class VacancyController implements VacancyImplementation.VacancyControllerInterf
     void getVacancy() throws CompanyControllerException{
         try {
             vacancyService.displayVacancies()
+
         }catch (Exception e) {
             throw new VacancyControllerException("Erro ao buscar uma vaga", e)
         }
@@ -34,7 +37,8 @@ class VacancyController implements VacancyImplementation.VacancyControllerInterf
 
     void updateVacancy() throws CompanyControllerException{
         try {
-            vacancyService.updateVacancy()
+            vacancyService.updateVacancy(scanner)
+
         }catch (Exception e) {
             throw new VacancyControllerException("Erro ao atualizar uma vaga", e)
         }

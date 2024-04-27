@@ -7,24 +7,19 @@ import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CandidateRepository
 import org.jean.linketinder.Interfaces.Repository.SkillRepository
+import org.jean.linketinder.Queries.CandidateQueries
+
+import java.sql.SQLException
 
 class CandidateDAO implements CandidateRepository, SkillRepository{
-    private static final String GET_ID_CANDIDATE_QUERY  = "SELECT id FROM candidates WHERE cpf = ?"
-    private static final String GET_ID_SKILLS_QUERY = "SELECT skill_id FROM skills WHERE name = ?"
-    private static final String GET_ALL_CANDIDATES_QUERY = "SELECT * FROM candidates"
-    private static final String GET_SKILLS_FOR_CANDIDATE_QUERY = "SELECT name FROM skills " + "INNER JOIN candidate_skills ON skills.skill_id = candidate_skills.skill_id " + "WHERE candidate_skills.candidate_id = ?"
-    private static final String INSERT_CANDIDATE_QUERY = "INSERT INTO candidates (name, email, cpf, age, state, cep, description) VALUES (?, ?, ?, ?, ?, ?, ?)"
-    private static final String INSERT_SKILL_QUERY = "INSERT INTO skills (name) VALUES (?)"
-    private static final String INSERT_CANDIDATE_SKILL_QUERY = "INSERT INTO candidate_skills (candidate_id, skill_id) VALUES (?, ?)"
-    private static final String UPDATE_CANDIDATE_QUERY = "UPDATE candidates SET name = ?, email = ?, cpf = ?, age = ?, state = ?, cep = ?, description = ? WHERE cpf = ?"
-    private static final String DELETE_CANDIDATE_SKILLS_QUERY = "DELETE FROM candidate_skills WHERE candidate_id = ?"
-    private static final String DELETE_CANDIDATE_QUERY = "DELETE FROM candidates WHERE cpf = ?"
 
+    private final CandidateQueries candidateQueries
     private final HandleException exception
     private final Sql sql
 
-    CandidateDAO(DBConnection dbConnection, HandleException exception) {
+    CandidateDAO(DBConnection dbConnection, HandleException exception, CandidateQueries candidateQueries) {
         this.exception = exception
+        this.candidateQueries = candidateQueries
         this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
     }
 
@@ -34,62 +29,79 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
             insertCandidate(candidate)
             insertCandidateSkills(candidate)
             println("Candidato adicionado com sucesso!")
+
         } catch (Exception e) {
             exception.handleException("Erro ao adicionar candidato", e)
         }
     }
 
     private void insertCandidate(Candidate candidate) {
-
-        if (sql == null) {
-            throw new RuntimeException("SQL connection is null")
+        try {
+            sql.execute(candidateQueries.INSERT_CANDIDATE_QUERY, [
+                    candidate.name,
+                    candidate.email,
+                    candidate.cpf,
+                    candidate.age,
+                    candidate.state,
+                    candidate.cep,
+                    candidate.description
+            ])
+        } catch (SQLException e) {
+            exception.handleException("Erro ao inserir candidato", e)
         }
-
-        sql.execute(INSERT_CANDIDATE_QUERY, [
-                candidate.name,
-                candidate.email,
-                candidate.cpf,
-                candidate.age,
-                candidate.state,
-                candidate.cep,
-                candidate.description
-        ])
     }
 
     private void insertCandidateSkills(Candidate candidate) {
+        try {
+            candidate.skills.each { skill ->
+                Integer skillId = getOrCreateSkillId(skill)
+                Integer candidateId = getCandidateId(candidate.cpf)
 
-        if (sql == null) {
-            throw new RuntimeException("SQL connection is null")
+                sql.execute(candidateQueries.INSERT_CANDIDATE_SKILL_QUERY, [candidateId, skillId])
+            }
+        }catch (SQLException e ) {
+            exception.handleException("Erro ao inserir a habilidade do candidato", e)
         }
 
-        candidate.skills.each { skill ->
-            Integer skillId = getOrCreateSkillId(skill)
-            Integer candidateId = getCandidateId(candidate.cpf)
-            sql.execute(INSERT_CANDIDATE_SKILL_QUERY, [candidateId, skillId])
-        }
     }
 
     private Integer getCandidateId(String cpf) {
-        Map<String, Object> idRow = sql.firstRow(GET_ID_CANDIDATE_QUERY, [cpf])
-        return idRow?.id as Integer
+        try {
+            Map<String, Object> idRow = sql.firstRow(candidateQueries.GET_ID_CANDIDATE_QUERY, [cpf])
+            return idRow?.id as Integer
+
+        }catch (SQLException e) {
+            exception.handleException("Erro ao buscar um candidato pelo id", e)
+        }
+
     }
 
     @Override
     Integer getOrCreateSkillId(skill) {
+
         String skillName = (skill instanceof String) ? skill : skill.name
-        Integer skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
-        if (skillId == null) {
-            sql.execute(INSERT_SKILL_QUERY, [skillName])
-            skillId = sql.firstRow(GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
+
+        try {
+            Integer skillId = sql.firstRow(candidateQueries.GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
+
+            if (skillId == null) {
+                sql.execute(candidateQueries.INSERT_SKILL_QUERY, [skillName])
+                skillId = sql.firstRow(candidateQueries.GET_ID_SKILLS_QUERY, [skillName])?.skill_id as Integer
+            }
+            return skillId
+
+        }catch (SQLException e) {
+            exception.handleException("Erro ao buscar ou criar uma nova habilidade", e)
         }
-        return skillId
     }
 
     @Override
     List<Candidate> getAll() {
+
+        List<Candidate> candidates = []
+
         try {
-            List<Candidate> candidates = []
-            List<Map<String, Object>> rows = sql.rows(GET_ALL_CANDIDATES_QUERY)
+            List<Map<String, Object>> rows = sql.rows(candidateQueries.GET_ALL_CANDIDATES_QUERY)
 
             rows.each { row ->
                 List<String> skills = getSkillsForCandidate(row.id as Integer)
@@ -104,22 +116,26 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
                         row.id as String,
                         row.cpf as String,
                         row.age as Integer,
-                        []
                 )
                 candidates.add(candidate)
             }
             return candidates
 
-        } catch (Exception e) {
-            exception.handleException("Erro ao recuperar candidatos", e)
+        } catch (SQLException e) {
+            exception.handleException("Erro ao recuperar os candidatos", e)
             return []
         }
     }
 
     @Override
     List<String> getSkillsForCandidate(Integer candidateId) {
-        List<Map<String, Object>> skillRows = sql.rows(GET_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
-        return skillRows.collect(({ it.name } as Closure<String>))
+        try {
+            List<Map<String, Object>> skillRows = sql.rows(candidateQueries.GET_SKILLS_FOR_CANDIDATE_QUERY, [candidateId])
+            return skillRows.collect(({ it.name } as Closure<String>))
+
+        }catch (SQLException e) {
+            exception.handleException("Erro ao buscar as habilidades do candidato", e)
+        }
     }
 
     @Override
@@ -127,43 +143,57 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         try {
             updateCandidate(cpf, candidate)
             println("Candidato atualizado com sucesso!")
+
         } catch (Exception e) {
             exception.handleException("Erro ao atualizar candidato", e)
         }
     }
 
     private void updateCandidate(String cpf, Candidate candidate) {
-        sql.execute(UPDATE_CANDIDATE_QUERY, [
-                candidate.name,
-                candidate.email,
-                candidate.cpf,
-                candidate.age,
-                candidate.state,
-                candidate.cep,
-                candidate.description,
-                cpf
-        ])
-        Integer id = getCandidateId(cpf)
-        if (id != null) {
-            sql.execute(DELETE_CANDIDATE_SKILLS_QUERY, [id])
-            insertCandidateSkills(candidate)
-        } else {
-            println "Candidato com CPF $cpf não encontrado."
+        try {
+            sql.execute(candidateQueries.UPDATE_CANDIDATE_QUERY, [
+                    candidate.name,
+                    candidate.email,
+                    candidate.cpf,
+                    candidate.age,
+                    candidate.state,
+                    candidate.cep,
+                    candidate.description,
+                    cpf
+            ])
+
+            Integer id = getCandidateId(cpf)
+
+            if (id != null) {
+                sql.execute(candidateQueries.DELETE_CANDIDATE_SKILLS_QUERY, [id])
+                insertCandidateSkills(candidate)
+            } else {
+                println "Candidato com CPF $cpf não encontrado."
+            }
+
+        }catch (SQLException e) {
+            exception.handleException("Erro ao atualizar o candidato", e)
         }
     }
 
     @Override
     void delete(String cpf) {
+
+        Integer id = getCandidateId(cpf)
+
         try {
-            Integer id = getCandidateId(cpf)
             if (id != null) {
-                sql.execute(DELETE_CANDIDATE_SKILLS_QUERY, [id])
-                sql.execute(DELETE_CANDIDATE_QUERY, [cpf])
+
+                sql.execute(candidateQueries.DELETE_CANDIDATE_SKILLS_QUERY, [id])
+
+                sql.execute(candidateQueries.DELETE_CANDIDATE_QUERY, [cpf])
+
                 println("Candidato removido com sucesso!")
             } else {
                 println "Candidato com CPF $cpf não encontrado."
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             exception.handleException("Erro ao remover candidato", e)
         }
     }

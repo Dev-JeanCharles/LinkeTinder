@@ -9,8 +9,8 @@ class VacancyImplementation {
     }
 
     interface VacancyOperationsInterface {
-        void createVacancy()
+        void createVacancy(Scanner scanner)
         void displayVacancies()
-        void updateVacancy()
+        void updateVacancy(Scanner scanner)
     }
 }

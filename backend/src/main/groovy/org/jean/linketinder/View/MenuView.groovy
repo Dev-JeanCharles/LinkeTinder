@@ -1,4 +1,4 @@
-package org.jean.linketinder.Menu
+package org.jean.linketinder.View
 
 import org.jean.linketinder.Controller.CandidateController
 import org.jean.linketinder.Controller.CompanyController
@@ -8,23 +8,25 @@ import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
-import org.jean.linketinder.View.PrintMenuView
-import org.jean.linketinder.View.PrintOperationsView
+import org.jean.linketinder.Queries.CandidateQueries
+import org.jean.linketinder.Queries.CompanyQueries
+import org.jean.linketinder.Queries.VacancyQueries
 
-class Menu {
+class MenuView {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
-    private static final Scanner scanner = new Scanner(System.in)
     private static final PrintMenuView print = new PrintMenuView()
     private static final DBConnection dbConnection = new DBConnection()
     private static final HandleException handleException = new HandleException()
-    private static final PrintOperationsView printOperationsView = new PrintOperationsView()
-    private static final CandidateDAO candidateDAO = new CandidateDAO(dbConnection, handleException)
-    private static final CompanyDAO companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO)
-    private static final VacancyDAO vacancyDAO = new VacancyDAO(dbConnection, handleException)
+    private static final CandidateQueries candidateQueries = new CandidateQueries()
+    private static final CompanyQueries companyQueries = new CompanyQueries()
+    private static final VacancyQueries vacancyQueries = new VacancyQueries()
+    private static final CandidateDAO candidateDAO = new CandidateDAO(dbConnection, handleException, candidateQueries)
+    private static final VacancyDAO vacancyDAO = new VacancyDAO(dbConnection, handleException, vacancyQueries)
+    private static final CompanyDAO companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO, companyQueries)
 
     static void menuHome(String options) throws IOException{
 
-        do {
+        while (options != '2'){
             print.initialOptionsMenu()
 
             options = reader.readLine()
@@ -40,49 +42,49 @@ class Menu {
                     print.invalidOptions()
                     break
             }
-        }while (options != '2')
+        }
     }
 
     static void startMenuOperations(String options) throws IOException{
 
-        do {
+        while (options != '12') {
             print.initialOperationsMenu()
 
             options = reader.readLine()
 
             switch (options){
                 case '1' :
-                    new CandidateController(printOperationsView, candidateDAO).getCandidate()
+                    new CandidateController(candidateDAO).getCandidate()
                     break
                 case '2' :
-                    new CompanyController(printOperationsView, companyDAO, scanner).getCompany()
+                    new CompanyController(companyDAO).getCompany()
                     break
                 case '3':
-                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).getVacancy()
+                    new VacancyController(vacancyDAO, companyDAO).getVacancy()
                     break
                 case '4' :
-                    new CandidateController(printOperationsView, candidateDAO).createCandidate()
+                    new CandidateController(candidateDAO).createCandidate()
                     break
                 case '5':
-                    new CompanyController(printOperationsView, companyDAO, scanner).createCompany()
+                    new CompanyController(companyDAO).createCompany()
                     break
                 case '6':
-                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).createVacancy()
+                    new VacancyController(vacancyDAO, companyDAO).createVacancy()
                     break
                 case '7' :
-                    new CandidateController(printOperationsView, candidateDAO).updateCandidate()
+                    new CandidateController(candidateDAO).updateCandidate()
                     break
                 case '8':
-                    new CompanyController(printOperationsView, companyDAO, scanner).updateCompany()
+                    new CompanyController(companyDAO).updateCompany()
                     break
                 case '9':
-                    new VacancyController(printOperationsView, vacancyDAO, companyDAO).updateVacancy()
+                    new VacancyController(vacancyDAO, companyDAO).updateVacancy()
                     break
                 case '10' :
-                    new CandidateController(printOperationsView, candidateDAO).deleteCandidate()
+                    new CandidateController(candidateDAO).deleteCandidate()
                     break
                 case '11':
-                    new CompanyController(printOperationsView, companyDAO, scanner).deleteCompany()
+                    new CompanyController(companyDAO).deleteCompany()
                     break
                 case '12' :
                     print.exitOperationsMenu()
@@ -91,6 +93,6 @@ class Menu {
                     print.invalidOptions()
                     break
             }
-        } while (options != '12')
+        }
     }
 }

@@ -5,10 +5,10 @@ import org.jean.linketinder.Exceptions.CandidateControllerException
 class CandidateImplementation {
 
     interface CandidateOperationsInterface {
-        void createCandidate()
+        void createCandidate(Scanner scanner)
         void displayCandidates()
-        void updateCandidate()
-        void deleteCandidate()
+        void updateCandidate(Scanner scanner)
+        void deleteCandidate(Scanner scanner)
     }
 
     interface CandidateControllerInterface {

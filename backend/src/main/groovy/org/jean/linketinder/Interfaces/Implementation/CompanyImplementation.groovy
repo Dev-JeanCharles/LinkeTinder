@@ -10,9 +10,9 @@ class CompanyImplementation {
     }
 
     interface CompanyOperationsInterface {
-        void createCompany()
+        void createCompany(Scanner scanner)
         void displayCompany()
-        void update()
-        void delete()
+        void update(Scanner scanner)
+        void delete(Scanner scanner)
     }
 }

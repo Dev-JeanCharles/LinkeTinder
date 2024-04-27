@@ -2,23 +2,23 @@ package org.jean.linketinder.Controller
 
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.Exceptions.CandidateControllerException
-import org.jean.linketinder.Service.CandidateService
 import org.jean.linketinder.Interfaces.Implementation.CandidateImplementation
-import org.jean.linketinder.View.PrintOperationsView
+import org.jean.linketinder.Service.CandidateService
 
 class CandidateController implements CandidateImplementation.CandidateControllerInterface{
 
     private final CandidateService candidateService
     private final Scanner scanner = new Scanner(System.in)
 
-    CandidateController(PrintOperationsView printView, CandidateDAO candidateDAO) {
-        this.candidateService = new CandidateService(printView, candidateDAO, scanner)
+    CandidateController(CandidateDAO candidateDAO) {
+        this.candidateService = new CandidateService(candidateDAO)
     }
 
     @Override
     void createCandidate() throws CandidateControllerException{
         try {
-            candidateService.createCandidate()
+            candidateService.createCandidate(scanner)
+
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao inserir um novo candidato", e)
         }
@@ -28,6 +28,7 @@ class CandidateController implements CandidateImplementation.CandidateController
     void getCandidate() throws CandidateControllerException {
         try {
             candidateService.displayCandidates()
+
         } catch (Exception e) {
             throw new CandidateControllerException("Erro ao buscar um candidato", e)
         }
@@ -36,7 +37,8 @@ class CandidateController implements CandidateImplementation.CandidateController
     @Override
     void updateCandidate() throws CandidateControllerException{
         try {
-            candidateService.updateCandidate()
+            candidateService.updateCandidate(scanner)
+
         }catch (Exception e ) {
             throw new CandidateControllerException("Erro ao atualizar um candidato", e)
         }
@@ -45,7 +47,8 @@ class CandidateController implements CandidateImplementation.CandidateController
     @Override
     void deleteCandidate() throws CandidateControllerException{
         try {
-            candidateService.deleteCandidate()
+            candidateService.deleteCandidate(scanner)
+
         }catch (Exception e) {
             throw new CandidateControllerException("Erro ao deletar um candidato", e)
         }

@@ -41,6 +41,7 @@ class PrintOperationsView {
         println("Descrição: ${vacancy.description}")
 
         Company company = vacancy.company
+
         if (company != null) {
             println("Empresa associada:")
             println("Nome da empresa: ${company.name}")
@@ -49,6 +50,7 @@ class PrintOperationsView {
         }
 
         List<Skill> skills = vacancy.skills
+
         if (skills) {
             println("Habilidades da vaga:")
             skills.each { println("- ${it.name}") }
@@ -82,9 +84,10 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         println "Digite as competências do candidato (separadas por vírgula): "
+
         List<String> skills = parseSkills(scanner.nextLine()) as List<String>
 
-        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age, null)
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age)
         return candidate
     }
 
@@ -161,11 +164,12 @@ class PrintOperationsView {
         String description = scanner.nextLine()
 
         print "Digite as novas competências do candidato (separadas por vírgula): "
+
         List<String> skillNames = parseSkills(scanner.nextLine()) as List<String>
 
         List<Skill> skills = skillNames.collect { new Skill(it) }
 
-        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String> as List<Skill>, null, cpf, age, null)
+        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<String> as List<Skill>, null, cpf, age)
         return candidate
     }
 
@@ -237,6 +241,7 @@ class PrintOperationsView {
             println "Nenhuma empresa disponível para seleção."
             return null
         }
+
         print "Digite o número correspondente à empresa selecionada: "
         int companyIndex = scanner.nextInt() - 1
         scanner.nextLine()
@@ -256,8 +261,11 @@ class PrintOperationsView {
     }
 
     static List<String> parseSkills(String skillsInput) {
+
         String[] skillsArray = skillsInput.split(",")
+
         List<String> skillNames = new ArrayList<>()
+
         for (String skill : skillsArray) {
             skillNames.add(skill.trim())
         }

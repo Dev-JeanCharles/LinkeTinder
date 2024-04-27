@@ -3,7 +3,7 @@ package org.jean.linketinder
 import groovy.sql.Sql
 import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.DB.DBOperations
-import org.jean.linketinder.Menu.Menu
+import org.jean.linketinder.View.MenuView
 
 class App {
     static void main(String[] args) {
@@ -98,6 +98,6 @@ class App {
     }
 
     static void startMenu() {
-        new Menu().menuHome()
+        new MenuView().menuHome()
     }
 }

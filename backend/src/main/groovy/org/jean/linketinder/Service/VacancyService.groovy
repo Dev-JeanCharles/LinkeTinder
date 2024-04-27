@@ -10,24 +10,24 @@ import org.jean.linketinder.View.PrintOperationsView
 
 class VacancyService implements VacancyImplementation.VacancyOperationsInterface{
 
-    private final PrintOperationsView printView
+    private PrintOperationsView printView = new PrintOperationsView()
     private final VacancyDAO vacancyDAO
     private final CompanyDAO companyDAO
-    private static final Scanner scanner = new Scanner(System.in)
 
-    VacancyService(PrintOperationsView printView, VacancyDAO vacancyDAO, CompanyDAO companyDAO) {
-        this.printView = printView
+    VacancyService(VacancyDAO vacancyDAO, CompanyDAO companyDAO) {
         this.vacancyDAO = vacancyDAO
         this.companyDAO = companyDAO
     }
 
     @Override
-    void createVacancy() {
+    void createVacancy(Scanner scanner) {
         List<Company> companies = companyDAO.getAll()
+
         Company selectedCompany = printView.selectExistingCompany(scanner, companies)
 
         if (selectedCompany != null && selectedCompany.id != null) {
             println "Digite as competências da vaga (separadas por vírgula): "
+
             List<String> skillNames = scanner.nextLine().split(",").collect { it.trim() }
 
             List<Skill> skills = skillNames.collect {
@@ -35,7 +35,9 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
             }
 
             Vacancy newVacancy = printView.createVacancy(scanner, selectedCompany, skills)
+
             vacancyDAO.create(newVacancy, selectedCompany)
+
         } else {
             println "Nenhuma empresa selecionada ou a empresa selecionada não possui um ID válido. A vaga não foi criada."
         }
@@ -43,10 +45,12 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
 
     @Override
     void displayVacancies() {
+
         List<Vacancy> vacancies = vacancyDAO.getAll()
 
         if (vacancies) {
             println("Lista de vagas:")
+
             for (Vacancy vacancy : vacancies) {
                 printView.displayVacancyInfo(vacancy)
             }
@@ -57,7 +61,7 @@ class VacancyService implements VacancyImplementation.VacancyOperationsInterface
     }
 
     @Override
-    void updateVacancy() {
+    void updateVacancy(Scanner scanner) {
         Vacancy vacancy = printView.updateVacancy(scanner)
         vacancyDAO.update(vacancy.id, vacancy)
     }

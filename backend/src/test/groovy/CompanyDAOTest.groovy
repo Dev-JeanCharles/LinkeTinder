@@ -4,6 +4,7 @@ import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Queries.CompanyQueries
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import spock.lang.Specification
@@ -11,7 +12,8 @@ import spock.lang.Specification
 import java.sql.Connection
 
 import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.mockito.Mockito.*
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.when
 
 class CompanyDAOTest extends Specification{
 
@@ -24,10 +26,11 @@ class CompanyDAOTest extends Specification{
         HandleException handleException = mock(HandleException)
         DBConnection dbConnection = mock(DBConnection)
         VacancyDAO vacancyDAO = mock(VacancyDAO)
+        CompanyQueries companyQueries = mock(CompanyQueries)
 
         when(dbConnection.connect()).thenReturn(mock(Connection))
 
-        companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO)
+        companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO, companyQueries)
 
     }
 
@@ -58,5 +61,4 @@ class CompanyDAOTest extends Specification{
         assertEquals("01000-000", company.cep)
         assertEquals("Descrição da empresa", company.description)
     }
-
 }

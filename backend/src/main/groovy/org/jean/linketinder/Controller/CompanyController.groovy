@@ -9,17 +9,17 @@ import org.jean.linketinder.View.PrintOperationsView
 class CompanyController implements CompanyImplementation.CompanyControllerInterface{
 
     private final CompanyService companyService
-    private final Scanner scanner
+    private final Scanner scanner = new Scanner(System.in)
 
-    CompanyController(PrintOperationsView printView, CompanyDAO companyDAO,  Scanner scanner) {
-        this.companyService = new CompanyService(printView, companyDAO, scanner)
-        this.scanner = scanner
+    CompanyController(CompanyDAO companyDAO) {
+        this.companyService = new CompanyService(companyDAO)
     }
 
     @Override
     void createCompany() throws CompanyControllerException{
         try {
-            companyService.createCompany()
+            companyService.createCompany(scanner)
+
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao inserir uma nova empresa", e)
         }
@@ -29,6 +29,7 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
     void getCompany() throws CompanyControllerException{
         try {
             companyService.displayCompany()
+
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao buscar uma empresa", e)
         }
@@ -37,7 +38,8 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
     @Override
     void updateCompany() throws CompanyControllerException{
         try {
-            companyService.update()
+            companyService.update(scanner)
+
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao atualizar uma empresa", e)
         }
@@ -46,7 +48,8 @@ class CompanyController implements CompanyImplementation.CompanyControllerInterf
     @Override
     void deleteCompany() throws CompanyControllerException{
         try {
-            companyService.delete()
+            companyService.delete(scanner)
+
         }catch (Exception e) {
             throw new CompanyControllerException("Erro ao deletar uma empresa", e)
         }
