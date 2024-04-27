@@ -15,7 +15,7 @@ import org.jean.linketinder.Queries.VacancyQueries
 class MenuView {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
     private static final PrintMenuView print = new PrintMenuView()
-    private static final DBConnection dbConnection = new DBConnection()
+    private static final DBConnection dbConnection = DBConnection.getInstance()
     private static final HandleException handleException = new HandleException()
     private static final CandidateQueries candidateQueries = new CandidateQueries()
     private static final CompanyQueries companyQueries = new CompanyQueries()

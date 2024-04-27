@@ -4,13 +4,20 @@ import groovy.sql.Sql
 
 class DBOperations implements DatabaseOperations {
 
+    private static DBOperations instance
     private Sql sql
 
-    DBOperations(Sql instance) {
+    private DBOperations(Sql instance) {
         this.sql = instance
     }
 
-    @Override
+    static synchronized DBOperations getInstance(Sql sqlInstance) {
+        if (instance == null) {
+            instance = new DBOperations(sqlInstance)
+        }
+        return instance
+    }
+
     void createTable(String nameTable, List<String> fields) {
         try {
 

@@ -12,9 +12,9 @@ class App {
     }
 
     static void createDatabaseTables() {
-        DBConnection connectDTO = new DBConnection()
+        DBConnection connectDTO = DBConnection.getInstance()
         Sql instance = new Sql(connectDTO.connect())
-        DBOperations operationsDAO = new DBOperations(instance)
+        DBOperations operationsDAO = DBOperations.getInstance(instance)
 
         createTableCandidates(operationsDAO)
         createTableSkills(operationsDAO)
