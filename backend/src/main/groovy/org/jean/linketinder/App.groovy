@@ -50,8 +50,8 @@ class App {
 
     static void createTableCandidateSkills(DBOperations operationsDAO) {
         List<String> candidateSkills = [
-                "candidate_id INTEGER REFERENCES candidates(id)",
-                "skill_id INTEGER REFERENCES skills(skill_id)"
+                "candidate_id INTEGER REFERENCES candidates(id) ON DELETE CASCADE",
+                "skill_id INTEGER REFERENCES skills(skill_id) ON DELETE CASCADE"
         ]
         operationsDAO.createTable("candidate_skills", candidateSkills)
     }
@@ -82,16 +82,16 @@ class App {
 
     static void createTableVacancyCompanies(DBOperations operationsDAO) {
         List<String> companyVacancies = [
-                "company_id INTEGER REFERENCES companies(id)",
-                "vacancy_id INTEGER REFERENCES vacancies(vacancy_id)"
+                "company_id INTEGER REFERENCES companies(id) ON DELETE CASCADE",
+                "vacancy_id INTEGER REFERENCES vacancies(vacancy_id) ON DELETE CASCADE"
         ]
         operationsDAO.createTable("vacancy_companies", companyVacancies)
     }
 
     static void createTableVacancySkills(DBOperations operationsDAO) {
         List<String> vacancySkills = [
-                "vacancy_id INTEGER REFERENCES vacancies(vacancy_id)",
-                "skill_id INTEGER REFERENCES skills(skill_id)"
+                "vacancy_id INTEGER REFERENCES vacancies(vacancy_id) ON DELETE CASCADE",
+                "skill_id INTEGER REFERENCES skills(skill_id) ON DELETE CASCADE"
         ]
         operationsDAO.createTable("vacancy_skills", vacancySkills)
     }
