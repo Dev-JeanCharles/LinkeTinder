@@ -5,7 +5,7 @@ import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.Exceptions.HandleException
-import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Factory.Factory
 import org.jean.linketinder.Interfaces.Repository.VacancyRepository
 import org.jean.linketinder.Queries.VacancyQueries
 
@@ -17,10 +17,10 @@ class VacancyDAO implements VacancyRepository {
     private final Sql sql
     private final VacancyQueries vacancyQueries
 
-    VacancyDAO(DBConnection dbConnection, HandleException exception, VacancyQueries vacancyQueries) {
-        this.vacancyQueries = vacancyQueries
-        this.exception = exception
-        this.sql = new Sql(dbConnection.connect())
+    VacancyDAO() {
+        this.vacancyQueries = Factory.createVacancyQueries()
+        this.exception = Factory.createHandleException()
+        this.sql = new Sql(Factory.createDBConnection().connect())
     }
 
     @Override
@@ -184,6 +184,8 @@ class VacancyDAO implements VacancyRepository {
             if (vacancyId) {
                 updateVacancyBasicInfo(vacancy)
 
+                deleteVacancySkills(vacancyId)
+
                 addNewSkillsToVacancy(vacancyId, vacancy.skills)
             } else {
                 println "ID da vaga não fornecido. Não é possível atualizar."
@@ -219,6 +221,16 @@ class VacancyDAO implements VacancyRepository {
 
         } catch (SQLException e) {
             exception.handleException("Erro ao adicionar novas habilidades à vaga", e)
+        }
+    }
+
+    private void deleteVacancySkills(Integer vacancyId) {
+        try {
+            sql.execute(vacancyQueries.DELETE_VACANCY_SKILLS_QUERY, [vacancyId])
+            println "Todas as habilidades anteriores da vaga foram removidas com sucesso."
+
+        } catch (SQLException e) {
+            exception.handleException("Erro ao remover habilidades da vaga", e)
         }
     }
 

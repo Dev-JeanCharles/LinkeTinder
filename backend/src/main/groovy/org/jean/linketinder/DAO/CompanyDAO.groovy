@@ -3,7 +3,7 @@ package org.jean.linketinder.DAO
 import groovy.sql.Sql
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
-import org.jean.linketinder.Interfaces.DB.DBConnection
+import org.jean.linketinder.Factory.Factory
 import org.jean.linketinder.Interfaces.Repository.CompanyRepository
 import org.jean.linketinder.Queries.CompanyQueries
 
@@ -17,11 +17,11 @@ class CompanyDAO implements CompanyRepository{
     private final VacancyDAO vacancyDAO
     private final CompanyQueries companyQueries
 
-    CompanyDAO(DBConnection dbConnection, HandleException exception, VacancyDAO vacancyDAO, CompanyQueries companyQueries) {
-        this.exception = exception
-        this.sql = new Sql(dbConnection.connect())
-        this.vacancyDAO = vacancyDAO
-        this.companyQueries = companyQueries
+    CompanyDAO() {
+        this.exception = Factory.createHandleException()
+        this.sql = new Sql(Factory.createDBConnection().connect())
+        this.vacancyDAO = Factory.createVacancyDAO()
+        this.companyQueries = Factory.createCompanyQueries()
     }
 
     @Override

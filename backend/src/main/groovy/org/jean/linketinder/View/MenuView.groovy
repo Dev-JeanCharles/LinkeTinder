@@ -6,23 +6,13 @@ import org.jean.linketinder.Controller.VacancyController
 import org.jean.linketinder.DAO.CandidateDAO
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.DAO.VacancyDAO
-import org.jean.linketinder.Exceptions.HandleException
-import org.jean.linketinder.Interfaces.DB.DBConnection
-import org.jean.linketinder.Queries.CandidateQueries
-import org.jean.linketinder.Queries.CompanyQueries
-import org.jean.linketinder.Queries.VacancyQueries
 
 class MenuView {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
     private static final PrintMenuView print = new PrintMenuView()
-    private static final DBConnection dbConnection = DBConnection.getInstance()
-    private static final HandleException handleException = new HandleException()
-    private static final CandidateQueries candidateQueries = new CandidateQueries()
-    private static final CompanyQueries companyQueries = new CompanyQueries()
-    private static final VacancyQueries vacancyQueries = new VacancyQueries()
-    private static final CandidateDAO candidateDAO = new CandidateDAO(dbConnection, handleException, candidateQueries)
-    private static final VacancyDAO vacancyDAO = new VacancyDAO(dbConnection, handleException, vacancyQueries)
-    private static final CompanyDAO companyDAO = new CompanyDAO(dbConnection, handleException, vacancyDAO, companyQueries)
+    private static final CandidateDAO candidateDAO = new CandidateDAO()
+    private static final VacancyDAO vacancyDAO = new VacancyDAO()
+    private static final CompanyDAO companyDAO = new CompanyDAO()
 
     static void menuHome(String options) throws IOException{
 

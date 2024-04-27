@@ -19,4 +19,6 @@ class VacancyQueries {
     static String INSERT_VACANCY_COMPANY_QUERY = "INSERT INTO vacancy_companies (company_id, vacancy_id) VALUES (?, ?)"
     static String UPDATE_VACANCY_INFO_QUERY = "UPDATE vacancies SET name=?, locality=?, description=? WHERE vacancy_id=?"
     static String DELETE_COMPANY_ASSOCIATE_QUERY = "DELETE FROM vacancy_companies WHERE company_id = ?"
+    static String DELETE_VACANCY_SKILLS_QUERY = "DELETE FROM vacancy_skills WHERE vacancy_id = ?"
+
 }
