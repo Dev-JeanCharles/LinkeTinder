@@ -2,28 +2,36 @@ package org.jean.linketinder.Interfaces.DB
 
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.SQLException
 
 class DBConnection implements  DatabaseConnection {
 
-    private static DBConnection instance
-    private Connection connection
+    //volatile fará com que a instância seja sempre lida diretamente da memória principal.
+    private static volatile DBConnection instance
+
+    Connection connection = null
 
     private DBConnection() {
-        String dbname = "linkertinder"
+        String dbname = "linketinder"
         String user = "postgres"
         String password = "123"
 
         try {
             Class.forName("org.postgresql.Driver")
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/$dbname", user, password)
-        } catch (Exception e) {
+        } catch (ClassCastException | SQLException e) {
             e.printStackTrace()
         }
     }
 
-    static synchronized DBConnection getInstance() {
+    static DBConnection getInstance() {
         if (instance == null) {
-            instance = new DBConnection()
+            synchronized (DBConnection) {
+
+                if (instance == null) {
+                 instance = new DBConnection()
+                }
+            }
         }
         return instance
     }

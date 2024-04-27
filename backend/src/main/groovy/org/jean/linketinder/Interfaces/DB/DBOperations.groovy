@@ -21,10 +21,7 @@ class DBOperations implements DatabaseOperations {
     void createTable(String nameTable, List<String> fields) {
         try {
 
-            if (existTable(nameTable)) {
-                println("A tabela $nameTable já existe.")
-                return
-            }
+            if (!existTable(nameTable)) {
 
             String fieldsString = fields.join(", ")
 
@@ -33,16 +30,16 @@ class DBOperations implements DatabaseOperations {
             sql.execute(query)
 
             println("Tabela $nameTable criada com sucesso!")
+            }
 
         } catch (Exception e) {
             println("Erro ao criar tabela $nameTable: ${e.message}")
         }
     }
 
-    private boolean existTable(String nameTable) {
-        try {
+     boolean existTable(String nameTable) {
+         try {
             Boolean result = sql.firstRow("""
-
             SELECT EXISTS(
                 SELECT 1
                 FROM   information_schema.tables

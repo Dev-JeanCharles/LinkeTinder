@@ -20,7 +20,7 @@ class VacancyDAO implements VacancyRepository {
     VacancyDAO(DBConnection dbConnection, HandleException exception, VacancyQueries vacancyQueries) {
         this.vacancyQueries = vacancyQueries
         this.exception = exception
-        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
+        this.sql = new Sql(dbConnection.connect())
     }
 
     @Override

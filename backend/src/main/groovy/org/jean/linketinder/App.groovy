@@ -18,9 +18,10 @@ class App {
 
         createTableCandidates(operationsDAO)
         createTableSkills(operationsDAO)
-        createTableCandidateSkills(operationsDAO)
         createTableCompanies(operationsDAO)
         createTableVacancies(operationsDAO)
+
+        createTableCandidateSkills(operationsDAO)
         createTableVacancyCompanies(operationsDAO)
         createTableVacancySkills(operationsDAO)
     }
@@ -68,8 +69,6 @@ class App {
         ]
         operationsDAO.createTable("companies", fieldCompanies)
     }
-
-
 
     static void createTableVacancies(DBOperations operationsDAO) {
         List<String> fieldVacancies = [

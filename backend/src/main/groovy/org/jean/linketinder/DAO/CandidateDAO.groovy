@@ -20,7 +20,7 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
     CandidateDAO(DBConnection dbConnection, HandleException exception, CandidateQueries candidateQueries) {
         this.exception = exception
         this.candidateQueries = candidateQueries
-        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
+        this.sql = new Sql(dbConnection.connect())
     }
 
     @Override

@@ -19,7 +19,7 @@ class CompanyDAO implements CompanyRepository{
 
     CompanyDAO(DBConnection dbConnection, HandleException exception, VacancyDAO vacancyDAO, CompanyQueries companyQueries) {
         this.exception = exception
-        this.sql = dbConnection.connect() ? Sql.newInstance(dbConnection.connect()) : null
+        this.sql = new Sql(dbConnection.connect())
         this.vacancyDAO = vacancyDAO
         this.companyQueries = companyQueries
     }
