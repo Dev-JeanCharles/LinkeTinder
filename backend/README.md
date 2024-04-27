@@ -14,3 +14,12 @@
 
 ## Exemplo de uma classe DAO após aplicação do Factory Method:
 ![image](https://github.com/Dev-JeanCharles/LinkeTinder-AceleraZG/assets/85767415/18d39a2f-80f9-49b3-9779-eab25889945a)
+
+# Aplicando MVC
+
+## Criação do Model
+> Após a aplicação do padrão MVC (Model, View e Controller) foi adicionado um novo package Model que contêm tanto o factory da aplicação quanto as entidades(Entity)
+
+## Exemplo da estrutura do projeto:
+![image](https://github.com/Dev-JeanCharles/LinkeTinder-AceleraZG/assets/85767415/f668f61e-91d5-4979-b2d1-1015254489c3)
+
