@@ -1,13 +1,13 @@
 package org.jean.linketinder.DAO
 
 import groovy.sql.Sql
-import org.jean.linketinder.Entities.Candidate
-import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
-import org.jean.linketinder.Factory.Factory
 import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CandidateRepository
 import org.jean.linketinder.Interfaces.Repository.SkillRepository
+import org.jean.linketinder.Model.Entity.Candidate
+import org.jean.linketinder.Model.Entity.Skill
+import org.jean.linketinder.Model.Factory.Factory
 import org.jean.linketinder.Queries.CandidateQueries
 
 import java.sql.SQLException

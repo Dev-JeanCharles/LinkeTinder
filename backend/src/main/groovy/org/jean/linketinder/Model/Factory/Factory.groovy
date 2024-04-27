@@ -1,4 +1,4 @@
-package org.jean.linketinder.Factory
+package org.jean.linketinder.Model.Factory
 
 import org.jean.linketinder.DAO.VacancyDAO
 import org.jean.linketinder.Exceptions.HandleException

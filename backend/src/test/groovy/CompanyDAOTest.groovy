@@ -1,7 +1,7 @@
 import groovy.sql.Sql
 import org.jean.linketinder.DAO.CompanyDAO
 import org.jean.linketinder.DAO.VacancyDAO
-import org.jean.linketinder.Entities.Company
+import org.jean.linketinder.Model.Entity.Company
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Queries.CompanyQueries

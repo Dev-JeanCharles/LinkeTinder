@@ -1,7 +1,7 @@
 import groovy.sql.Sql
 import org.jean.linketinder.DAO.CandidateDAO
-import org.jean.linketinder.Entities.Candidate
-import org.jean.linketinder.Entities.Skill
+import org.jean.linketinder.Model.Entity.Candidate
+import org.jean.linketinder.Model.Entity.Skill
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Queries.CandidateQueries

@@ -1,4 +1,4 @@
-package org.jean.linketinder.Entities
+package org.jean.linketinder.Model.Entity
 
 class Vacancy {
     Integer id

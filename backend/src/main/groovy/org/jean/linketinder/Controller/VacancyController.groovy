@@ -6,7 +6,6 @@ import org.jean.linketinder.Exceptions.CompanyControllerException
 import org.jean.linketinder.Exceptions.VacancyControllerException
 import org.jean.linketinder.Interfaces.Implementation.VacancyImplementation
 import org.jean.linketinder.Service.VacancyService
-import org.jean.linketinder.View.PrintOperationsView
 
 class VacancyController implements VacancyImplementation.VacancyControllerInterface{
 

@@ -1,7 +1,7 @@
 package org.jean.linketinder.Interfaces.Repository
 
-import org.jean.linketinder.Entities.Company
-import org.jean.linketinder.Entities.Vacancy
+import org.jean.linketinder.Model.Entity.Company
+import org.jean.linketinder.Model.Entity.Vacancy
 
 interface VacancyRepository {
     List<Vacancy> getAll()

@@ -1,6 +1,6 @@
 package org.jean.linketinder.Interfaces.Repository
 
-import org.jean.linketinder.Entities.Candidate
+import org.jean.linketinder.Model.Entity.Candidate
 
 interface CandidateRepository {
     void create(Candidate candidate)

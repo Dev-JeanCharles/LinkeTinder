@@ -1,7 +1,7 @@
 package org.jean.linketinder.Service
 
 import org.jean.linketinder.DAO.CompanyDAO
-import org.jean.linketinder.Entities.Company
+import org.jean.linketinder.Model.Entity.Company
 import org.jean.linketinder.Interfaces.Implementation.CompanyImplementation
 import org.jean.linketinder.View.PrintOperationsView
 

@@ -1,9 +1,9 @@
 package org.jean.linketinder.View
 
-import org.jean.linketinder.Entities.Candidate
-import org.jean.linketinder.Entities.Company
-import org.jean.linketinder.Entities.Skill
-import org.jean.linketinder.Entities.Vacancy
+import org.jean.linketinder.Model.Entity.Candidate
+import org.jean.linketinder.Model.Entity.Company
+import org.jean.linketinder.Model.Entity.Skill
+import org.jean.linketinder.Model.Entity.Vacancy
 
 class PrintOperationsView {
 
