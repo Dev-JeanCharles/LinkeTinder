@@ -4,6 +4,7 @@ import groovy.sql.Sql
 import org.jean.linketinder.Entities.Company
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Factory.Factory
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CompanyRepository
 import org.jean.linketinder.Queries.CompanyQueries
 
@@ -22,6 +23,13 @@ class CompanyDAO implements CompanyRepository{
         this.sql = new Sql(Factory.createDBConnection().connect())
         this.vacancyDAO = Factory.createVacancyDAO()
         this.companyQueries = Factory.createCompanyQueries()
+    }
+
+    CompanyDAO(DBConnection dbConnection, HandleException handleException, VacancyDAO vacancyDAO, CompanyQueries companyQueries) {
+        this.vacancyDAO = vacancyDAO
+        this.exception = handleException
+        this.companyQueries = companyQueries
+        this.sql = new Sql(dbConnection.connect())
     }
 
     @Override
@@ -54,6 +62,7 @@ class CompanyDAO implements CompanyRepository{
 
             } catch (SQLException e) {
                 exception.handleException("Erro ao adicionar empresa", e)
+                return null
             }
         }
 

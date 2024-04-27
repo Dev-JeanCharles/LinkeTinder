@@ -6,6 +6,7 @@ import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Entities.Vacancy
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Factory.Factory
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.VacancyRepository
 import org.jean.linketinder.Queries.VacancyQueries
 
@@ -21,6 +22,12 @@ class VacancyDAO implements VacancyRepository {
         this.vacancyQueries = Factory.createVacancyQueries()
         this.exception = Factory.createHandleException()
         this.sql = new Sql(Factory.createDBConnection().connect())
+    }
+
+    VacancyDAO(DBConnection dbConnection, HandleException handleException, VacancyQueries vacancyQueries) {
+        this.exception = handleException
+        this.vacancyQueries = vacancyQueries
+        this.sql = new Sql(dbConnection.connect())
     }
 
     @Override

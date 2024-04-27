@@ -5,6 +5,7 @@ import org.jean.linketinder.Entities.Candidate
 import org.jean.linketinder.Entities.Skill
 import org.jean.linketinder.Exceptions.HandleException
 import org.jean.linketinder.Factory.Factory
+import org.jean.linketinder.Interfaces.DB.DBConnection
 import org.jean.linketinder.Interfaces.Repository.CandidateRepository
 import org.jean.linketinder.Interfaces.Repository.SkillRepository
 import org.jean.linketinder.Queries.CandidateQueries
@@ -21,6 +22,12 @@ class CandidateDAO implements CandidateRepository, SkillRepository{
         this.exception = Factory.createHandleException()
         this.candidateQueries = Factory.createCandidateQueries()
         this.sql = new Sql(Factory.createDBConnection().connect())
+    }
+
+    CandidateDAO(DBConnection dbConnection, HandleException handleException, CandidateQueries candidateQueries) {
+        this.exception = handleException
+        this.candidateQueries = candidateQueries
+        this.sql = new Sql(dbConnection.connect())
     }
 
     @Override

@@ -38,10 +38,10 @@ class CompanyDAOTest extends Specification{
     void CreateCompanyDAOTest() {
         given:
         Company company = new Company(
-                3,
+                14,
                 "Tech solutions",
                 "tech@solutions.com.br",
-                "12.345.678/0001-00",
+                "12.315.618/0301-00",
                 "Brasil",
                 "SP",
                 "01000-000",
@@ -52,10 +52,10 @@ class CompanyDAOTest extends Specification{
         companyDAO.create(company)
 
         then:
-        assertEquals(3, company.id)
+        assertEquals(18, company.id)
         assertEquals("Tech solutions", company.name)
         assertEquals("tech@solutions.com.br", company.email)
-        assertEquals("12.345.678/0001-00", company.cnpj)
+        assertEquals("12.315.618/0301-00", company.cnpj)
         assertEquals("Brasil", company.country)
         assertEquals("SP", company.state)
         assertEquals("01000-000", company.cep)
