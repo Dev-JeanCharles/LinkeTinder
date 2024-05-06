@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="backend.main:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/backend_main_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="backend.main" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.8.9" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-core:2.20.0" />
+          <element id="library" level="project" name="Gradle: org.apache.groovy:groovy-sql:4.0.14" />
+          <element id="library" level="project" name="Gradle: org.apache.groovy:groovy:4.0.14" />
+          <element id="library" level="project" name="Gradle: org.postgresql:postgresql:42.7.3" />
+          <element id="library" level="project" name="Gradle: org.apache.logging.log4j:log4j-api:2.20.0" />
+          <element id="library" level="project" name="Gradle: org.checkerframework:checker-qual:3.42.0" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="backend.main/web/Web Gradle : backend-1.0-SNAPSHOT.war" />
+    </root>
+  </artifact>
+</component>

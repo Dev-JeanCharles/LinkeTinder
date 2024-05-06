@@ -2,6 +2,9 @@ package org.jean.linketinder.Interfaces.Implementation
 
 import org.jean.linketinder.Exceptions.CandidateControllerException
 
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 class CandidateImplementation {
 
     interface CandidateOperationsInterface {
@@ -9,6 +12,7 @@ class CandidateImplementation {
         void displayCandidates()
         void updateCandidate(Scanner scanner)
         void deleteCandidate(Scanner scanner)
+
     }
 
     interface CandidateControllerInterface {

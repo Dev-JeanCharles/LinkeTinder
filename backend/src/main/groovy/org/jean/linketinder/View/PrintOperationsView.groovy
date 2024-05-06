@@ -87,7 +87,7 @@ class PrintOperationsView {
 
         List<String> skills = parseSkills(scanner.nextLine()) as List<String>
 
-        Candidate candidate = new Candidate(name, email, state, cep, description, skills as List<Skill>, null, cpf, age)
+        Candidate candidate = new Candidate(name, email, state, cep, new String(description.getBytes("UTF-8"), "UTF-8"), skills as List<Skill>, null, cpf, age)
         return candidate
     }
 

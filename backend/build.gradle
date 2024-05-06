@@ -1,6 +1,7 @@
 plugins {
     id 'groovy'
     id 'application'
+    id 'war'
 }
 
 group = 'org.jean.linketinder'
@@ -10,13 +11,25 @@ repositories {
     mavenCentral()
 }
 
+apply plugin: 'war'
+
 dependencies {
-    implementation 'org.apache.groovy:groovy-all:4.0.14'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:8.5.100'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation group: 'org.apache.groovy', name: 'groovy', version: '4.0.14'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
+    implementation group: 'org.apache.groovy', name: 'groovy-sql', version: '4.0.14'
     testImplementation 'org.spockframework:spock-core:2.4-M4-groovy-4.0'
-    testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'org.mockito:mockito-core:3.11.2'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.1'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
 }
 
 test {

@@ -3,16 +3,10 @@ package org.jean.linketinder.View
 import org.jean.linketinder.Controller.CandidateController
 import org.jean.linketinder.Controller.CompanyController
 import org.jean.linketinder.Controller.VacancyController
-import org.jean.linketinder.DAO.CandidateDAO
-import org.jean.linketinder.DAO.CompanyDAO
-import org.jean.linketinder.DAO.VacancyDAO
 
 class MenuView {
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
     private static final PrintMenuView print = new PrintMenuView()
-    private static final CandidateDAO candidateDAO = new CandidateDAO()
-    private static final VacancyDAO vacancyDAO = new VacancyDAO()
-    private static final CompanyDAO companyDAO = new CompanyDAO()
 
     static void menuHome(String options) throws IOException{
 
@@ -44,37 +38,37 @@ class MenuView {
 
             switch (options){
                 case '1' :
-                    new CandidateController(candidateDAO).getCandidate()
+                    new CandidateController().getCandidate()
                     break
                 case '2' :
-                    new CompanyController(companyDAO).getCompany()
+                    new CompanyController().getCompany()
                     break
                 case '3':
-                    new VacancyController(vacancyDAO, companyDAO).getVacancy()
+                    new VacancyController().getVacancy()
                     break
                 case '4' :
-                    new CandidateController(candidateDAO).createCandidate()
+                    new CandidateController().createCandidate()
                     break
                 case '5':
-                    new CompanyController(companyDAO).createCompany()
+                    new CompanyController().createCompany()
                     break
                 case '6':
-                    new VacancyController(vacancyDAO, companyDAO).createVacancy()
+                    new VacancyController().createVacancy()
                     break
                 case '7' :
-                    new CandidateController(candidateDAO).updateCandidate()
+                    new CandidateController().updateCandidate()
                     break
                 case '8':
-                    new CompanyController(companyDAO).updateCompany()
+                    new CompanyController().updateCompany()
                     break
                 case '9':
-                    new VacancyController(vacancyDAO, companyDAO).updateVacancy()
+                    new VacancyController().updateVacancy()
                     break
                 case '10' :
-                    new CandidateController(candidateDAO).deleteCandidate()
+                    new CandidateController().deleteCandidate()
                     break
                 case '11':
-                    new CompanyController(companyDAO).deleteCompany()
+                    new CompanyController().deleteCompany()
                     break
                 case '12' :
                     print.exitOperationsMenu()
